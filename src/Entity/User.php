@@ -53,6 +53,11 @@ class User implements UserInterface
      */
     private $rol;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Provincias", inversedBy="users")
+     */
+    private $provincia;
+
     public function __construct()
     {
         $this->online = false;
@@ -181,6 +186,18 @@ class User implements UserInterface
     public function setRol(?int $rol): self
     {
         $this->rol = $rol;
+
+        return $this;
+    }
+
+    public function getProvincia(): ?Provincias
+    {
+        return $this->provincia;
+    }
+
+    public function setProvincia(?Provincias $provincia): self
+    {
+        $this->provincia = $provincia;
 
         return $this;
     }

@@ -1,13 +1,19 @@
 :root {
   --fondoPagina: #dbdddd;
-  --fondoSecundario: #e8ebeb;
-  --button: #767b91;
+  --fondoSecundario: #1a0749a6;
+  --button1: #30cfd0;
+  --button2: #27084da6;
   --colorLetter1: #f3f1f0;
   --colorLetter2: #000000;
+  --fondoImage: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  --fondoImage1: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+  --fondoImage2: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+  --fondoImage3: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  --fondoImage4: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
 }
 
 body {
-  background-color: var(--fondoPagina) !important;
+  background-image: var(--fondoImage3) !important;
   font-family: sans-serif;
   text-align: center;
 }
@@ -16,10 +22,11 @@ form {
   background-color: var(--fondoSecundario);
   border-radius: 10px;
   width: 450px;
+  color: var(--colorLetter1);
 }
 
 h1 {
-  color: var(--colorLetter2);
+  color: var(--colorLetter1);
   text-align: center;
 }
 
@@ -28,20 +35,21 @@ h1 {
 }
 
 div > .btn {
-  border-color: var(--colorLetter2);
-  color: var(--colorLetter2);
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
   margin-top: 10px;
   width: 100%;
 }
 
 div > .btn:hover {
-  background-color: var(--button);
-  border-color: var(--button);
-  color: var(--colorLetter1);
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
 }
 
 hr {
-  background-color: var(--colorLetter2);
+  background-color: var(--colorLetter1);
   height: 2px;
   border-radius: 5px;
 }

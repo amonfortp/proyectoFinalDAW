@@ -8,22 +8,27 @@
 <body>
     <div class="container vCenter">
         <form method="post" class="p-3 centrado" novalidate>
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
             <h1 class="h3 mb-3 font-weight-normal">Inicia sesión en MonBarter</h1>
             <div class="form-row">
                 <div class="col-12 mb-3">
                     <label for="inputEmail">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Introduce tu email" required autofocus>
                 </div>
                 <div class="col-12 mb-3">
                     <label for="inputPassword">Contraseña</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    <input type="password" name="password" placeholder="Introduce tu contraseña" id="inputPassword" class="form-control" required>
                 </div>
             </div>
-
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate')}}">
+
+            {% if error %}
+                <div class="alert alert-danger">
+                {#
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                #}
+                    Sucedio algún error, comprueba los datos
+                </div>
+            {% endif %}
 
             {#
                 Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -35,7 +40,7 @@
                     </label>
                 </div>
             #}
-            <hr>
+            
             <div class="row">
                     <div class="col-6">
                         <button class="btn" type="submit">Iniciar</button>
