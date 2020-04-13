@@ -1,0 +1,54 @@
+:root {
+  --fondoPagina: #dbdddd;
+  --fondoSecundario: #e8ebeb;
+  --button: #767b91;
+  --colorLetter1: #f3f1f0;
+  --colorLetter2: #000000;
+}
+
+body {
+  background-color: var(--fondoPagina) !important;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+form {
+  background-color: var(--fondoSecundario);
+  border-radius: 10px;
+  width: 450px;
+}
+
+h1 {
+  color: var(--colorLetter2);
+  text-align: center;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+div > .btn {
+  border-color: var(--colorLetter2);
+  color: var(--colorLetter2);
+  margin-top: 10px;
+  width: 100%;
+}
+
+div > .btn:hover {
+  background-color: var(--button);
+  border-color: var(--button);
+  color: var(--colorLetter1);
+}
+
+hr {
+  background-color: var(--colorLetter2);
+  height: 2px;
+  border-radius: 5px;
+}
+
+.vCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}

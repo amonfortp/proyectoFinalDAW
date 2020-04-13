@@ -53,6 +53,12 @@ class User implements UserInterface
      */
     private $rol;
 
+    public function __construct()
+    {
+        $this->online = false;
+        $this->lastLogin = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
