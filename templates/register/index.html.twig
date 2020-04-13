@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('css/login.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block title %}Hello RegisterController!{% endblock %}
+
+{% block body %}
+    <div id="body">
+        <div class="container vCenter">
+            <form class="needs-validation p-3 centrado" novalidate>
+                <h3>Registrate en MonfiShop</h3>
+                <div class="form-row">
+                    <div class="col-12 mb-3">
+                        <input type="text" class="form-control" id="Nombre" value="" placeholder="Nombre de Usuario"
+                            required>
+                        <div class="valid-feedback">
+                            Bien introducido!
+                        </div>
+                        <div class="invalid-feedback">
+                            Mal introducido!
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <input type="email" class="form-control" id="Email" value="" placeholder="Cuenta de Email" required>
+                        <div class="valid-feedback">
+                            Bien introducido!
+                        </div>
+                        <div class="invalid-feedback">
+                            Mal introducido!
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <input type="password" class="form-control" id="contraseña" value="" placeholder="Contraseña"
+                            required>
+                        <div class="valid-feedback">
+                            Bien introducido!
+                        </div>
+                        <div class="invalid-feedback">
+                            Mal introducido!
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <input type="password" class="form-control" id="confContraseña" value=""
+                            placeholder="Confirmar Contraseña" required>
+                        <div class="valid-feedback">
+                            Bien introducido!
+                        </div>
+                        <div class="invalid-feedback">
+                            Mal introducido!
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="condiciones" required>
+                                <label class="form-check-label" for="condiciones">
+                                    Aceptar condiciones de uso y privacidad
+                                </label>
+                                <div class="invalid-feedback">
+                                    Debes aceptar las condiciones
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn" type="submit">Crear cuenta</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn" id="google" type="submit">Entrar con Google</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn" id="facebook" type="submit">Entrar Con Facebook</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
