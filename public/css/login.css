@@ -5,11 +5,7 @@
   --button2: #27084da6;
   --colorLetter1: #f3f1f0;
   --colorLetter2: #000000;
-  --fondoImage: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-  --fondoImage1: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
-  --fondoImage2: linear-gradient(to right, #fa709a 0%, #fee140 100%);
-  --fondoImage3: linear-gradient(to top, #30cfd0 0%, #330867 100%);
-  --fondoImage4: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  --fondoImage: linear-gradient(to top, #30cfd0 0%, #330867 100%);
 }
 
 #body {
@@ -60,4 +56,8 @@ hr {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+}
+
+span {
+  color: #ff0000 !important;
 }

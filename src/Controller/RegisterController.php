@@ -12,8 +12,10 @@ class RegisterController extends AbstractController
      */
     public function index()
     {
-        return $this->render('register/index.html.twig', [
-            'controller_name' => 'RegisterController',
+        $error = null;
+
+        return $this->render('register/register.html.twig', [
+            'controller_name' => 'RegisterController', 'error' => $error
         ]);
     }
 }

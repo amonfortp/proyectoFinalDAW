@@ -7,7 +7,7 @@
 {% block body %}
 <div id="body">
 <div class="container vCenter">
-    <form method="post" class="p-3 centrado" novalidate>
+    <form method="post" class="p-3" novalidate>
         <h1 class="h3 mb-3 font-weight-normal">Inicia sesión en MonBarter</h1>
         <div class="form-row">
             <div class="col-12 mb-3">
@@ -42,13 +42,13 @@
         #}
         
         <div class="row">
-                <div class="col-6">
-                    <button class="btn" type="submit">Iniciar</button>
-                </div>
-                <div class="col-6">
-                    <a class="btn" href="{{ path('register')}}">Registrarse</a>
-                </div>
+            <div class="col-6">
+                <button class="btn" type="submit">Iniciar</button>
             </div>
+            <div class="col-6">
+                <a class="btn" href="{{ path('register')}}">Registrarse</a>
+            </div>
+        </div>
     </form>
 </div>
 </div>
