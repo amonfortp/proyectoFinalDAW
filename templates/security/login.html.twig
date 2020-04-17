@@ -8,6 +8,11 @@
 <div id="body">
 <div class="container vCenter">
     <form method="post" class="p-3" novalidate>
+        {% if exito %}
+            <div class="alert alert-success">
+                Te has registrado con exito, prueba a iniciar sesión
+            </div>
+        {% endif %}
         <h1 class="h3 mb-3 font-weight-normal">Inicia sesión en MonBarter</h1>
         <div class="form-row">
             <div class="col-12 mb-3">
