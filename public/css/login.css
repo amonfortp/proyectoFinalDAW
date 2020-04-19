@@ -61,3 +61,46 @@ hr {
 span {
   color: #ff0000 !important;
 }
+
+select {
+  height: 52px !important;
+}
+
+@media (max-width: 1200px) {
+  form {
+    width: 80%;
+  }
+
+  h1 {
+    font-size: 48px !important;
+  }
+
+  label {
+    font-size: 200%;
+  }
+
+  input {
+    height: 64px !important;
+    margin: 2px;
+  }
+
+  input[type="text"] {
+    font-size: 150%;
+  }
+
+  input[type="email"] {
+    font-size: 150%;
+  }
+
+  input[type="password"] {
+    font-size: 150%;
+  }
+
+  div > .btn {
+    font-size: 175%;
+  }
+
+  div.alert {
+    font-size: 200%;
+  }
+}

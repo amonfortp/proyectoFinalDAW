@@ -39,11 +39,6 @@ class User implements UserInterface
     private $nickName;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $online;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $lastLogin;
@@ -58,9 +53,14 @@ class User implements UserInterface
      */
     private $provincia;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imagenPerfil;
+
     public function __construct()
     {
-        $this->online = false;
+        $this->imagenPerfil = "https://placekitten.com/640/360";
         $this->lastLogin = new \DateTime();
     }
 
@@ -154,18 +154,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getOnline(): ?bool
-    {
-        return $this->online;
-    }
-
-    public function setOnline(bool $online): self
-    {
-        $this->online = $online;
-
-        return $this;
-    }
-
     public function getLastLogin(): ?\DateTimeInterface
     {
         return $this->lastLogin;
@@ -198,6 +186,18 @@ class User implements UserInterface
     public function setProvincia(?Provincias $provincia): self
     {
         $this->provincia = $provincia;
+
+        return $this;
+    }
+
+    public function getImagenPerfil(): ?string
+    {
+        return $this->imagenPerfil;
+    }
+
+    public function setImagenPerfil(string $imagenPerfil): self
+    {
+        $this->imagenPerfil = $imagenPerfil;
 
         return $this;
     }

@@ -7,8 +7,6 @@ use App\Entity\Provincias;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegisterController extends AbstractController
@@ -45,9 +43,8 @@ class RegisterController extends AbstractController
         if ($error != 0) {
             return $this->redirectToRoute('register', ['errorNum' => $error]);
         } else {
-            if ($this->registrar($request)) {
-                return $this->redirectToRoute('app_login', ['exito' => '*']);
-            }
+            $this->registrar($request);
+            return $this->redirectToRoute('app_login', ['exito' => '*']);
         }
     }
 
@@ -66,6 +63,10 @@ class RegisterController extends AbstractController
             Puede tener otros símbolos.";
         } else if ($error == 5) {
             $mensaje = "La contraseña y la confirmación deben ser iguales";
+        } else if ($error == 6) {
+            $mensaje = "Los campos obligatorios no pueden estar vacios";
+        } else if ($error == 7) {
+            $mensaje = "Debes aceptar las condiciones de uso";
         }
 
         return $mensaje;
@@ -78,6 +79,7 @@ class RegisterController extends AbstractController
         $email = $request->request->get("email");
         $pass = $request->request->get("contrasena");
         $confPass = $request->request->get("confContrasena");
+        $checkBox = $request->request->get("condiciones");
         $repository = $this->getDoctrine()->getRepository(User::class);
 
 
@@ -91,8 +93,11 @@ class RegisterController extends AbstractController
             $error = 4;
         } else if (strcmp($pass, $confPass) != 0) {
             $error = 5;
+        } else if (str_replace(' ', '', $nombre) == "" || str_replace(' ', '', $email) == "" || str_replace(' ', '', $pass) == "") {
+            $error = 6;
+        } else if (!$checkBox) {
+            $error = 7;
         }
-
 
         return $error;
     }
@@ -105,6 +110,10 @@ class RegisterController extends AbstractController
         $user->setEmail($request->request->get("email"));
         $user->setNickName($request->request->get("nombre"));
         $user->setPassword($this->passwordEncoder->encodePassword($user, $request->request->get("contrasena")));
+        if ($request->request->get("provincias") != 0) {
+            $repository = $this->getDoctrine()->getRepository(Provincias::class);
+            $user->setProvincia($repository->findOneBy(["id" => $request->request->get("provincias")]));
+        }
         $entityManager->persist($user);
         return $entityManager->flush();
     }
