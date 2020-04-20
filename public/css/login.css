@@ -58,7 +58,7 @@ hr {
   min-height: 100vh;
 }
 
-span {
+label > span {
   color: #ff0000 !important;
 }
 

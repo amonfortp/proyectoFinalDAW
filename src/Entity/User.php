@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -58,10 +60,16 @@ class User implements UserInterface
      */
     private $imagenPerfil;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Publicacion", mappedBy="usuario", orphanRemoval=true)
+     */
+    private $publicaciones;
+
     public function __construct()
     {
         $this->imagenPerfil = "https://placekitten.com/640/360";
         $this->lastLogin = new \DateTime();
+        $this->publicaciones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +206,37 @@ class User implements UserInterface
     public function setImagenPerfil(string $imagenPerfil): self
     {
         $this->imagenPerfil = $imagenPerfil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Publicacion[]
+     */
+    public function getPublicaciones(): Collection
+    {
+        return $this->publicaciones;
+    }
+
+    public function addPublicacione(Publicacion $publicacione): self
+    {
+        if (!$this->publicaciones->contains($publicacione)) {
+            $this->publicaciones[] = $publicacione;
+            $publicacione->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublicacione(Publicacion $publicacione): self
+    {
+        if ($this->publicaciones->contains($publicacione)) {
+            $this->publicaciones->removeElement($publicacione);
+            // set the owning side to null (unless already changed)
+            if ($publicacione->getUsuario() === $this) {
+                $publicacione->setUsuario(null);
+            }
+        }
 
         return $this;
     }

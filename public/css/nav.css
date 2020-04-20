@@ -1,0 +1,32 @@
+:root {
+  --fondoSecundarioNav: #1a0749;
+  --buttonNavHover: #324d8b;
+  --colorLetter1: #f3f1f0;
+  --colorLetter2: #000000;
+}
+
+nav {
+  background-color: var(--fondoSecundarioNav);
+}
+
+.span-nav .fa {
+  font-size: 25px;
+}
+
+.btn-nav > a > i,
+.btn-nav > a > .span-nav {
+  color: var(--colorLetter1);
+}
+
+.btn-nav:hover > a > i,
+.btn-nav:hover > a > .span-nav {
+  color: var(--colorLetter1);
+}
+
+.btn-nav:hover {
+  background-color: var(--buttonNavHover);
+}
+
+.navbar-toggler {
+  background-color: var(--buttonNavHover);
+}
