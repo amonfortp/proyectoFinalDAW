@@ -1,0 +1,19 @@
+:root {
+  --fondoPagina: #dbdddd;
+  --fondoSecundario: #1a0749a6;
+  --button1: #30cfd0a6;
+  --button2: #27084da6;
+  --colorLetter1: #f3f1f0;
+  --colorLetter2: #000000;
+  --fondoImage: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+}
+
+body {
+  background-image: var(--fondoImage) !important;
+}
+
+#body {
+  font-family: sans-serif;
+  width: 100%;
+  min-height: 95vh;
+}

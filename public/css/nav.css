@@ -1,6 +1,6 @@
 :root {
   --fondoSecundarioNav: #1a0749;
-  --buttonNavHover: #324d8b;
+  --buttonNavHover: #30cfd0a6;
   --colorLetter1: #f3f1f0;
   --colorLetter2: #000000;
 }
@@ -24,9 +24,5 @@ nav {
 }
 
 .btn-nav:hover {
-  background-color: var(--buttonNavHover);
-}
-
-.navbar-toggler {
   background-color: var(--buttonNavHover);
 }

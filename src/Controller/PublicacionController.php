@@ -17,7 +17,7 @@ class PublicacionController extends AbstractController
      */
     public function index()
     {
-        return $this->render('publicacion/index.html.twig', [
+        return $this->render('publicacion/publicacion.html.twig', [
             'controller_name' => 'PublicacionController',
         ]);
     }

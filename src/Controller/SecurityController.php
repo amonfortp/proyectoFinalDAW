@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login/{exito}", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils, string $exito = null): Response
+    public function login(AuthenticationUtils $authenticationUtils, string $exito = null)
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
@@ -31,7 +31,11 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'exito' => $exito]);
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_logout');
+        } else {
+            return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'exito' => $exito]);
+        }
     }
 
     /**
