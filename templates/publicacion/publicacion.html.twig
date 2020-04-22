@@ -3,7 +3,11 @@
 {% block body %}
 <div id="body">
     <div class="container-fluid">
-    <h1></h1>
+    {% if publicaciones is defined%}
+        {% for publicacion in publicaciones %}
+            <div class="col-12">{{ publicacion.fechaPublicacion|format_datetime() }} {{ publicacion.nombrePublicacion }}</div>
+        {% endfor %}
+    {% endif %}
     </div>
 </div>
 {% endblock %}

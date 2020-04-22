@@ -40,7 +40,17 @@ class Publicacion
     /**
      * @ORM\Column(type="boolean")
      */
-    private $Activo;
+    private $activo;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $fechaPublicacion;
+
+    public function __construct()
+    {
+        $this->fechaPublicacion = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -97,12 +107,24 @@ class Publicacion
 
     public function getActivo(): ?bool
     {
-        return $this->Activo;
+        return $this->activo;
     }
 
-    public function setActivo(bool $Activo): self
+    public function setActivo(bool $activo): self
     {
-        $this->Activo = $Activo;
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    public function getFechaPublicacion(): ?\DateTimeInterface
+    {
+        return $this->fechaPublicacion;
+    }
+
+    public function setFechaPublicacion(\DateTimeInterface $fechaPublicacion): self
+    {
+        $this->fechaPublicacion = $fechaPublicacion;
 
         return $this;
     }
