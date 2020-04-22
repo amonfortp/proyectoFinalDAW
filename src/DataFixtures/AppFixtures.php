@@ -39,6 +39,7 @@ class AppFixtures extends Fixture
                 $publicacion->setNombrePublicacion("Titulo " . $i);
                 $publicacion->setDescripcion("Descripción " . $i);
                 $publicacion->setUsuario($user);
+                $publicacion->setActivo(true);
 
                 if (!$filesystem->exists('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba')) {
                     $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba', 0777);

@@ -37,6 +37,11 @@ class Publicacion
      */
     private $nombrePublicacion;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $Activo;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Publicacion
     public function setNombrePublicacion(string $nombrePublicacion): self
     {
         $this->nombrePublicacion = $nombrePublicacion;
+
+        return $this;
+    }
+
+    public function getActivo(): ?bool
+    {
+        return $this->Activo;
+    }
+
+    public function setActivo(bool $Activo): self
+    {
+        $this->Activo = $Activo;
 
         return $this;
     }
