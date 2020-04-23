@@ -33,11 +33,6 @@ class Publicacion
     private $imagenes = [];
 
     /**
-     * @ORM\Column(type="string", length=25)
-     */
-    private $nombrePublicacion;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $activo;
@@ -46,6 +41,11 @@ class Publicacion
      * @ORM\Column(type="datetime")
      */
     private $fechaPublicacion;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $titulo;
 
     public function __construct()
     {
@@ -93,18 +93,6 @@ class Publicacion
         return $this;
     }
 
-    public function getNombrePublicacion(): ?string
-    {
-        return $this->nombrePublicacion;
-    }
-
-    public function setNombrePublicacion(string $nombrePublicacion): self
-    {
-        $this->nombrePublicacion = $nombrePublicacion;
-
-        return $this;
-    }
-
     public function getActivo(): ?bool
     {
         return $this->activo;
@@ -125,6 +113,18 @@ class Publicacion
     public function setFechaPublicacion(\DateTimeInterface $fechaPublicacion): self
     {
         $this->fechaPublicacion = $fechaPublicacion;
+
+        return $this;
+    }
+
+    public function getTitulo(): ?string
+    {
+        return $this->titulo;
+    }
+
+    public function setTitulo(string $titulo): self
+    {
+        $this->titulo = $titulo;
 
         return $this;
     }

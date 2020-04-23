@@ -36,35 +36,43 @@ class AppFixtures extends Fixture
 
             if ($i < 3) {
                 $publicacion = new Publicacion();
-                $publicacion->setNombrePublicacion("Titulo " . $i);
                 $publicacion->setDescripcion("Descripción " . $i);
                 $publicacion->setUsuario($user);
                 $publicacion->setActivo(true);
                 $publicacion->setFechaPublicacion(new \DateTime("2010-05-0" . $i));
 
-                if (!$filesystem->exists('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba')) {
-                    $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba', 0777);
-                }
-
                 if ($i == 1) {
-                    rename('/home/dwes/Pictures/telefono1.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba/prueba1.jpg');
-                    rename('/home/dwes/Pictures/telefono2.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba/prueba2.jpg');
+                    $publicacion->setTitulo("Telefono");
+                    if (!$filesystem->exists('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                        $publicacion->getTitulo())) {
+                        $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                            $publicacion->getTitulo(), 0777);
+                    }
+                    rename('/home/dwes/Pictures/telefono1.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                        $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '1.jpg');
+                    rename('/home/dwes/Pictures/telefono2.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                        $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg');
                 } else {
-                    rename('/home/dwes/Pictures/pelota1.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba/prueba1.jpg');
-                    rename('/home/dwes/Pictures/pelota2.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba/prueba2.jpg');
+                    $publicacion->setTitulo("Pelota");
+                    if (!$filesystem->exists('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                        $publicacion->getTitulo())) {
+                        $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                            $publicacion->getTitulo(), 0777);
+                    }
+                    rename('/home/dwes/Pictures/pelota1.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                        $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '.jpg');
+                    rename('/home/dwes/Pictures/pelota2.jpg', '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
+                        $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg');
                 }
 
                 $publicacion->setImagenes([
-                    "imagen1" => '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba/prueba1.jpg',
-                    "imagen2" => '/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/prueba/prueba2.jpg',
+                    "imagen1" => 'img/' . $publicacion->getUsuario()->getEmail() . '/' . $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '1.jpg',
+                    "imagen2" =>  'img/' . $publicacion->getUsuario()->getEmail() . '/' . $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg',
                 ]);
 
                 $manager->persist($publicacion);
             }
         }
-
-
-
         $manager->flush();
     }
 }
