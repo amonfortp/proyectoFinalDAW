@@ -20,7 +20,7 @@
                             </div>
                             <div class="card-footer text-muted">
                                 <small>{{publicacion.fechaPublicacion | date ('d-m-y  H:i') }}
-                                <a href="#" class="card-link">{{ publicacion.usuario.email }}</a>
+                                <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="card-link">{{ publicacion.usuario.email }}</a>
                                 </small>
                             </div>
                         </div>
