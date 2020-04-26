@@ -5,26 +5,7 @@
 {% block body %}
 <div id="body">
     <div class="container-fluid">
-        <div class="row d-flex justify-content-center">
-            {% if publicaciones is defined%}
-                {% for publicacion in publicaciones %}
-                    <div class="col-12 col-lg-8">
-                        <div class="card mb-3">
-                            <img class="card-img-top" src="{{ asset(publicacion.imagenes['imagen1']) }}" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ publicacion.titulo }}</h5>
-                                <p class="card-text">{{ publicacion.descripcion }}</p>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <small>{{publicacion.fechaPublicacion | date ('d-m-y  H:i') }}
-                                <a href="#" class="card-link">{{ publicacion.usuario.email }}</a>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
+        
     </div>
 </div>
 {% endblock %}

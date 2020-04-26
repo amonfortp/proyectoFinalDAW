@@ -1,3 +1,61 @@
-img {
-  height: 90px;
+.card {
+  background-color: #ffffff00 !important;
+}
+
+.card {
+  border: none !important;
+}
+
+div > .card-body {
+  background-color: var(--fondoSecundario);
+  color: var(--colorLetter1);
+}
+
+div > .card-body {
+  background-color: var(--fondoSecundario);
+  color: var(--colorLetter1);
+}
+
+div > .card-footer {
+  background-color: var(--fondoPagina);
+  color: var(--colorLetter1);
+}
+
+img.principal {
+  max-width: 250px;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+div > .btn {
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
+  margin-top: 10px;
+  width: 49%;
+}
+
+div > .btn:hover {
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
+}
+
+@media (max-width: 1000px) {
+  h5 {
+    font-size: 200% !important;
+  }
+
+  div > .btn {
+    font-size: 150% !important;
+  }
+
+  p {
+    font-size: 175% !important;
+  }
+
+  .card-footer {
+    font-size: 150%;
+  }
 }

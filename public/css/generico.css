@@ -17,3 +17,13 @@ body {
   width: 100%;
   min-height: 100vh;
 }
+
+@media (max-width: 1000px) {
+  .navbar-toggler {
+    font-size: 200% !important;
+  }
+
+  .navbar-brand {
+    font-size: 200% !important;
+  }
+}
