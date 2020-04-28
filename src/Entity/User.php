@@ -67,7 +67,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->imagenPerfil = "https://placekitten.com/640/360";
+        $this->imagenPerfil = "img/comun/circulo.png";
         $this->lastLogin = new \DateTime();
         $this->publicaciones = new ArrayCollection();
     }

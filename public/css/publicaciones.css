@@ -32,7 +32,6 @@ div > .btn {
   background-color: var(--button2);
   border-color: var(--button2);
   color: var(--colorLetter1);
-  margin-top: 10px;
   width: 49%;
 }
 
@@ -42,13 +41,25 @@ div > .btn:hover {
   color: var(--colorLetter2);
 }
 
+img.imgSmall {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+a.correo {
+  font-size: 16px;
+}
+
 @media (max-width: 1000px) {
   h5 {
     font-size: 200% !important;
   }
 
   div > .btn {
+    margin-top: 10px;
     font-size: 150% !important;
+    width: 100%;
   }
 
   p {
@@ -57,5 +68,13 @@ div > .btn:hover {
 
   .card-footer {
     font-size: 150%;
+  }
+
+  img.imgSmall {
+    display: none;
+  }
+
+  a.correo {
+    font-size: 18px;
   }
 }

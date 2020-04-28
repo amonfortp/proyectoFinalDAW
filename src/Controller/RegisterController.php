@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class RegisterController extends AbstractController
 {
@@ -37,13 +38,17 @@ class RegisterController extends AbstractController
     public function verificar(Request $request)
     {
         $error = $this->validar($request);
-
+        $filesystem = new Filesystem();
 
 
         if ($error != 0) {
             return $this->redirectToRoute('register', ['errorNum' => $error]);
         } else {
             $this->registrar($request);
+            if (!$filesystem->exists('/home/dwes/proyectoFinal/public/img/' . $request->request->get("email"))) {
+                $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/' . $request->request->get("email"), 0777);
+                $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/' . $request->request->get("email") . '/perfil', 0777);
+            }
             return $this->redirectToRoute('app_login', ['exito' => '*']);
         }
     }

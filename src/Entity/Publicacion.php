@@ -47,6 +47,11 @@ class Publicacion
      */
     private $titulo;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $tipo;
+
     public function __construct()
     {
         $this->fechaPublicacion = new \DateTime();
@@ -125,6 +130,18 @@ class Publicacion
     public function setTitulo(string $titulo): self
     {
         $this->titulo = $titulo;
+
+        return $this;
+    }
+
+    public function getTipo(): ?string
+    {
+        return $this->tipo;
+    }
+
+    public function setTipo(string $tipo): self
+    {
+        $this->tipo = $tipo;
 
         return $this;
     }

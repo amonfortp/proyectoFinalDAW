@@ -7,7 +7,6 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class AppFixtures extends Fixture
@@ -40,6 +39,7 @@ class AppFixtures extends Fixture
                 $publicacion->setUsuario($user);
                 $publicacion->setActivo(true);
                 $publicacion->setFechaPublicacion(new \DateTime("2010-05-0" . $i));
+                $publicacion->setTipo("Producto");
 
                 if ($i == 1) {
                     $publicacion->setTitulo("Telefono");
