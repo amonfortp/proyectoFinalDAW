@@ -34,7 +34,12 @@ class PublicacionController extends AbstractController
         $publicacion = $this->obtenerPublicacion($id);
 
         if ($id == 0) {
-            return $this->redirectToRoute('publicaciones');
+            $publicaciones = $this->obtenerPublicaciones();
+
+            return $this->render('publicacion/publicaciones.html.twig', [
+                'controller_name' => 'PublicacionController',
+                'publicaciones' => $publicaciones
+            ]);
         } else {
             return $this->render('publicacion/publicacion.html.twig', [
                 'controller_name' => 'PublicacionController',

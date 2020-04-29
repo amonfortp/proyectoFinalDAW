@@ -14,9 +14,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ publicacion.titulo }}</h5>
                                 <p class="card-text">{{ publicacion.tipo }}</p>
-                                <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary">Ver perfil</a>
-                                <a href="{{ path('publicacion' , {id:publicacion.id})}}" class="btn btn-primary">Ver publicación</a>
-                                </small>
+                                <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary btn-ajustado">Ver perfil</a>
+                                <a href="{{ path('publicacion' , {id:publicacion.id})}}" class="btn btn-primary btn-ajustado">Ver publicación</a>
                             </div>
                             <div class="card-footer text-muted">
                                 <small>{{publicacion.fechaPublicacion | date ('d-m-y  H:i') }}

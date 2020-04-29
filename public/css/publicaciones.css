@@ -32,13 +32,16 @@ div > .btn {
   background-color: var(--button2);
   border-color: var(--button2);
   color: var(--colorLetter1);
-  width: 49%;
 }
 
 div > .btn:hover {
   background-color: var(--button1);
   border-color: var(--button1);
   color: var(--colorLetter2);
+}
+
+div > .btn-ajustado {
+  width: 49%;
 }
 
 img.imgSmall {
