@@ -65,11 +65,17 @@ class User implements UserInterface
      */
     private $publicaciones;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $reputación;
+
     public function __construct()
     {
         $this->imagenPerfil = "img/comun/circulo.png";
         $this->lastLogin = new \DateTime();
         $this->publicaciones = new ArrayCollection();
+        $this->reputación = 0;
     }
 
     public function getId(): ?int
@@ -237,6 +243,18 @@ class User implements UserInterface
                 $publicacione->setUsuario(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReputación(): ?int
+    {
+        return $this->reputación;
+    }
+
+    public function setReputación(int $reputación): self
+    {
+        $this->reputación = $reputación;
 
         return $this;
     }

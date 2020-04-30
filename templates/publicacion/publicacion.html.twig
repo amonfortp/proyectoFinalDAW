@@ -34,7 +34,12 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ publicacion.titulo }}</h5>
                         <p class="card-text">{{ publicacion.descripcion }}</p>
-                        <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary btn-lg btn-block">Me interesa</a>
+                        {% if publicacion.usuario.id == app.user.id %}
+                            <a href="#" class="btn btn-primary btn-ajustado">Modificar</a>
+                            <a href="#" class="btn btn-primary btn-ajustado">Eliminar</a>
+                        {% else %}
+                            <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary btn-lg btn-block">Me interesa</a>
+                        {% endif %}
                     </div>
                     <div class="card-footer text-muted">
                         <small>{{publicacion.fechaPublicacion | date ('d-m-y  H:i') }}

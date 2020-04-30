@@ -18,6 +18,14 @@ body {
   min-height: 100vh;
 }
 
+div > .btn {
+  border: 0px;
+}
+
+footer {
+  background-color: var(--fondoSecundario);
+}
+
 @media (max-width: 1000px) {
   .navbar-toggler {
     font-size: 200% !important;
