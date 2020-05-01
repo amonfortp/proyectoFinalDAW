@@ -35,7 +35,7 @@ CREATE TABLE `migration_versions` (
 
 LOCK TABLES `migration_versions` WRITE;
 /*!40000 ALTER TABLE `migration_versions` DISABLE KEYS */;
-INSERT INTO `migration_versions` VALUES ('20200410174717','2020-04-10 17:47:57'),('20200413203840','2020-04-13 20:38:51'),('20200419105110','2020-04-19 10:51:23'),('20200419114148','2020-04-19 11:41:53'),('20200420161045','2020-04-20 16:11:41'),('20200420175658','2020-04-20 17:57:42'),('20200422162426','2020-04-22 16:24:33');
+INSERT INTO `migration_versions` VALUES ('20200410174717','2020-04-10 17:47:57'),('20200413203840','2020-04-13 20:38:51'),('20200419105110','2020-04-19 10:51:23'),('20200419114148','2020-04-19 11:41:53'),('20200420161045','2020-04-20 16:11:41'),('20200420175658','2020-04-20 17:57:42'),('20200422162426','2020-04-22 16:24:33'),('20200422173245','2020-04-22 17:35:36'),('20200423171025','2020-04-23 17:10:39'),('20200423172557','2020-04-23 17:26:27'),('20200428203819','2020-04-28 20:38:38'),('20200430181744','2020-04-30 18:17:56');
 /*!40000 ALTER TABLE `migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +50,7 @@ CREATE TABLE `provincias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `provincia` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +59,6 @@ CREATE TABLE `provincias` (
 
 LOCK TABLES `provincias` WRITE;
 /*!40000 ALTER TABLE `provincias` DISABLE KEYS */;
-INSERT INTO `provincias` VALUES (1,'Araba/Álava'),(2,'Albacete'),(3,'Alicante/Alacant'),(4,'Almería'),(5,'Ávila'),(6,'Badajoz'),(7,'Islas Baleares/Illes Balears'),(8,'Barcelona'),(9,'Burgos'),(10,'Cáceres'),(11,'Cádiz'),(12,'Castellón/Castelló'),(13,'Ciudad Real'),(14,'Córdoba'),(15,'La Coruña'),(16,'Cuenca'),(17,'Girona'),(18,'Granada'),(19,'Guadalajara'),(20,'Gipuzkoa'),(21,'Huelva'),(22,'Huesca'),(23,'Jaén'),(24,'León'),(25,'Lleida'),(26,'La Rioja'),(27,'Lugo'),(28,'Madrid'),(29,'Málaga'),(30,'Murcia'),(31,'Navarra'),(32,'Ourense'),(33,'Asturias'),(34,'Palencia'),(35,'Las Palmas'),(36,'Pontevedra'),(37,'Salamanca'),(38,'Santa Cruz de Tenerife'),(39,'Cantabria'),(40,'Segovia'),(41,'Sevilla'),(42,'Soria'),(43,'Tarragona'),(44,'Teruel'),(45,'Toledo'),(46,'Valencia/València'),(47,'Valladolid'),(48,'Bizkaia'),(49,'Zamora'),(50,'Zaragoza'),(51,'Ceuta'),(52,'Melilla');
 /*!40000 ALTER TABLE `provincias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,12 +74,14 @@ CREATE TABLE `publicacion` (
   `usuario_id` int(11) NOT NULL,
   `descripcion` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `imagenes` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
-  `nombre_publicacion` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
   `activo` tinyint(1) NOT NULL,
+  `fecha_publicacion` datetime NOT NULL,
+  `titulo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_62F2085FDB38439E` (`usuario_id`),
   CONSTRAINT `FK_62F2085FDB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +90,7 @@ CREATE TABLE `publicacion` (
 
 LOCK TABLES `publicacion` WRITE;
 /*!40000 ALTER TABLE `publicacion` DISABLE KEYS */;
-INSERT INTO `publicacion` VALUES (7,32,'Descripción 1','a:2:{s:7:\"imagen1\";s:70:\"/home/dwes/proyectoFinal/public/img/user1@gmail.com/prueba/prueba1.jpg\";s:7:\"imagen2\";s:70:\"/home/dwes/proyectoFinal/public/img/user1@gmail.com/prueba/prueba2.jpg\";}','Titulo 1',1),(8,33,'Descripción 2','a:2:{s:7:\"imagen1\";s:70:\"/home/dwes/proyectoFinal/public/img/user2@gmail.com/prueba/prueba1.jpg\";s:7:\"imagen2\";s:70:\"/home/dwes/proyectoFinal/public/img/user2@gmail.com/prueba/prueba2.jpg\";}','Titulo 2',1);
+INSERT INTO `publicacion` VALUES (29,71,'Descripción 1','a:2:{s:7:\"imagen1\";s:42:\"img/user1@gmail.com/Telefono/Telefono1.jpg\";s:7:\"imagen2\";s:42:\"img/user1@gmail.com/Telefono/Telefono2.jpg\";}',1,'2010-05-01 00:00:00','Telefono','Producto'),(30,72,'Descripción 2','a:2:{s:7:\"imagen1\";s:38:\"img/user2@gmail.com/Pelota/Pelota1.jpg\";s:7:\"imagen2\";s:38:\"img/user2@gmail.com/Pelota/Pelota2.jpg\";}',1,'2010-05-02 00:00:00','Pelota','Producto');
 /*!40000 ALTER TABLE `publicacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,11 +111,12 @@ CREATE TABLE `user` (
   `rol` int(11) DEFAULT NULL,
   `provincia_id` int(11) DEFAULT NULL,
   `imagen_perfil` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reputación` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`),
   KEY `IDX_8D93D6494E7121AF` (`provincia_id`),
   CONSTRAINT `FK_8D93D6494E7121AF` FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +125,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (32,'user1@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$3KGBMtvmg9pdXCIw7G4wMQ$ZYZRl34WrgydKlpomci5B/uMc6EISznh3uh17O2L9H0','user1','2020-04-22',NULL,NULL,'https://placekitten.com/640/360'),(33,'user2@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$Gy5Xv1vWXCbAV8hyuaVMeA$c3NovRPILkGjJiwkCSjz+fNY5c0W2osEBlTaLZ4tgQo','user2','2020-04-22',NULL,NULL,'https://placekitten.com/640/360'),(34,'user3@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$TpRzlOvs+5/AYKBFXFnJlg$EwBheWuj4b/uwnbP36nGYffRIqEAqpZs8dZgZkR+So4','user3','2020-04-22',NULL,NULL,'https://placekitten.com/640/360');
+INSERT INTO `user` VALUES (71,'user1@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$htk05NBL74PtOYbABPMinA$c2edSkqwnKgU34IFXg450xg4l7yBWsmtjmL+5x2+E48','user1','2020-04-30',NULL,NULL,'img/comun/circulo.png',0),(72,'user2@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$jJSkIHu1i0Doifrg3w15fw$7knBWzST5R6gmFV1PSbu0nJDo7cOA9G5bvLQCn2NGdg','user2','2020-04-30',NULL,NULL,'img/comun/circulo.png',0),(73,'user3@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$PjZkNHPeY4Hs+nZ4g397wQ$dCN9tQwCzA3upY7Lo3//vXzBJ3QZfh00MQ6B3yRgAns','user3','2020-04-30',NULL,NULL,'img/comun/circulo.png',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -136,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 19:13:28
+-- Dump completed on 2020-05-01 20:31:12
