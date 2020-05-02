@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,9 +54,15 @@ class Publicacion
      */
     private $tipo;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Etiquetas", inversedBy="publicaciones")
+     */
+    private $etiqueta;
+
     public function __construct()
     {
         $this->fechaPublicacion = new \DateTime();
+        $this->etiqueta = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +150,32 @@ class Publicacion
     public function setTipo(string $tipo): self
     {
         $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Etiquetas[]
+     */
+    public function getEtiqueta(): Collection
+    {
+        return $this->etiqueta;
+    }
+
+    public function addEtiquetum(Etiquetas $etiquetum): self
+    {
+        if (!$this->etiqueta->contains($etiquetum)) {
+            $this->etiqueta[] = $etiquetum;
+        }
+
+        return $this;
+    }
+
+    public function removeEtiquetum(Etiquetas $etiquetum): self
+    {
+        if ($this->etiqueta->contains($etiquetum)) {
+            $this->etiqueta->removeElement($etiquetum);
+        }
 
         return $this;
     }

@@ -16,6 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `etiquetas`
+--
+
+DROP TABLE IF EXISTS `etiquetas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `etiquetas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `etiqueta` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `etiquetas`
+--
+
+LOCK TABLES `etiquetas` WRITE;
+/*!40000 ALTER TABLE `etiquetas` DISABLE KEYS */;
+INSERT INTO `etiquetas` VALUES (1,'Deporte'),(2,'Telefonía'),(3,'Tecnología');
+/*!40000 ALTER TABLE `etiquetas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `migration_versions`
 --
 
@@ -35,7 +59,7 @@ CREATE TABLE `migration_versions` (
 
 LOCK TABLES `migration_versions` WRITE;
 /*!40000 ALTER TABLE `migration_versions` DISABLE KEYS */;
-INSERT INTO `migration_versions` VALUES ('20200410174717','2020-04-10 17:47:57'),('20200413203840','2020-04-13 20:38:51'),('20200419105110','2020-04-19 10:51:23'),('20200419114148','2020-04-19 11:41:53'),('20200420161045','2020-04-20 16:11:41'),('20200420175658','2020-04-20 17:57:42'),('20200422162426','2020-04-22 16:24:33'),('20200422173245','2020-04-22 17:35:36'),('20200423171025','2020-04-23 17:10:39'),('20200423172557','2020-04-23 17:26:27'),('20200428203819','2020-04-28 20:38:38'),('20200430181744','2020-04-30 18:17:56');
+INSERT INTO `migration_versions` VALUES ('20200410174717','2020-04-10 17:47:57'),('20200413203840','2020-04-13 20:38:51'),('20200419105110','2020-04-19 10:51:23'),('20200419114148','2020-04-19 11:41:53'),('20200420161045','2020-04-20 16:11:41'),('20200420175658','2020-04-20 17:57:42'),('20200422162426','2020-04-22 16:24:33'),('20200422173245','2020-04-22 17:35:36'),('20200423171025','2020-04-23 17:10:39'),('20200423172557','2020-04-23 17:26:27'),('20200428203819','2020-04-28 20:38:38'),('20200430181744','2020-04-30 18:17:56'),('20200502182129','2020-05-02 18:21:42'),('20200502184511','2020-05-02 18:45:38'),('20200502185303','2020-05-02 18:53:10');
 /*!40000 ALTER TABLE `migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,7 +105,7 @@ CREATE TABLE `publicacion` (
   PRIMARY KEY (`id`),
   KEY `IDX_62F2085FDB38439E` (`usuario_id`),
   CONSTRAINT `FK_62F2085FDB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,8 +114,36 @@ CREATE TABLE `publicacion` (
 
 LOCK TABLES `publicacion` WRITE;
 /*!40000 ALTER TABLE `publicacion` DISABLE KEYS */;
-INSERT INTO `publicacion` VALUES (29,71,'Descripción 1','a:2:{s:7:\"imagen1\";s:42:\"img/user1@gmail.com/Telefono/Telefono1.jpg\";s:7:\"imagen2\";s:42:\"img/user1@gmail.com/Telefono/Telefono2.jpg\";}',1,'2010-05-01 00:00:00','Telefono','Producto'),(30,72,'Descripción 2','a:2:{s:7:\"imagen1\";s:38:\"img/user2@gmail.com/Pelota/Pelota1.jpg\";s:7:\"imagen2\";s:38:\"img/user2@gmail.com/Pelota/Pelota2.jpg\";}',1,'2010-05-02 00:00:00','Pelota','Producto');
+INSERT INTO `publicacion` VALUES (31,74,'Descripción 1','a:2:{s:7:\"imagen1\";s:42:\"img/user1@gmail.com/Telefono/Telefono1.jpg\";s:7:\"imagen2\";s:42:\"img/user1@gmail.com/Telefono/Telefono2.jpg\";}',1,'2010-05-01 00:00:00','Telefono','Producto'),(32,75,'Descripción 2','a:2:{s:7:\"imagen1\";s:38:\"img/user2@gmail.com/Pelota/Pelota1.jpg\";s:7:\"imagen2\";s:38:\"img/user2@gmail.com/Pelota/Pelota2.jpg\";}',1,'2010-05-02 00:00:00','Pelota','Producto');
 /*!40000 ALTER TABLE `publicacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `publicacion_etiquetas`
+--
+
+DROP TABLE IF EXISTS `publicacion_etiquetas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `publicacion_etiquetas` (
+  `publicacion_id` int(11) NOT NULL,
+  `etiquetas_id` int(11) NOT NULL,
+  PRIMARY KEY (`publicacion_id`,`etiquetas_id`),
+  KEY `IDX_C253DA249ACBB5E7` (`publicacion_id`),
+  KEY `IDX_C253DA24A6A0FAE6` (`etiquetas_id`),
+  CONSTRAINT `FK_C253DA249ACBB5E7` FOREIGN KEY (`publicacion_id`) REFERENCES `publicacion` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_C253DA24A6A0FAE6` FOREIGN KEY (`etiquetas_id`) REFERENCES `etiquetas` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `publicacion_etiquetas`
+--
+
+LOCK TABLES `publicacion_etiquetas` WRITE;
+/*!40000 ALTER TABLE `publicacion_etiquetas` DISABLE KEYS */;
+INSERT INTO `publicacion_etiquetas` VALUES (31,2),(31,3),(32,1);
+/*!40000 ALTER TABLE `publicacion_etiquetas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -116,7 +168,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`),
   KEY `IDX_8D93D6494E7121AF` (`provincia_id`),
   CONSTRAINT `FK_8D93D6494E7121AF` FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +177,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (71,'user1@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$htk05NBL74PtOYbABPMinA$c2edSkqwnKgU34IFXg450xg4l7yBWsmtjmL+5x2+E48','user1','2020-04-30',NULL,NULL,'img/comun/circulo.png',0),(72,'user2@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$jJSkIHu1i0Doifrg3w15fw$7knBWzST5R6gmFV1PSbu0nJDo7cOA9G5bvLQCn2NGdg','user2','2020-04-30',NULL,NULL,'img/comun/circulo.png',0),(73,'user3@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$PjZkNHPeY4Hs+nZ4g397wQ$dCN9tQwCzA3upY7Lo3//vXzBJ3QZfh00MQ6B3yRgAns','user3','2020-04-30',NULL,NULL,'img/comun/circulo.png',0);
+INSERT INTO `user` VALUES (74,'user1@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$V4j90vNa1Sgl+oegYJX/Qw$KuDWk0nerpUEOPOUbx3FzVkTpNl907jd/ax+NpU6zmk','user1','2020-05-02',NULL,NULL,'img/comun/circulo.png',0),(75,'user2@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$jznJIjf2nu1x+vvXaEPKNg$+tevvHb4zdcbeEp8ZWfQYcir2w3NpTJULviVzPYJx1w','user2','2020-05-02',NULL,NULL,'img/comun/circulo.png',0),(76,'user3@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$A2EBvwf68PtdcrPEa19s8Q$L84icarQbUS7ugM6rtY83mA2M8sWjiF3VQ8vLmvcGec','user3','2020-05-02',NULL,NULL,'img/comun/circulo.png',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -138,4 +190,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-01 20:31:12
+-- Dump completed on 2020-05-02 21:06:48

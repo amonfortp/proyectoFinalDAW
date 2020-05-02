@@ -54,6 +54,11 @@ a.correo {
   font-size: 16px;
 }
 
+span.etiqueta {
+  color: #30cfd0;
+  text-decoration: underline #30cfd0;
+}
+
 @media (max-width: 1000px) {
   h5 {
     font-size: 200% !important;

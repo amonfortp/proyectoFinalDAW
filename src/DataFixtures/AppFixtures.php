@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Etiquetas;
 use App\Entity\Publicacion;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -21,6 +22,18 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $filesystem = new Filesystem();
+
+        $etiqueta1 = new Etiquetas();
+        $etiqueta1->setEtiqueta("Deporte");
+        $manager->persist($etiqueta1);
+
+        $etiqueta2 = new Etiquetas();
+        $etiqueta2->setEtiqueta("Telefonía");
+        $manager->persist($etiqueta2);
+
+        $etiqueta3 = new Etiquetas();
+        $etiqueta3->setEtiqueta("Tecnología");
+        $manager->persist($etiqueta3);
 
         for ($i = 1; $i <= 3; $i++) {
             $user = new User();
@@ -43,6 +56,8 @@ class AppFixtures extends Fixture
 
                 if ($i == 1) {
                     $publicacion->setTitulo("Telefono");
+                    $publicacion->addEtiquetum($etiqueta2);
+                    $publicacion->addEtiquetum($etiqueta3);
                     if (!$filesystem->exists('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo())) {
                         $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
@@ -54,6 +69,7 @@ class AppFixtures extends Fixture
                         $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg');
                 } else {
                     $publicacion->setTitulo("Pelota");
+                    $publicacion->addEtiquetum($etiqueta1);
                     if (!$filesystem->exists('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo())) {
                         $filesystem->mkdir('/home/dwes/proyectoFinal/public/img/user' . $i . '@gmail.com/' .
