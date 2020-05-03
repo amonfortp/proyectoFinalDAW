@@ -6,6 +6,23 @@
 {% block body %}
 <div id="body">
     <div class="container">
+        <div class="row">
+            <div class="col card-perfil py-2 my-4 text-white">
+                <img src="{{ asset(usuario.imagenPerfil) }}" class="img-perfil rounded float-left">
+                <p>
+                    {{ usuario.nickName }} {{ usuario.email }}
+                </p>
+                <p>
+                    Provincia: {{ usuario.provincia }}
+                </p>
+                <p>
+                    Ultimo inicio de sesión: {{ usuario.lastLogin | date ('d-m-y  H:i') }}
+                </p>
+                <p>
+                    Reputación: {{ usuario.reputacion }}
+                </p>
+            </div>
+        </div>
         <div class="row d-flex">
             {% if publicaciones is defined %}
                 {% for publicacion in publicaciones %}
@@ -16,7 +33,6 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ publicacion.titulo }}</h5>
                                     <p class="card-text">{{ publicacion.tipo }}</p>
-                                    <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary btn-ajustado">Ver perfil</a>
                                     <a href="{{ path('publicacion' , {id:publicacion.id})}}" class="btn btn-primary btn-ajustado">Ver publicación</a>
                                 </div>
                                 <div class="card-footer text-muted">

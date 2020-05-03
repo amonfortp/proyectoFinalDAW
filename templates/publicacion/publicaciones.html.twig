@@ -30,7 +30,7 @@
                                 <div class="card-footer text-muted">
                                     <small>{{publicacion.fechaPublicacion | date ('d-m-y  H:i') }}
                                     </small>
-                                    <img class="imgSmall" src="{{ asset(publicacion.usuario.imagenPerfil) }}">
+                                    <img class="imgSmall img-circle" src="{{ asset(publicacion.usuario.imagenPerfil) }}">
                                     <a class="correo" href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="card-link">{{ publicacion.usuario.email }}</a>
                                 </div>
                             </div>

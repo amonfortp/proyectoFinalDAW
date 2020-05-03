@@ -20,6 +20,7 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
@@ -96,7 +97,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($targetPath);
         }
 
-
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $request->request->get('email')]);
+        $user->setLastLogin(new \DateTime());
+        $this->entityManager->flush();
 
         return new RedirectResponse($this->urlGenerator->generate('publicaciones'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);

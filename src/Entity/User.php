@@ -68,14 +68,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="integer")
      */
-    private $reputación;
+    private $reputacion;
 
     public function __construct()
     {
         $this->imagenPerfil = "img/comun/circulo.png";
         $this->lastLogin = new \DateTime();
         $this->publicaciones = new ArrayCollection();
-        $this->reputación = 0;
+        $this->reputacion = 0;
     }
 
     public function getId(): ?int
@@ -247,14 +247,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getReputación(): ?int
+    public function getReputacion(): ?int
     {
-        return $this->reputación;
+        return $this->reputacion;
     }
 
-    public function setReputación(int $reputación): self
+    public function setReputacion(int $reputacion): self
     {
-        $this->reputación = $reputación;
+        $this->reputacion = $reputacion;
 
         return $this;
     }
