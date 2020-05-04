@@ -1,9 +1,28 @@
 .card-perfil {
   background-color: #0000006c;
   border-radius: 10px;
+  max-height: 200px;
 }
 
 .img-perfil {
-  max-width: 200px;
-  max-height: 200px;
+  height: 100%;
+}
+
+.destacar {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.text-perfil {
+  font-size: 16px;
+}
+
+@media (max-width: 1000px) {
+  .card-perfil {
+    max-height: 250px;
+  }
+
+  .destacar {
+    font-size: 100%;
+  }
 }

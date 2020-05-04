@@ -27,6 +27,16 @@ class PerfilController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/formularioPerfil", name="formularioPerfil")
+     */
+    public function formularioPerfil()
+    {
+        return $this->render('perfil/formularioPerfil.html.twig', [
+            'controller_name' => 'PerfilController',
+        ]);
+    }
+
     private function obtenerUsuario(int $id)
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
