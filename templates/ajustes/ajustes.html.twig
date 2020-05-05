@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('css/ajustes.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+<div id="body">
+    <div class="container">
+        <div class="accordion mt-3" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-secondary btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="{{ perfil }}" aria-controls="collapseOne">
+                        Datos perfil
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <form id="formPerfil" action="{{ path('modificarPerfil') }}" method="post" novalidate>
+                        <div class="form-row py-3 mx-auto">
+                            <div class="col-12 mb-3 text-center">
+                                <label for="nombre">Confirma tu cuenta con tu contraseña actual</label>
+                                <input type="text" class="form-control" id="contrasenaActual" name="nombre" placeholder="Contraseña actual"
+                                    required>
+                                <hr>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 text-center">
+                                <label for="nombre">Nombre de usuario</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de Usuario" value="{{app.user.nickName}}" required>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 text-center">
+                                <label for="email">Cuenta de Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Cuenta de Email" value="{{app.user.email}}" required>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 text-center">
+                                <label for="contrasena">Contraseña</label>
+                                <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña"
+                                    required>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 text-center">
+                                <label for="confContrasena">Confirmación de la Contraseña</label>
+                                <input type="password" class="form-control" id="confContrasena" name="confContrasena" value=""
+                                    placeholder="Confirmar contraseña" required>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 text-center">
+                            <label for="provincias">Escoge una provincia</label>
+                                <select class="form-control" name="provincias" id="provincias">
+                                    {% if app.user.provincia is null %}
+                                        <option value="0" selected>Sin especificar</option>
+                                        {% for provincia in provincias %}
+                                            <option value="{{ provincia.id }}"> {{ provincia.provincia }} </option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="0">Sin especificar</option>
+                                        {% for provincia in provincias %}
+                                            {% if app.user.provincia.id == provincia.id %}
+                                                <option value="{{ provincia.id }}" selected> {{ provincia.provincia }} </option>
+                                            {% else %}
+                                                <option value="{{ provincia.id }}"> {{ provincia.provincia }} </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            {% if error %}
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <button class="btn btn-block" type="submit">Modificar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-secondary btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="{{ filtros }}" aria-controls="collapseTwo">
+                        Filtros
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

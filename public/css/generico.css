@@ -18,12 +18,18 @@ body {
   min-height: 100vh;
 }
 
-div > .btn {
-  border: 0px;
+.btn {
+  border: 0px !important;
 }
 
 footer {
   background-color: var(--fondoSecundario);
+}
+
+hr {
+  background-color: var(--colorLetter1);
+  height: 2px;
+  border-radius: 5px;
 }
 
 @media (max-width: 1000px) {

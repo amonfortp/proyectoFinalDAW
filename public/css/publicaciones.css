@@ -1,14 +1,6 @@
 .card {
   background-color: #ffffff00 !important;
-}
-
-.card {
   border: none !important;
-}
-
-div > .card-body {
-  background-color: var(--fondoSecundario);
-  color: var(--colorLetter1);
 }
 
 div > .card-body {

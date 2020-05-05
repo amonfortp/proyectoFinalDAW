@@ -1,0 +1,53 @@
+.card {
+  background-color: var(--fondoSecundario) !important;
+  border: none !important;
+}
+
+form {
+  background-color: #0000006c;
+  color: var(--colorLetter1);
+}
+
+.form-row {
+  width: 80%;
+}
+
+h5 > .btn {
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
+}
+
+h5 > .btn:hover {
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
+}
+
+div > .btn {
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
+}
+
+div > .btn:hover {
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
+}
+
+div > .btn-ajustado {
+  width: 49%;
+}
+
+@media (max-width: 1000px) {
+  h5 {
+    font-size: 200% !important;
+  }
+
+  div > .btn {
+    margin-top: 10px;
+    font-size: 150% !important;
+    width: 100%;
+  }
+}
