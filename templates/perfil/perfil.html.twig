@@ -7,7 +7,7 @@
 <div id="body">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-7 col card-perfil py-2 px-0 my-4 text-white">
+            <div class="col-lg-7 col-12 card-perfil py-2 px-0 my-4 text-white">
                 <img src="{{ asset(usuario.imagenPerfil) }}" class="img-perfil rounded float-left px-3">
                 <div class="row">
                     <div class="col p-0 mr-4">
@@ -32,8 +32,8 @@
                 </div>
             </div>
             {% if usuario.id == app.user.id %}
-            <div class="col-lg-7 col p-0">
-                <a href="{{ path('ajustes' , {id:1})}}" class="btn btn-primary btn-ajustado">Modificar perfil</a>
+            <div class="col-lg-7 col-12 p-0">
+                <a href="{{ path('ajustes' , {datos:"1:0"})}}" class="btn btn-primary btn-ajustado">Modificar perfil</a>
                 <a href="#" class="btn btn-primary btn-ajustado">Crear publicacion</a>
             </div>
             {% endif %}

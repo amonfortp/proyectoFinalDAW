@@ -58,13 +58,13 @@ class RegisterController extends AbstractController
         $mensaje = null;
 
         if ($error == 1) {
-            $mensaje = "El nombre debe tener entre 6 y 25 caracteres";
+            $mensaje = "El nombre debe tener entre 3 y 25 caracteres";
         } else if ($error == 2) {
             $mensaje = "El formato de correo electrónico (email) es erroneo";
         } else if ($error == 3) {
             $mensaje = "Este correo ya esta en uso";
         } else if ($error == 4) {
-            $mensaje = "La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
+            $mensaje = "La contraseña debe tener al menos entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
             Puede tener otros símbolos.";
         } else if ($error == 5) {
             $mensaje = "La contraseña y la confirmación deben ser iguales";
@@ -87,8 +87,7 @@ class RegisterController extends AbstractController
         $checkBox = $request->request->get("condiciones");
         $repository = $this->getDoctrine()->getRepository(User::class);
 
-
-        if (strlen($nombre) > 25 || strlen($nombre) < 6) {
+        if (strlen(str_replace(' ', '', $nombre)) > 25 || strlen(str_replace(' ', '', $nombre)) < 3) {
             $error = 1;
         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 2;
