@@ -33,6 +33,15 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ publicacion.titulo }}</h5>
+                        <p class="card-text">
+                            {{ publicacion.tipo }}
+                            {% if publicacion.etiqueta is not null %}
+                                {{ "  /  " }}
+                            {% endif %}
+                            {% for etiquetas in publicacion.etiqueta %}
+                                <span class="etiqueta">{{ etiquetas.etiqueta }}</span>
+                            {% endfor %}
+                        </p>
                         <p class="card-text">{{ publicacion.descripcion }}</p>
                         {% if publicacion.usuario.id == app.user.id %}
                             <a href="#" class="btn btn-primary btn-ajustado">Modificar</a>

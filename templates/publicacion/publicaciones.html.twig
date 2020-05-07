@@ -17,11 +17,9 @@
                                     <p class="card-text">
                                         {{ publicacion.tipo }}
                                         {% if publicacion.etiqueta is not null %}
-                                        {{ "  /  " }}
+                                            {{ "  /  " }}
                                         {% endif %}
-                                        {% for etiquetas in publicacion.etiqueta %}
-                                            <span class="etiqueta">{{ etiquetas.etiqueta }}</span>
-                                        {% endfor %}
+                                        <span class="etiqueta">{{ publicacion.etiqueta[0].etiqueta }}</span>
                                     </p>
                                         
                                     <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary btn-ajustado">Ver perfil</a>

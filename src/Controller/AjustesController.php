@@ -44,7 +44,6 @@ class AjustesController extends AbstractController
     public function modificarPerfil(Request $request)
     {
         $validar = $this->validar($request);
-        $filesystem = new Filesystem();
 
         if ($validar == 0) {
             $this->modificar($request);
@@ -66,10 +65,6 @@ class AjustesController extends AbstractController
 
         if ($error == 1) {
             $mensaje = "El nombre debe tener entre 3 y 25 caracteres";
-        } else if ($error == 2) {
-            $mensaje = "El formato de correo electrónico (email) es erroneo";
-        } else if ($error == 3) {
-            $mensaje = "Este correo ya esta en uso";
         } else if ($error == 4) {
             $mensaje = "La contraseña debe tener almenos entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
             Puede tener otros símbolos.";
@@ -78,7 +73,7 @@ class AjustesController extends AbstractController
         } else if ($error == 6) {
             $mensaje = "Tu contraseña actual es incorrecta o esta en blanco";
         } else if ($error == 7) {
-            $mensaje = "Solo se permiten imagenes, como jpg o png";
+            $mensaje = "Se permiten archivos .jpg, .png. y de 200 kb como máximo";
         }
 
         return $mensaje;
@@ -97,38 +92,32 @@ class AjustesController extends AbstractController
         $passActual = $request->request->get("contrasenaActual");
         $pass = $request->request->get("contrasena");
         $confPass = $request->request->get("confContrasena");
-        $file = $request->request->get("imgPerfil");
+        $file = $_FILES["imgPerfil"];
         $repository = $this->getDoctrine()->getRepository(User::class);
 
 
         if (!$this->passwordEncoder->isPasswordValid($this->getUser(), $passActual)) {
             $error = 6;
-        } elseif (strlen(str_replace(' ', '', $nombre)) > 25 || strlen(str_replace(' ', '', $nombre)) < 3) {
+        } elseif ((strlen(str_replace(' ', '', $nombre)) > 25 || strlen(str_replace(' ', '', $nombre)) < 3) && strlen(str_replace(' ', '', $nombre)) > 0) {
             $error = 1;
-        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = 2;
-        } else if ($repository->findOneBy(["email" => $email]) && $repository->findOneBy(["email" => $email]) != $this->getUser()) {
-            $error = 3;
-        } else if (!$this->validarPassword($pass)) {
+        } else if (!$this->validarPassword($pass) && str_replace(' ', '', $pass) != "") {
             $error = 4;
         } else if (strcmp($pass, $confPass) != 0) {
             $error = 5;
-        } else  if ($file && !exif_imagetype($file)) {
-            $error = 7;
+        } else if ($file['size'] > 0) {
+            if (!((strpos($file['type'], "jpeg") || strpos($file['type'], "jpg") || strpos($file['type'], "png")) && ($file['size'] < 2000000))) {
+                $error = 7;
+            }
         }
-
         return $error;
     }
 
     private function modificar(Request $request)
     {
+        $filesystem = new Filesystem();
         $entityManager = $this->getDoctrine()->getManager();
-
+        $file = $_FILES["imgPerfil"];
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $this->getUser()->getEmail()]);
-
-        if (str_replace(' ', '', $request->request->get("email")) != "") {
-            $user->setEmail($request->request->get("email"));
-        }
 
         if (str_replace(' ', '', $request->request->get("nombre")) != "") {
             $user->setNickName($request->request->get("nombre"));
@@ -141,7 +130,11 @@ class AjustesController extends AbstractController
         if ($request->request->get("provincias") != 0) {
             $repository = $this->getDoctrine()->getRepository(Provincias::class);
             $user->setProvincia($repository->findOneBy(["id" => $request->request->get("provincias")]));
+        } else {
+            $user->setProvincia(null);
         }
+
+        move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/img/" . $user->getEmail() . "/perfil/fotoPerfil.jpg");
 
         return $entityManager->flush();
     }

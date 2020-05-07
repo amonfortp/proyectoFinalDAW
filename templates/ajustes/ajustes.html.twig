@@ -29,10 +29,6 @@
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de Usuario" value="{{app.user.nickName}}">
                             </div>
                             <div class="col-12 col-lg-6 mb-3 text-center">
-                                <label for="email">Cuenta de Email</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Cuenta de Email" value="{{app.user.email}}">
-                            </div>
-                            <div class="col-12 col-lg-6 mb-3 text-center">
                                 <label for="contrasena">Contraseña</label>
                                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
                             </div>
@@ -40,10 +36,6 @@
                                 <label for="confContrasena">Confirmación de la Contraseña</label>
                                 <input type="password" class="form-control" id="confContrasena" name="confContrasena" value=""
                                     placeholder="Confirmar contraseña">
-                            </div>
-                            <div class="col-12 col-lg-6 mb-3 text-center">
-                                <label for="imgPerfil">Escoge tu foto de perfil</label>
-                                <input type="file" class="form-control-file" id="imgPerfil" name="imgPerfil" accept="image/png, image/jpeg">
                             </div>
                             <div class="col-12 col-lg-6 mb-3 text-center">
                             <label for="provincias">Escoge una provincia</label>
@@ -64,6 +56,10 @@
                                         {% endfor %}
                                     {% endif %}
                                 </select>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 text-center">
+                                <label for="imgPerfil">Escoge tu foto de perfil</label>
+                                <input type="file" class="form-control-file" id="imgPerfil" name="imgPerfil" accept="image/png, image/jpeg, image/jpg">
                             </div>
                             {% if error %}
                                 <div class="col-12">
@@ -96,4 +92,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('.collapse').collapse();
+    </script>
 {% endblock %}
