@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Publicacion;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -45,6 +46,27 @@ class PublicacionController extends AbstractController
                 'publicacion' => $publicacion
             ]);
         }
+    }
+
+    /**
+     * @Route("/formPublicacion", name="formPublicacion")
+     */
+    public function indexFormPublicaciones()
+    {
+        $error = null;
+
+        return $this->render('publicacion/formPublicacion.html.twig', [
+            'controller_name' => 'PublicacionController',
+            'error' => $error
+        ]);
+    }
+
+    /**
+     * @Route("/formPublicacionRes", name="formPublicacionRes", methods={"POST"})
+     */
+    public function indexFormPublicacionesRes(Request $request)
+    {
+        return $this->redirectToRoute('perfil', ['id' => $this->getUser()->getId()]);
     }
 
     private function obtenerPublicaciones()

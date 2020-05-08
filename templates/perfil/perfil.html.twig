@@ -34,7 +34,7 @@
             {% if usuario.id == app.user.id %}
             <div class="col-lg-7 col-12 p-0">
                 <a href="{{ path('ajustes' , {datos:"1:0"})}}" class="btn btn-primary btn-ajustado">Modificar perfil</a>
-                <a href="#" class="btn btn-primary btn-ajustado">Crear publicacion</a>
+                <a href="{{ path('formPublicacion')}}" class="btn btn-primary btn-ajustado">Crear publicacion</a>
             </div>
             {% endif %}
         </div>

@@ -50,6 +50,12 @@ span.etiqueta {
   text-decoration: underline #30cfd0;
 }
 
+form {
+  background-color: var(--fondoSecundario);
+  border-radius: 10px;
+  color: var(--colorLetter1);
+}
+
 @media (max-width: 1000px) {
   h5 {
     font-size: 200% !important;

@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -45,11 +44,12 @@ class AjustesController extends AbstractController
     {
         $validar = $this->validar($request);
 
-        if ($validar == 0) {
+        if ($validar != 0) {
+            return $this->redirectToRoute('ajustes', ['errorNum' => $validar]);
+        } else {
             $this->modificar($request);
+            return $this->redirectToRoute('perfil', ['id' => $this->getUser()->getId()]);
         }
-
-        return $this->redirectToRoute('ajustes', ['errorNum' => $validar]);
     }
 
     private function obtenerProvincias()
@@ -88,12 +88,10 @@ class AjustesController extends AbstractController
     {
         $error = 0;
         $nombre = $request->request->get("nombre");
-        $email = $request->request->get("email");
         $passActual = $request->request->get("contrasenaActual");
         $pass = $request->request->get("contrasena");
         $confPass = $request->request->get("confContrasena");
         $file = $_FILES["imgPerfil"];
-        $repository = $this->getDoctrine()->getRepository(User::class);
 
 
         if (!$this->passwordEncoder->isPasswordValid($this->getUser(), $passActual)) {
@@ -114,7 +112,6 @@ class AjustesController extends AbstractController
 
     private function modificar(Request $request)
     {
-        $filesystem = new Filesystem();
         $entityManager = $this->getDoctrine()->getManager();
         $file = $_FILES["imgPerfil"];
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $this->getUser()->getEmail()]);
@@ -134,7 +131,11 @@ class AjustesController extends AbstractController
             $user->setProvincia(null);
         }
 
-        move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/img/" . $user->getEmail() . "/perfil/fotoPerfil.jpg");
+        if ($file['size'] > 0) {
+            $ruta = "img/" . $user->getEmail() . "/perfil/fotoPerfil.jpg";
+            move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+            $user->setImagenPerfil($ruta);
+        }
 
         return $entityManager->flush();
     }

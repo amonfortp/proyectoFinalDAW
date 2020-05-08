@@ -24,21 +24,12 @@
                                     required>
                                 <hr>
                             </div>
-                            <div class="col-12 col-lg-6 mb-3 text-center">
+                            <div class="col-12 col-lg-6  mb-3 text-center">
                                 <label for="nombre">Nombre de usuario</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de Usuario" value="{{app.user.nickName}}">
                             </div>
                             <div class="col-12 col-lg-6 mb-3 text-center">
-                                <label for="contrasena">Contraseña</label>
-                                <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
-                            </div>
-                            <div class="col-12 col-lg-6 mb-3 text-center">
-                                <label for="confContrasena">Confirmación de la Contraseña</label>
-                                <input type="password" class="form-control" id="confContrasena" name="confContrasena" value=""
-                                    placeholder="Confirmar contraseña">
-                            </div>
-                            <div class="col-12 col-lg-6 mb-3 text-center">
-                            <label for="provincias">Escoge una provincia</label>
+                                <label for="provincias">Escoge una provincia</label>
                                 <select class="form-control" name="provincias" id="provincias">
                                     {% if app.user.provincia is null %}
                                         <option value="0" selected>Sin especificar</option>
@@ -58,8 +49,17 @@
                                 </select>
                             </div>
                             <div class="col-12 col-lg-6 mb-3 text-center">
-                                <label for="imgPerfil">Escoge tu foto de perfil</label>
-                                <input type="file" class="form-control-file" id="imgPerfil" name="imgPerfil" accept="image/png, image/jpeg, image/jpg">
+                                <label for="contrasena">Contraseña</label>
+                                <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 text-center">
+                                <label for="confContrasena">Confirmación de la Contraseña</label>
+                                <input type="password" class="form-control" id="confContrasena" name="confContrasena" value=""
+                                    placeholder="Confirmar contraseña">
+                            </div>
+                            <div class="col-12 my-3 custom-file">
+                                <input type="file" class="custom-file-input" id="imgPerfil" name="imgPerfil" accept="image/png, image/jpeg, image/jpg" lang="es">
+                                <label class="custom-file-label" for="imgPerfil">Escoge tu foto de perfil</label>
                             </div>
                             {% if error %}
                                 <div class="col-12">
@@ -84,9 +84,7 @@
                     </h5>
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
+                    
                 </div>
             </div>
         </div>

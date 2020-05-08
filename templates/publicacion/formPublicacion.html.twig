@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('css/publicaciones.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+<div id="body">
+    <div class="container">
+        <form id="formPerfil" action="{{ path('modificarPerfil') }}" method="post" enctype="multipart/form-data">
+            <div class="form-row mt-5 p-4 mx-auto">
+                <div class="col-12 mb-3 text-center">
+                    <h3>Creando una publicación<h3>
+                </div>
+                <div class="col-12 col-lg-6 mb-3 text-center">
+                    <label for="titulo">Titulo de la publicación</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo" value="">
+                </div>
+                <div class="col-12 col-lg-6 mb-3 text-center">
+                <label for="provincias">Escoge el tipo de publicación</label>
+                    <select class="form-control" name="tipo" id="tipo">
+                        <option value="Producto" selected>Producto</option>
+                        <option value="Servicio">Servicio</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <label for="descripcion">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" placeholder="255 caracteres"></textarea>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <label for="etiquetas">Añade etiquetas</label>
+                    <input type="text" class="form-control" id="etiquetas" name="etiquetas" value="" placeholder="Etiqueta">
+                    <button class="btn btn-block" type="button">Añadir etiqueta</button>
+                    <p id="verEtiquetas">
+                    
+                    <p>
+                </div>
+                <div class="col-12 my-3 custom-file">
+                    <input type="file" class="custom-file-input" id="imgPubli" name="imgPubli" accept="image/png, image/jpeg, image/jpg" lang="es">
+                    <label class="custom-file-label" for="imgPubli">Escoge las fotos de tu publicación</label>
+                </div>
+                {% if error %}
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="col-12">
+                <hr>
+                    <button class="btn btn-block" type="submit">Crear publicación</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+    <script src="{{ asset("js/formPubli.js") }}"></script>
+{% endblock %}
