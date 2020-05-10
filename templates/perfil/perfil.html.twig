@@ -15,10 +15,9 @@
                             {{ usuario.nickName }}
                         </p>
                         <p class="text-perfil">
-                            <span class="destacar">Correo - </span>{{ usuario.email }}
+                            {{ usuario.email }}
                         </p>
                         <p class="text-perfil">
-                            <span class="destacar">Provincia - </span>
                             {% if usuario.provincia is null %}
                                 Sin especificar
                             {% else %}

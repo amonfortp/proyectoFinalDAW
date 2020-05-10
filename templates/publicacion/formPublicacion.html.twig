@@ -5,17 +5,17 @@
 {% block body %}
 <div id="body">
     <div class="container">
-        <form id="formPerfil" action="{{ path('modificarPerfil') }}" method="post" enctype="multipart/form-data">
+        <form id="formPerfil" action="{{ path('formPublicacionRes') }}" method="post" enctype="multipart/form-data">
             <div class="form-row mt-5 p-4 mx-auto">
                 <div class="col-12 mb-3 text-center">
                     <h3>Creando una publicación<h3>
                 </div>
                 <div class="col-12 col-lg-6 mb-3 text-center">
-                    <label for="titulo">Titulo de la publicación</label>
+                    <label for="titulo">Titulo de la publicación <span class="red">*</span></label>
                     <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo" value="">
                 </div>
                 <div class="col-12 col-lg-6 mb-3 text-center">
-                <label for="provincias">Escoge el tipo de publicación</label>
+                <label for="tipo">Escoge el tipo de publicación</label>
                     <select class="form-control" name="tipo" id="tipo">
                         <option value="Producto" selected>Producto</option>
                         <option value="Servicio">Servicio</option>
@@ -26,7 +26,7 @@
                     <textarea class="form-control" id="descripcion" name="descripcion" placeholder="255 caracteres"></textarea>
                 </div>
                 <div class="col-12 mb-3 text-center">
-                    <label for="etiquetas">Añade etiquetas</label>
+                    <label for="etiquetas">Añade etiquetas <span class="red">*</span></label>
                     <input type="text" class="form-control" id="etiquetas" name="etiquetas" value="" placeholder="Etiqueta">
                     <button id="addEtiqueta" class="btn btn-block" type="button">Añadir etiqueta</button>
                     <p id="verEtiquetas">
@@ -34,10 +34,11 @@
                     <p>
                     <input type="hidden" id="allEtiquetas" name="allEtiquetas" value="">
                 </div>
-                <div class="col-12 my-3 custom-file">
-                    <input type="file" class="custom-file-input" id="imgPubli" name="imgPubli" accept="image/png, image/jpeg, image/jpg">
-                    <label id="labelImg" class="custom-file-label" for="imgPubli">Escoge las fotos de tu publicación</label>
+                <div class="col-12" id="divImg">
+                    
                 </div>
+                <button id="addImagen" class="btn btn-block" type="button">Añadir imagen</button>
+                <input type="hidden" id="numImg" name="numImg" value="0">
                 {% if error %}
                     <div class="col-12">
                         <div class="alert alert-danger">

@@ -32,6 +32,10 @@ hr {
   border-radius: 5px;
 }
 
+span.red {
+  color: #ff0000 !important;
+}
+
 @media (max-width: 1000px) {
   .navbar-toggler {
     font-size: 200% !important;

@@ -35,10 +35,6 @@ div > .btn:hover {
   min-height: 100vh;
 }
 
-label > span {
-  color: #ff0000 !important;
-}
-
 select {
   height: 52px !important;
 }

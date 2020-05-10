@@ -49,12 +49,11 @@ class PublicacionController extends AbstractController
     }
 
     /**
-     * @Route("/formPublicacion", name="formPublicacion")
+     * @Route("/formPublicacion/{errorNum}", name="formPublicacion")
      */
-    public function indexFormPublicaciones()
+    public function indexFormPublicaciones(int $errorNum = 0)
     {
-        $error = null;
-
+        $error = $this->mensajeErrorCreacion($errorNum);
         return $this->render('publicacion/formPublicacion.html.twig', [
             'controller_name' => 'PublicacionController',
             'error' => $error
@@ -66,7 +65,13 @@ class PublicacionController extends AbstractController
      */
     public function indexFormPublicacionesRes(Request $request)
     {
-        return $this->redirectToRoute('perfil', ['id' => $this->getUser()->getId()]);
+        $validar = $this->validarCreacion($request);
+
+        if ($validar != 0) {
+            return $this->redirectToRoute('formPublicacion', ['$errorNum' => $validar]);
+        } else {
+            return $this->redirectToRoute('perfil', ['id' => $this->getUser()->getId()]);
+        }
     }
 
     private function obtenerPublicaciones()
@@ -83,5 +88,49 @@ class PublicacionController extends AbstractController
         $publicacion = $repository->findOneBy(['id' => $id]);
 
         return $publicacion;
+    }
+
+    private function mensajeErrorCreacion(int $error)
+    {
+        $mensaje = null;
+
+        if ($error == 1) {
+            $mensaje = "El nombre debe tener entre 3 y 25 caracteres";
+        } else if ($error == 2) {
+            $mensaje = "La contraseña debe tener almenos entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
+            Puede tener otros símbolos.";
+        } else if ($error == 3) {
+            $mensaje = "La contraseña y la confirmación deben ser iguales";
+        } else if ($error == 4) {
+            $mensaje = "Tu contraseña actual es incorrecta o esta en blanco";
+        }
+
+        return $mensaje;
+    }
+
+    private function validarCreacion(Request $request): int
+    {
+        $error = 0;
+        $titulo = $request->request->get("titulo");
+        $desc = $request->request->get("descripcion");
+        $etiquetas = $request->request->get("allEtiquetas");
+        $etiqueta = explode("/", $etiquetas);
+        $files = $_FILES["imgPubli"];
+
+
+        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen(str_replace(' ', '', $titulo)) > 25) {
+            $error = 1;
+        } else if (strlen(str_replace(' ', '', $desc)) > 255) {
+            $error = 2;
+        } else if (str_replace(' ', '', $etiquetas) == "") {
+            $error = 3;
+        } else if ($files['size'] == 0) {
+            $error = 4;
+        }
+        return $error;
+    }
+
+    private function crearPublicacion()
+    {
     }
 }
