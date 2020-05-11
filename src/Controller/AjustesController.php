@@ -96,7 +96,7 @@ class AjustesController extends AbstractController
 
         if (!$this->passwordEncoder->isPasswordValid($this->getUser(), $passActual)) {
             $error = 6;
-        } elseif ((strlen(str_replace(' ', '', $nombre)) > 25 || strlen(str_replace(' ', '', $nombre)) < 3) && strlen(str_replace(' ', '', $nombre)) > 0) {
+        } elseif ((strlen(str_replace(' ', '', $nombre)) > 25 || strlen($nombre) < 3) && strlen(str_replace(' ', '', $nombre)) > 0) {
             $error = 1;
         } else if (!$this->validarPassword($pass) && str_replace(' ', '', $pass) != "") {
             $error = 4;

@@ -1,5 +1,6 @@
-var cuentaEtiquetas = 0;
+var cuentaEtiquetas = [];
 var cuentaImagenes = 0;
+var maxCaracteres = 255;
 
 document.getElementById("addEtiqueta").onclick = function () {
   var pEtiqueta = document.getElementById("verEtiquetas");
@@ -12,17 +13,15 @@ document.getElementById("addEtiqueta").onclick = function () {
   if (etiqueta.replace(/ /g, "").length == 0 || etiqueta.length > 25) {
     alert("No se permiten etiquetas vacias o mayores de 25 caracteres");
   } else {
-    span = document.createElement("span");
+    var span = document.createElement("span");
 
-    if (aux == "") {
+    if (cuentaEtiquetas.length == 0) {
       aux = etiqueta;
-      let span = document.createElement("span");
       pEtiqueta.appendChild(span);
       span.innerHTML = etiqueta;
       span.classList.add("etiqueta");
     } else {
       aux += "/" + etiqueta;
-      let span = document.createElement("span");
       pEtiqueta.appendChild(span);
       span.innerHTML = " / ";
       span = document.createElement("span");
@@ -31,15 +30,45 @@ document.getElementById("addEtiqueta").onclick = function () {
       span.classList.add("etiqueta");
     }
 
-    cuentaEtiquetas++;
-
     allEtiquetas.value = aux;
     inputEtiqueta.value = "";
 
-    if (cuentaEtiquetas == 5) {
+    cuentaEtiquetas = allEtiquetas.value.split("/");
+
+    span.id = cuentaEtiquetas.length - 1;
+
+    if (cuentaEtiquetas.length == 5) {
       document.getElementById("addEtiqueta").disabled = true;
     }
+
+    span.onclick = function () {
+      cuentaEtiquetas.splice(this.id, 1);
+
+      if (this.nextSibling) {
+        this.nextSibling.remove();
+      } else if (this.previousSibling) {
+        this.previousSibling.remove();
+      }
+      this.remove();
+
+      let x = 0;
+
+      for (let i = 0; i < pEtiqueta.childNodes.length; i++) {
+        if (pEtiqueta.childNodes[i].innerHTML == cuentaEtiquetas[x]) {
+          pEtiqueta.childNodes[i].id = x;
+          x++;
+        }
+      }
+
+      document.getElementById("addEtiqueta").disabled = false;
+    };
   }
+};
+
+document.getElementById("descripcion").onkeyup = function () {
+  console.log("accede");
+  var text = document.getElementById("descripcion").value;
+  document.getElementById("maxCaract").innerHTML = maxCaracteres - text.length;
 };
 
 document.getElementById("addImagen").onclick = function () {

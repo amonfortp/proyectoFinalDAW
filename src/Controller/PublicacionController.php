@@ -54,6 +54,7 @@ class PublicacionController extends AbstractController
     public function indexFormPublicaciones(int $errorNum = 0)
     {
         $error = $this->mensajeErrorCreacion($errorNum);
+
         return $this->render('publicacion/formPublicacion.html.twig', [
             'controller_name' => 'PublicacionController',
             'error' => $error
@@ -68,7 +69,7 @@ class PublicacionController extends AbstractController
         $validar = $this->validarCreacion($request);
 
         if ($validar != 0) {
-            return $this->redirectToRoute('formPublicacion', ['$errorNum' => $validar]);
+            return $this->redirectToRoute('formPublicacion', ['errorNum' => $validar]);
         } else {
             return $this->redirectToRoute('perfil', ['id' => $this->getUser()->getId()]);
         }
@@ -95,14 +96,13 @@ class PublicacionController extends AbstractController
         $mensaje = null;
 
         if ($error == 1) {
-            $mensaje = "El nombre debe tener entre 3 y 25 caracteres";
+            $mensaje = "El el titulo debe tener entre 3 y 25 caracteres";
         } else if ($error == 2) {
-            $mensaje = "La contraseña debe tener almenos entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
-            Puede tener otros símbolos.";
+            $mensaje = "La descripción no puede superar los 255 caracteres";
         } else if ($error == 3) {
-            $mensaje = "La contraseña y la confirmación deben ser iguales";
+            $mensaje = "Como minimo debes tener una etiqueta";
         } else if ($error == 4) {
-            $mensaje = "Tu contraseña actual es incorrecta o esta en blanco";
+            $mensaje = "Como minimo debes subir una imagen";
         }
 
         return $mensaje;
@@ -115,17 +115,26 @@ class PublicacionController extends AbstractController
         $desc = $request->request->get("descripcion");
         $etiquetas = $request->request->get("allEtiquetas");
         $etiqueta = explode("/", $etiquetas);
-        $files = $_FILES["imgPubli"];
+        $files = $request->request->get("numImg");
 
 
-        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen(str_replace(' ', '', $titulo)) > 25) {
+        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen($titulo) > 25) {
             $error = 1;
         } else if (strlen(str_replace(' ', '', $desc)) > 255) {
             $error = 2;
         } else if (str_replace(' ', '', $etiquetas) == "") {
             $error = 3;
-        } else if ($files['size'] == 0) {
-            $error = 4;
+        } else {
+            if ($files == 0) {
+                $error = 4;
+            } else {
+                $error = 4;
+                for ($i = 1; $i <= $files; $i++) {
+                    if ($_FILES["imgPubli" . $i]["size"] != 0) {
+                        $error = 0;
+                    }
+                }
+            }
         }
         return $error;
     }
