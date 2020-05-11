@@ -11,7 +11,7 @@
                     {% if publicacion.usuario.id != app.user.id %}
                         <div class="col-lg-4 col-6 mt-5">
                             <div class="card mb-3">
-                                <img class="card-img-top principal" src="{{ asset(publicacion.imagenes['imagen1']) }}" alt="Card image cap">
+                                <img class="card-img-top principal" src="{{ asset(publicacion.imagenes[0]) }}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ publicacion.titulo }}</h5>
                                     <p class="card-text">

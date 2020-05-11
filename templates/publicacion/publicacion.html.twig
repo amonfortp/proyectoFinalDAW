@@ -11,7 +11,7 @@
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             {% for imagen in publicacion.imagenes %}
-                                {% if imagen == publicacion.imagenes['imagen1'] %}
+                                {% if imagen == publicacion.imagenes[0] %}
                                 <div class="carousel-item active">
                                     <img class="card-img-top principal d-block w-100" src="{{ asset(imagen) }}">
                                 </div>
@@ -44,8 +44,8 @@
                         </p>
                         <p class="card-text">{{ publicacion.descripcion }}</p>
                         {% if publicacion.usuario.id == app.user.id %}
-                            <a href="#" class="btn btn-primary btn-ajustado">Modificar</a>
-                            <a href="#" class="btn btn-primary btn-ajustado">Eliminar</a>
+                            <a href="{{ path("modifPublicacion",{datos:publicacion.id ~ "-0"}) }}" class="btn btn-primary btn-ajustado">Modificar</a>
+                            <a href="{{ path("eliminarPubli",{id:publicacion.id}) }}" class="btn btn-primary btn-ajustado">Eliminar</a>
                         {% else %}
                             <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary btn-lg btn-block">Me interesa</a>
                         {% endif %}

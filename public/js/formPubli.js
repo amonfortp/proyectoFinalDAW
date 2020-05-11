@@ -37,12 +37,18 @@ document.getElementById("addEtiqueta").onclick = function () {
 
     span.id = cuentaEtiquetas.length - 1;
 
-    if (cuentaEtiquetas.length == 5) {
+    if (cuentaEtiquetas.length >= 5) {
       document.getElementById("addEtiqueta").disabled = true;
     }
 
     span.onclick = function () {
-      cuentaEtiquetas.splice(this.id, 1);
+      for (let i = 0; i < cuentaEtiquetas.length; i++) {
+        if (this.innerHTML == cuentaEtiquetas[i]) {
+          cuentaEtiquetas.splice(i, 1);
+        }
+      }
+
+      allEtiquetas.value = cuentaEtiquetas.join("/");
 
       if (this.nextSibling) {
         this.nextSibling.remove();
@@ -60,13 +66,14 @@ document.getElementById("addEtiqueta").onclick = function () {
         }
       }
 
-      document.getElementById("addEtiqueta").disabled = false;
+      if (cuentaEtiquetas.length < 5) {
+        document.getElementById("addEtiqueta").disabled = false;
+      }
     };
   }
 };
 
 document.getElementById("descripcion").onkeyup = function () {
-  console.log("accede");
   var text = document.getElementById("descripcion").value;
   document.getElementById("maxCaract").innerHTML = maxCaracteres - text.length;
 };

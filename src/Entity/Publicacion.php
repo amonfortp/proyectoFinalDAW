@@ -63,6 +63,7 @@ class Publicacion
     {
         $this->fechaPublicacion = new \DateTime();
         $this->etiqueta = new ArrayCollection();
+        $this->activo = true;
     }
 
     public function getId(): ?int

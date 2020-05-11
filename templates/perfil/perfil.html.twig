@@ -40,32 +40,28 @@
         <div class="row d-flex">
             {% if publicaciones is defined %}
                 {% for publicacion in publicaciones %}
-                    {% if publicacion.usuario.id != app.user.id %}
-                        <div class="col-lg-4 col-6 mt-5">
-                            <div class="card mb-3">
-                                <img class="card-img-top principal" src="{{ asset(publicacion.imagenes['imagen1']) }}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ publicacion.titulo }}</h5>
-                                    <p class="card-text">
-                                        {{ publicacion.tipo }}
-                                        {% if publicacion.etiqueta is not null %}
-                                            {{ "  /  " }}
-                                        {% endif %}
-                                        <span class="etiqueta">{{ publicacion.etiqueta[0].etiqueta }}</span>
-                                    </p>
-                                        
-                                    <a href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="btn btn-primary btn-ajustado">Ver perfil</a>
-                                    <a href="{{ path('publicacion' , {id:publicacion.id})}}" class="btn btn-primary btn-ajustado">Ver publicación</a>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    <small>{{publicacion.fechaPublicacion | date ('d-m-y  H:i') }}
-                                    </small>
-                                    <img class="imgSmall img-circle" src="{{ asset(publicacion.usuario.imagenPerfil) }}">
-                                    <a class="correo" href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="card-link">{{ publicacion.usuario.email }}</a>
-                                </div>
+                    <div class="col-lg-4 col-6 mt-5">
+                        <div class="card mb-3">
+                            <img class="card-img-top principal" src="{{ asset(publicacion.imagenes[0]) }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ publicacion.titulo }}</h5>
+                                <p class="card-text">
+                                    {{ publicacion.tipo }}
+                                    {% if publicacion.etiqueta is not null %}
+                                        {{ "  /  " }}
+                                    {% endif %}
+                                    <span class="etiqueta">{{ publicacion.etiqueta[0].etiqueta }}</span>
+                                </p>
+                                <a href="{{ path('publicacion' , {id:publicacion.id})}}" class="btn btn-primary btn-block">Ver publicación</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <small>{{publicacion.fechaPublicacion | date ('d-m-y  H:i') }}
+                                </small>
+                                <img class="imgSmall img-circle" src="{{ asset(publicacion.usuario.imagenPerfil) }}">
+                                <a class="correo" href="{{ path('perfil' , {id:publicacion.usuario.id})}}" class="card-link">{{ publicacion.usuario.email }}</a>
                             </div>
                         </div>
-                    {% endif %}
+                    </div>
                 {% endfor %}
             {% endif %}
         </div>

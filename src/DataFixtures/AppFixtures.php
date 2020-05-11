@@ -82,8 +82,8 @@ class AppFixtures extends Fixture
                 }
 
                 $publicacion->setImagenes([
-                    "imagen1" => 'img/' . $publicacion->getUsuario()->getEmail() . '/' . $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '1.jpg',
-                    "imagen2" =>  'img/' . $publicacion->getUsuario()->getEmail() . '/' . $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg',
+                    0 => 'img/' . $publicacion->getUsuario()->getEmail() . '/' . $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '1.jpg',
+                    1 =>  'img/' . $publicacion->getUsuario()->getEmail() . '/' . $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg',
                 ]);
 
                 $manager->persist($publicacion);

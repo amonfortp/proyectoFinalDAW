@@ -1,0 +1,3 @@
+function crearSpan() {}
+
+function crearImg() {}

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('css/publicaciones.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+<div id="body">
+    <div class="container">
+        <form id="formPerfil" action="{{ path('formPublicacionRes') }}" method="post" enctype="multipart/form-data">
+            <div class="form-row mt-5 p-4 mx-auto">
+                <div class="col-12 mb-3 text-center">
+                    <h3>Creando una publicación<h3>
+                </div>
+                <div class="col-12 col-lg-6 mb-3 text-center">
+                    <label for="titulo">Titulo de la publicación <span class="red">*</span></label>
+                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo" value="{{ publicacion.titulo }}">
+                </div>
+                <div class="col-12 col-lg-6 mb-3 text-center">
+                <label for="tipo">Escoge el tipo de publicación</label>
+                    <select class="form-control" name="tipo" id="tipo">
+                        {% if publicacion.tipo == "Producto" %}
+                            <option value="Producto" selected>Producto</option>
+                            <option value="Servicio">Servicio</option>
+                        {% else %}
+                            <option value="Producto">Producto</option>
+                            <option value="Servicio" selected>Servicio</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <label for="descripcion">Descripción (<span id="maxCaract">255</span>)</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" placeholder="255 caracteres">{{ publicacion.descripcion }}</textarea>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <label for="etiquetas">Añade etiquetas <span class="red">*</span></label>
+                    <input type="text" class="form-control" id="etiquetas" name="etiquetas" value="" placeholder="Etiqueta">
+                    <button id="addEtiqueta" class="btn btn-block" type="button">Añadir etiqueta</button>
+                    <p id="verEtiquetas">
+                    {% set id = 0 %}
+                    {% for etiqueta in publicacion.etiqueta %}
+                        <span class="etiqueta" id="{{ id }}">{{etiqueta.etiqueta}}</span>
+                        {% set id = id + 1 %}
+                        {% if id < publicacion.etiqueta|length %}
+                            <span> / </span>
+                        {% endif %}
+                    {% endfor %}
+                    <p>
+                    <input type="hidden" id="allEtiquetas" name="allEtiquetas" value="">
+                </div>
+                <div class="col-12" id="divImg">
+                    
+                </div>
+                <button id="addImagen" class="btn btn-block" type="button">Añadir imagen</button>
+                <input type="hidden" id="numImg" name="numImg" value="0">
+                {% if error %}
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="col-12">
+                <hr>
+                    <button class="btn btn-block" type="submit">Crear publicación</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+    <script src="{{ asset("js/formPubli.js") }}" type="text/javascript">
+        crearSpan();
+        crearImg();
+    </script>
+{% endblock %}
