@@ -41,6 +41,14 @@ img.imgSmall {
   height: 25px;
 }
 
+div.divImgExist {
+  height: 200px;
+}
+
+img.imgExist {
+  height: 100%;
+}
+
 a.correo {
   font-size: 16px;
 }
@@ -48,6 +56,8 @@ a.correo {
 span.etiqueta {
   color: #30cfd0;
   text-decoration: underline #30cfd0;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 form {

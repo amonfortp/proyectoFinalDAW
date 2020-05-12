@@ -43,7 +43,7 @@ document.getElementById("addEtiqueta").onclick = function () {
 
     span.onclick = function () {
       for (let i = 0; i < cuentaEtiquetas.length; i++) {
-        if (this.innerHTML == cuentaEtiquetas[i]) {
+        if (Number.parseInt(this.id) == i) {
           cuentaEtiquetas.splice(i, 1);
         }
       }

@@ -5,7 +5,7 @@
 {% block body %}
 <div id="body">
     <div class="container">
-        <form id="formPerfil" action="{{ path('formPublicacionRes') }}" method="post" enctype="multipart/form-data">
+        <form id="formPerfil" class="mb-4" action="{{ path('modifPublicacionRes') }}" method="post" enctype="multipart/form-data">
             <div class="form-row mt-5 p-4 mx-auto">
                 <div class="col-12 mb-3 text-center">
                     <h3>Creando una publicación<h3>
@@ -36,18 +36,35 @@
                     <button id="addEtiqueta" class="btn btn-block" type="button">Añadir etiqueta</button>
                     <p id="verEtiquetas">
                     {% set id = 0 %}
+                    {% set eti = "" %}
                     {% for etiqueta in publicacion.etiqueta %}
                         <span class="etiqueta" id="{{ id }}">{{etiqueta.etiqueta}}</span>
                         {% set id = id + 1 %}
+                        {% set eti = eti ~ etiqueta.etiqueta  %}
                         {% if id < publicacion.etiqueta|length %}
-                            <span> / </span>
+                            {% set eti = eti ~ "/" %}
                         {% endif %}
                     {% endfor %}
                     <p>
-                    <input type="hidden" id="allEtiquetas" name="allEtiquetas" value="">
+                    <input type="hidden" id="allEtiquetas" name="allEtiquetas" value="{{eti}}">
                 </div>
+                <div class="col-12">
+                    <p class="text-center">
+                        Selecciona la imagen que quieres eliminar
+                    </p>
+                </div>
+                {% set idImg = 0 %}
+                {% for imagen in publicacion.imagenes %}
+                    <div class="col-6 col-lg-4 divImgExist text-center">
+                        <img class="imgExist" src="{{ asset(imagen) }}" alt="img publi">
+                        <label>
+                            <input type="checkbox" name="{{ "delete/" ~ idImg }}" id="{{ "delete/" ~ idImg }}">
+                        </label>
+                        {% set idImg = idImg + 1 %}
+                    </div>
+                {% endfor %}
                 <div class="col-12" id="divImg">
-                    
+                    <hr>
                 </div>
                 <button id="addImagen" class="btn btn-block" type="button">Añadir imagen</button>
                 <input type="hidden" id="numImg" name="numImg" value="0">
@@ -60,7 +77,7 @@
                 {% endif %}
                 <div class="col-12">
                 <hr>
-                    <button class="btn btn-block" type="submit">Crear publicación</button>
+                    <button class="btn btn-block" type="submit">Modificar publicación</button>
                 </div>
             </div>
         </form>
@@ -68,8 +85,6 @@
 </div>
 {% endblock %}
 {% block javascript %}
-    <script src="{{ asset("js/formPubli.js") }}" type="text/javascript">
-        crearSpan();
-        crearImg();
+    <script src="{{ asset("js/modifPubli.js") }}" type="text/javascript">
     </script>
 {% endblock %}
