@@ -18,11 +18,9 @@ for (let i = 0; i < imgExist.length; i++) {
 document.getElementById("maxCaract").innerHTML =
   maxCaracteres - document.getElementById("descripcion").value.length;
 
-console.log(document.getElementById("verEtiquetas"));
 activarSpan();
 
 function activarSpan() {
-  var pEtiqueta = document.getElementById("verEtiquetas");
   var allEtiquetas = document.getElementById("allEtiquetas");
 
   cuentaEtiquetas = allEtiquetas.value.split("/");
@@ -34,6 +32,8 @@ function activarSpan() {
   }
 
   var span = document.getElementsByClassName("etiqueta");
+
+  console.log(allEtiquetas.value);
 
   for (let i = 0; i < span.length; i++) {
     span[i].onclick = function () {
@@ -53,7 +53,6 @@ function activarSpan() {
       for (let i = 0; i < cuentaEtiquetas.length; i++) {
         span[i].id = i;
       }
-      console.log(span);
 
       if (cuentaEtiquetas.length < 5) {
         document.getElementById("addEtiqueta").disabled = false;
@@ -101,6 +100,8 @@ document.getElementById("addEtiqueta").onclick = function () {
     if (cuentaEtiquetas.length >= 5) {
       document.getElementById("addEtiqueta").disabled = true;
     }
+
+    console.log(allEtiquetas.value);
 
     span.onclick = function () {
       for (let i = 0; i < cuentaEtiquetas.length; i++) {
