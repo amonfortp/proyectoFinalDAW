@@ -5,7 +5,7 @@ var imgExist = document.getElementsByClassName("imgExist");
 
 for (let i = 0; i < imgExist.length; i++) {
   imgExist[i].onclick = function () {
-    let check = document.getElementById("delete/" + i);
+    let check = document.getElementById("delete" + i);
 
     if (!check.checked) {
       check.checked = true;
@@ -18,8 +18,8 @@ for (let i = 0; i < imgExist.length; i++) {
 document.getElementById("maxCaract").innerHTML =
   maxCaracteres - document.getElementById("descripcion").value.length;
 
+console.log(document.getElementById("verEtiquetas"));
 activarSpan();
-activarImg();
 
 function activarSpan() {
   var pEtiqueta = document.getElementById("verEtiquetas");
@@ -47,14 +47,13 @@ function activarSpan() {
 
       this.remove();
 
-      let x = 0;
-
-      for (let i = 0; i < pEtiqueta.childNodes.length; i++) {
-        if (pEtiqueta.childNodes[i].innerHTML == cuentaEtiquetas[x]) {
-          pEtiqueta.childNodes[i].id = x;
-          x++;
-        }
+      var span = document.getElementsByClassName("etiqueta");
+      console.log(span);
+      console.log(cuentaEtiquetas);
+      for (let i = 0; i < cuentaEtiquetas.length; i++) {
+        span[i].id = i;
       }
+      console.log(span);
 
       if (cuentaEtiquetas.length < 5) {
         document.getElementById("addEtiqueta").disabled = false;
@@ -62,8 +61,6 @@ function activarSpan() {
     };
   }
 }
-
-function activarImg() {}
 
 document.getElementById("addEtiqueta").onclick = function () {
   var pEtiqueta = document.getElementById("verEtiquetas");
@@ -73,8 +70,14 @@ document.getElementById("addEtiqueta").onclick = function () {
   let aux = allEtiquetas.value;
   let etiqueta = inputEtiqueta.value;
 
-  if (etiqueta.replace(/ /g, "").length == 0 || etiqueta.length > 25) {
-    alert("No se permiten etiquetas vacias o mayores de 25 caracteres");
+  if (
+    etiqueta.replace(/ /g, "").length == 0 ||
+    etiqueta.length > 25 ||
+    cuentaEtiquetas.length > 5
+  ) {
+    alert(
+      "No se permiten etiquetas vacias, más de 5 o mayores de 25 caracteres"
+    );
   } else {
     var span = document.createElement("span");
 
@@ -93,9 +96,6 @@ document.getElementById("addEtiqueta").onclick = function () {
 
     cuentaEtiquetas = allEtiquetas.value.split("/");
 
-    console.log(allEtiquetas.value);
-    console.log(cuentaEtiquetas);
-
     span.id = cuentaEtiquetas.length - 1;
 
     if (cuentaEtiquetas.length >= 5) {
@@ -104,7 +104,7 @@ document.getElementById("addEtiqueta").onclick = function () {
 
     span.onclick = function () {
       for (let i = 0; i < cuentaEtiquetas.length; i++) {
-        if (this.innerHTML == cuentaEtiquetas[i]) {
+        if (Number.parseInt(this.id) == i) {
           cuentaEtiquetas.splice(i, 1);
         }
       }
@@ -113,10 +113,9 @@ document.getElementById("addEtiqueta").onclick = function () {
 
       this.remove();
 
-      pEtiqueta = document.getElementById("verEtiquetas");
-      console.log(pEtiqueta);
+      var span = document.getElementsByClassName("etiqueta");
       for (let i = 0; i < cuentaEtiquetas.length; i++) {
-        pEtiqueta.childNodes[i].id = i;
+        span[i].id = i;
       }
 
       if (cuentaEtiquetas.length < 5) {
@@ -144,7 +143,7 @@ document.getElementById("addImagen").onclick = function () {
   auxLabel.innerHTML =
     "Escoge la foto " + cuentaImagenes + " de tu publicacion";
 
-  div = document.createElement("div");
+  var div = document.createElement("div");
   div.classList.add("col-12");
   div.classList.add("mb-2");
   div.classList.add("custom-file");

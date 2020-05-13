@@ -7,6 +7,7 @@
     <div class="container">
         <form id="formPerfil" class="mb-4" action="{{ path('modifPublicacionRes') }}" method="post" enctype="multipart/form-data">
             <div class="form-row mt-5 p-4 mx-auto">
+            <input type="hidden" id="idPubli" name="idPubli" value="{{publicacion.id}}">
                 <div class="col-12 mb-3 text-center">
                     <h3>Creando una publicación<h3>
                 </div>
@@ -58,7 +59,7 @@
                     <div class="col-6 col-lg-4 divImgExist text-center">
                         <img class="imgExist" src="{{ asset(imagen) }}" alt="img publi">
                         <label>
-                            <input type="checkbox" name="{{ "delete/" ~ idImg }}" id="{{ "delete/" ~ idImg }}">
+                            <input type="checkbox" name="{{ "delete" ~ idImg }}" id="{{ "delete" ~ idImg }}">
                         </label>
                         {% set idImg = idImg + 1 %}
                     </div>
@@ -67,7 +68,7 @@
                     <hr>
                 </div>
                 <button id="addImagen" class="btn btn-block" type="button">Añadir imagen</button>
-                <input type="hidden" id="numImg" name="numImg" value="0">
+                <input type="hidden" id="numImg" name="numImg" value="">
                 {% if error %}
                     <div class="col-12">
                         <div class="alert alert-danger">

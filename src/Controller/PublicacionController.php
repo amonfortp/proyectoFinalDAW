@@ -100,12 +100,11 @@ class PublicacionController extends AbstractController
      */
     public function modifPublicacionRes(Request $request)
     {
-        $validar = $this->validarCreacion($request);
-
+        $validar = $this->validarModificacion($request);
+        $datos = $request->request->get("idPubli") . "-" . $validar;
         if ($validar != 0) {
-            return $this->redirectToRoute('formPublicacion', ['errorNum' => $validar]);
+            return $this->redirectToRoute('modifPublicacion', ['datos' => $datos]);
         } else {
-            $this->crearPublicacion($request);
             return $this->redirectToRoute('perfil', ['id' => $this->getUser()->getId()]);
         }
     }
@@ -118,11 +117,33 @@ class PublicacionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository(Publicacion::class);
         $publicacion = $repository->findOneBy(['id' => $id]);
+        $etiquetas = $publicacion->getEtiqueta();
+
+        $this->deleteDir("/home/dwes/proyectoFinal/public/img/" . $publicacion->getUsuario()->getEmail() . "/" . explode("/", $publicacion->getImagenes()[0])[2]);
 
         $entityManager->remove($publicacion);
+        for ($i = 0; $i < count($etiquetas); $i++) {
+            $entityManager->remove($etiquetas[$i]);
+        }
         $entityManager->flush();
 
         return $this->redirectToRoute('perfil', ['id' => $this->getUser()->getId()]);
+    }
+
+    private static function deleteDir($dirPath)
+    {
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                self::deleteDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dirPath);
     }
 
     private function obtenerPublicaciones()
@@ -146,7 +167,7 @@ class PublicacionController extends AbstractController
         $mensaje = null;
 
         if ($error == 1) {
-            $mensaje = "El el titulo debe tener entre 3 y 50 caracteres";
+            $mensaje = "El titulo debe tener entre 3 y 50 caracteres";
         } else if ($error == 2) {
             $mensaje = "La descripción no puede superar los 255 caracteres";
         } else if ($error == 3) {
@@ -188,6 +209,45 @@ class PublicacionController extends AbstractController
         return $error;
     }
 
+    private function validarModificacion(Request $request): int
+    {
+        $error = 0;
+        $publicacion = $this->obtenerPublicacion($request->request->get("idPubli"));
+        $titulo = $request->request->get("titulo");
+        $desc = $request->request->get("descripcion");
+        $etiquetas = $request->request->get("allEtiquetas");
+        $files = $request->request->get("numImg");
+
+
+        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen($titulo) > 25) {
+            $error = 1;
+        } else if (strlen(str_replace(' ', '', $desc)) > 255) {
+            $error = 2;
+        } else if (str_replace(' ', '', $etiquetas) == "") {
+            $error = 3;
+        } else {
+            $aux = 0;
+            for ($i = 0; $i < count($publicacion->getImagenes()); $i++) {
+                if ($request->request->get("delete" . $i) == "on") {
+                    $aux++;
+                }
+            }
+            if ($aux == count($publicacion->getImagenes())) {
+                if ($files == 0) {
+                    $error = 4;
+                } else {
+                    $error = 4;
+                    for ($i = 1; $i <= $files; $i++) {
+                        if ($_FILES["imgPubli" . $i]["size"] != 0) {
+                            $error = 0;
+                        }
+                    }
+                }
+            }
+        }
+        return $error;
+    }
+
     private function crearPublicacion(Request $request)
     {
         $filesystem = new Filesystem();
@@ -208,17 +268,24 @@ class PublicacionController extends AbstractController
         }
 
         $publi->setTitulo($request->request->get("titulo"));
-        $publi->setDescripcion($request->request->get("descripcion"));
+        if (strlen(str_replace(' ', '', $request->request->get("descripcion"))) == 0) {
+            $publi->setDescripcion("Sin descripción");
+        } else {
+            $publi->setDescripcion($request->request->get("descripcion"));
+        }
+
         $publi->setUsuario($this->getUser());
         $publi->setTipo($request->request->get("tipo"));
 
         $carpeta = "img/" . $this->getUser()->getEmail() . "/" . str_replace(' ', '', $publi->getTitulo());
         $numPubli = 0;
+        $auxCarpeta = "";
         while ($filesystem->exists($carpeta)) {
             $numPubli++;
-            $carpeta = $carpeta . $numPubli;
+            $auxCarpeta = $carpeta . $numPubli;
         }
 
+        $carpeta = $auxCarpeta;
         $filesystem->mkdir($carpeta, 0777);
 
         for ($i = 1; $i <= $numFiles; $i++) {
@@ -232,6 +299,57 @@ class PublicacionController extends AbstractController
                 array_push($arrayImages, $ruta);
             }
         }
+
+        $publi->setImagenes($arrayImages);
+
+        $entityManager->persist($publi);
+        return $entityManager->flush();
+    }
+
+    private function modificarPublicacion(Request $request)
+    {
+        $filesystem = new Filesystem();
+        $arrayImages = [];
+        $numFiles = $request->request->get("numImg");
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $publi = $this->obtenerPublicacion($request->request->get("idPubli"));
+
+        $etiquetas = explode("/", $request->request->get("allEtiquetas"));
+
+
+        $carpeta = "img/" . $publi->getUsuario()->getEmail() . "/" . explode("/", $publi->getImagenes()[0])[2];
+
+        $aux = 1;
+        for ($x = 0; $x < count($publi->getImagenes()); $x++) {
+            if ($request->request->get("delete" . $x) == "on") {
+                for ($i = $aux; $i <= $numFiles; $i++) {
+                    if ($_FILES["imgPubli" . $i]["size"] != 0) {
+                        $file = $_FILES["imgPubli" . $i];
+
+                        $ruta = $publi->getImagenes()[$x];
+                        move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+
+                        $aux = $i + 1;
+                        $i = $numFiles;
+                    }
+                }
+            }
+        }
+
+        for ($i = $aux; $i <= $numFiles; $i++) {
+            if ($_FILES["imgPubli" . $i]["size"] != 0) {
+                $file = $_FILES["imgPubli" . $i];
+
+                $fichero = "/" . str_replace(' ', '', $publi->getTitulo()) . count($publi->getImagenes()) + 1 . ".jpg";
+                $ruta = $carpeta . $fichero;
+                move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+
+                array_push($arrayImages, $ruta);
+            }
+        }
+
+
 
         $publi->setImagenes($arrayImages);
 

@@ -10,24 +10,25 @@ document.getElementById("addEtiqueta").onclick = function () {
   let aux = allEtiquetas.value;
   let etiqueta = inputEtiqueta.value;
 
-  if (etiqueta.replace(/ /g, "").length == 0 || etiqueta.length > 25) {
-    alert("No se permiten etiquetas vacias o mayores de 25 caracteres");
+  if (
+    etiqueta.replace(/ /g, "").length == 0 ||
+    etiqueta.length > 25 ||
+    cuentaEtiquetas.length > 5
+  ) {
+    alert(
+      "No se permiten etiquetas vacias, más de 5 o mayores de 25 caracteres"
+    );
   } else {
     var span = document.createElement("span");
 
+    pEtiqueta.appendChild(span);
+    span.innerHTML = etiqueta;
+    span.classList.add("etiqueta");
+
     if (cuentaEtiquetas.length == 0) {
       aux = etiqueta;
-      pEtiqueta.appendChild(span);
-      span.innerHTML = etiqueta;
-      span.classList.add("etiqueta");
     } else {
       aux += "/" + etiqueta;
-      pEtiqueta.appendChild(span);
-      span.innerHTML = " / ";
-      span = document.createElement("span");
-      pEtiqueta.appendChild(span);
-      span.innerHTML = etiqueta;
-      span.classList.add("etiqueta");
     }
 
     allEtiquetas.value = aux;
@@ -50,20 +51,11 @@ document.getElementById("addEtiqueta").onclick = function () {
 
       allEtiquetas.value = cuentaEtiquetas.join("/");
 
-      if (this.nextSibling) {
-        this.nextSibling.remove();
-      } else if (this.previousSibling) {
-        this.previousSibling.remove();
-      }
       this.remove();
 
-      let x = 0;
-
-      for (let i = 0; i < pEtiqueta.childNodes.length; i++) {
-        if (pEtiqueta.childNodes[i].innerHTML == cuentaEtiquetas[x]) {
-          pEtiqueta.childNodes[i].id = x;
-          x++;
-        }
+      var span = document.getElementsByClassName("etiqueta");
+      for (let i = 0; i < cuentaEtiquetas.length; i++) {
+        span[i].id = i;
       }
 
       if (cuentaEtiquetas.length < 5) {
