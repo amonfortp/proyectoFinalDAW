@@ -70,12 +70,20 @@ class User implements UserInterface
      */
     private $reputacion;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Messages", mappedBy="usuario", orphanRemoval=true)
+     */
+    private $mensajes;
+
+
     public function __construct()
     {
         $this->imagenPerfil = "img/comun/circulo.png";
         $this->lastLogin = new \DateTime();
         $this->publicaciones = new ArrayCollection();
         $this->reputacion = 0;
+        $this->mensajes = new ArrayCollection();
+        $this->chats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,6 +263,37 @@ class User implements UserInterface
     public function setReputacion(int $reputacion): self
     {
         $this->reputacion = $reputacion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messages[]
+     */
+    public function getMensajes(): Collection
+    {
+        return $this->mensajes;
+    }
+
+    public function addMensaje(Messages $mensaje): self
+    {
+        if (!$this->mensajes->contains($mensaje)) {
+            $this->mensajes[] = $mensaje;
+            $mensaje->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMensaje(Messages $mensaje): self
+    {
+        if ($this->mensajes->contains($mensaje)) {
+            $this->mensajes->removeElement($mensaje);
+            // set the owning side to null (unless already changed)
+            if ($mensaje->getUsuario() === $this) {
+                $mensaje->setUsuario(null);
+            }
+        }
 
         return $this;
     }

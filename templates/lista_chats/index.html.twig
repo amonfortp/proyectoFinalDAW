@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div id="body">
+    <div class="container">
+        <div class="row d-flex">
+            {% if chats %}
+                {% for chat in chats %}
+                    {% if app.user.id != chat.usuario.id %}
+                        <div class="col-lg-3 col-6">
+                            <a class="btn btn-primary btn-lg btn-block" href="{{ path('chat', {id: chat.usuario.id ~ "_" ~ 0})}}">
+                                {{chat.usuario.nickName ~ " / " ~ chat.usuario.email}}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <h3>NO TIENES NINGÚN CHAT ACTIVO</h3>
+                    <p>Si quieres abrir un chat tienes que usar el boton "Me Interesa" de una publicación</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

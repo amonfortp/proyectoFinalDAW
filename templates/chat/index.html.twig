@@ -1,0 +1,104 @@
+{# templates/chat/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div id="body">
+    <div class="container">
+        <h1 id="title">{{ email }}</h1>
+        <div id="mercure-content-receiver">
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+              {% if mensaje.usuario.id != app.user.id %}
+                  <div class="message" align="right"> {{ mensaje.usuario.Email }}: 
+                  {{ mensaje.mensaje }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+              {% else %}
+                  <div class="message">{{ mensaje.usuario.Email }}: {{ mensaje.mensaje }} 
+                  {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+              {% endif %}
+            {% endfor %}
+        {% endif %}
+        </div>
+        <form id="mercure-message-form" action="{{ path('sendMessage') }}" method="post">
+            <label for="mercure-message-input">Mensaje:</label>
+            <input type="text" id="mercure-message-input" name="message"/>
+            <input type="text" id="usu1" name="usuario1id" value={{ app.user.id }} hidden/>
+            <input type="text" id="usu2" name="usuario2id" value={{ id }} hidden/>
+            <input type="submit" id="mercure-message-btn" value="Send"/>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+  <script type="text/javascript">
+
+    document.getElementById("mercure-message-input").focus();
+    window.scrollTo(0,document.body.scrollHeight);
+
+    function ordenarId(){
+      var id1 = document.getElementById("usu1").value;
+      var id2 = document.getElementById("usu2").value;
+
+      if(Number(id1) > Number(id2)){
+        return id2 + "" + id1;
+      } else {
+        return id1 + "" + id2;
+      }
+    }
+
+    const _receiver = document.getElementById('mercure-content-receiver');
+    const _messageInput = document.getElementById('mercure-message-input');
+    const _sendForm = document.getElementById('mercure-message-form');
+
+    const sendMessage = (message, user) => {
+      if (message.trim() === '') {
+        return;
+      }
+
+      var time = new Date();
+      var s;
+
+      if(time.getMinutes() < 10){
+        s = "0" + time.getMinutes();
+      } else {
+        s = time.getMinutes();
+      }
+
+      fetch(_sendForm.action, {
+        method: _sendForm.method,
+        body: 'message=' + message + '&usuario2id=' + document.getElementById("usu2").value + '&time='+time.getHours()+":"+s,
+        headers: new Headers({
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        })
+      }).then(() => {
+        _messageInput.value = '';
+      });
+    };
+
+    _sendForm.onsubmit = (evt) => {
+      sendMessage(_messageInput.value);
+
+      evt.preventDefault();
+      return false;
+    };
+
+    const url = new URL('{{ mercure_publish_url }}');
+    url.searchParams.append('topic', 'http://chat.monbarter/' + ordenarId());
+    const eventSource = new EventSource(url, { withCredentials: true });
+    eventSource.onmessage = (evt) => {
+      const data = JSON.parse(evt.data);
+      if (!data.message || !data.user) {
+        return;
+      }
+
+      if(data.user != userName){
+        _receiver.insertAdjacentHTML('beforeend', `
+        <div class="message" align="right">${data.user}: ${data.message} ${data.time} | Mercure</div>`);
+      } else {
+        _receiver.insertAdjacentHTML('beforeend', `
+        <div class="message">${data.user}: ${data.message} ${data.time} | Mercure</div>`);
+      }
+
+      document.getElementById("mercure-message-input").focus();
+      window.scrollTo(0,document.body.scrollHeight);
+    };
+  </script>
+{% endblock %}
