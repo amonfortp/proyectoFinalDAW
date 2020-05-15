@@ -3,21 +3,27 @@
 <div id="body">
     <div class="container">
         <div class="row d-flex">
-            {% if chats %}
-                {% for chat in chats %}
-                    {% if app.user.id != chat.usuario.id %}
-                        <div class="col-lg-3 col-6">
-                            <a class="btn btn-primary btn-lg btn-block" href="{{ path('chat', {id: chat.usuario.id ~ "_" ~ 0})}}">
-                                {{chat.usuario.nickName ~ " / " ~ chat.usuario.email}}
-                            </a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% else %}
+            {% if chats is empty %}
                 <div class="col-12">
                     <h3>NO TIENES NINGÚN CHAT ACTIVO</h3>
                     <p>Si quieres abrir un chat tienes que usar el boton "Me Interesa" de una publicación</p>
                 </div>
+            {% else %}
+                {% for chat in chats %}
+                    {% if chat.usuario1.id == app.user.id %}
+                        <div class="col-lg-3 col-6">
+                            <a class="btn btn-primary btn-lg btn-block" href="{{ path('chat', {id: chat.usuario2.id ~ "_0"})}}">
+                                {{chat.usuario2.nickName ~ " / " ~ chat.usuario2.email}}
+                            </a>
+                        </div>
+                    {% elseif chat.usuario2.id == app.user.id %}
+                        <div class="col-lg-3 col-6">
+                            <a class="btn btn-primary btn-lg btn-block" href="{{ path('chat', {id: chat.usuario1.id ~ "_0"})}}">
+                                {{chat.usuario1.nickName ~ " / " ~ chat.usuario1.email}}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         </div>
     </div>

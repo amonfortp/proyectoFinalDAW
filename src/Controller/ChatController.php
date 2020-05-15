@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Chat;
 use App\Entity\User;
 use App\Entity\Publicacion;
+use App\Entity\Messages;
 use App\Mercure\CookieGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +18,6 @@ use App\Service\ChatService;
  */
 final class ChatController extends AbstractController
 {
-    //Diferencia si el controlador esta iniciado o no
-    private $inicio = false;
-
     private $service;
 
     /**
@@ -33,6 +31,7 @@ final class ChatController extends AbstractController
     public function __invoke(CookieGenerator $cookieGenerator, String $id, ChatService $service): Response
     {
         $chat = null;
+        $publi = [];
         $this->service = $service;
         $respuesta = "";
         $mensajes = null;
@@ -49,32 +48,32 @@ final class ChatController extends AbstractController
                     "usu1" => $user->getId(),
                     "usu2" => (int) explode("_", $id)[0],
                     "topic" => 'http://chat.monbarter/' .  $this->service->ordenarId($user->getId(), (int) explode("_", $id)[0])
-
                 ]);
-            } else {
-                if (!$this->inicio) {
-                    $chat = $this->getDoctrine()->getRepository(Chat::class)->findOneBy([
-                        "Topic" => 'http://chat.monbarter/' .  $this->service->ordenarId($user->getId(), $id)
-                    ]);
-
-                    $mensajes = $chat->getMessages();
-
-                    $this->inicio = true;
-                }
             }
         }
 
 
-        if ($chat != null) {
-            $publicacion = $this->getDoctrine()->getRepository(Publicacion::class)->findOneBy(["id" => explode("_", $id)[1] != 0]);
+        $chat = $this->getDoctrine()->getRepository(Chat::class)->findOneBy([
+            "topic" => 'http://chat.monbarter/' .  $this->service->ordenarId($user->getId(), (int) explode("_", $id)[0])
+        ]);
 
-            $usu = $this->getDoctrine()->getRepository(User::class)->findOneBy(["id" => $id]);
+
+
+        if ($chat != null) {
+            $mensajes = $this->getDoctrine()->getRepository(Messages::class)->findBy(["chat" => $chat]);;
+            $publicacion = $this->getDoctrine()->getRepository(Publicacion::class)->findOneBy(["id" => explode("_", $id)[1]]);
+
+            if ($publicacion != null) {
+                $publi = ["id" => $publicacion->getId(), "titulo" => $publicacion->getTitulo()];
+            }
+
+            $usu = $this->getDoctrine()->getRepository(User::class)->findOneBy(["id" => (int) explode("_", $id)[0]]);
             if ($respuesta == "") {
                 $respuesta = $this->render('chat/index.html.twig', [
-                    "id" => $id,
+                    "id" => $usu->getId(),
                     "email" => $usu->getEmail(),
                     "mensajes" => $mensajes,
-                    "publicacion" => $publicacion
+                    "publi" => $publi
                 ]);
             }
 
@@ -82,11 +81,7 @@ final class ChatController extends AbstractController
 
             $response->headers->setCookie($cookieGenerator->generate());
         } else {
-            $response = $this->render('publicaciones/index.html.twig', [
-                "id" => $id,
-                "email" => $usu->getEmail(),
-                "mensajes" => $mensajes
-            ]);
+            $response = $this->redirectToRoute('publicaciones');
         }
 
         return $response;

@@ -29,12 +29,14 @@ final class MessageController extends AbstractController
         $this->service = $service;
         $mensaje = $request->request->get('message');
         $time = $request->request->get('time');
+        $numPubli = $request->request->get('numPubli');
         $topic = 'http://chat.monbarter/'  .  $this->service->ordenarId($this->getUser()->getId(), $request->request->get('usuario2id'));
 
         $update = new Update($topic, json_encode([
-            'user' => $this->getUser()->getEmail(),
+            'user' => $this->getUser()->getnickName(),
             'message' => $mensaje,
-            'time' => $time
+            'time' => $time,
+            'numPubli' => $numPubli
         ]));
         $bus->dispatch($update);
 
@@ -47,7 +49,7 @@ final class MessageController extends AbstractController
         $this->guardarMensaje($params);
 
         return $this->redirectToRoute('chat', [
-            'id' => $request->request->get('usu2Id'),
+            'id' => $request->request->get('usuario2id') . "_0",
         ]);
     }
 
@@ -57,7 +59,7 @@ final class MessageController extends AbstractController
 
         $mensaje->setMensajes($params["mensaje"]);
 
-        $mensaje->setChat($this->getDoctrine()->getRepository(Chat::class)->findOneBy(["Topic" => $params["topic"]]));
+        $mensaje->setChat($this->getDoctrine()->getRepository(Chat::class)->findOneBy(["topic" => $params["topic"]]));
         $mensaje->setTimeEnvio(new \DateTime());
 
         $mensaje->setUsuario($this->getDoctrine()->getRepository(User::class)->findOneBy(["id" => $params["id"]]));
@@ -66,11 +68,6 @@ final class MessageController extends AbstractController
 
         $entityManager->persist($mensaje);
 
-        try {
-            $entityManager->flush();
-            return "exito";
-        } catch (\Exception $e) {
-            return $e;
-        }
+        $entityManager->flush();
     }
 }

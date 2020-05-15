@@ -24,13 +24,13 @@ class Chat
     private $topic;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="chats")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $usuario1;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="chats")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $usuario2;

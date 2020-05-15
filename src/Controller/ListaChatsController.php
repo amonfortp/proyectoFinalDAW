@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Chat;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -10,17 +10,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 /** 
  * @IsGranted("ROLE_USER") 
  */
-class ListaChatController extends AbstractController
+class ListaChatsController extends AbstractController
 {
     /**
      * @Route("/listaChats", name="listaChats")
      */
-    public function mostrarUsuarios()
+    public function mostrarChats()
     {
-        $chats = [];
-
-        array_push($chats, $this->getDoctrine()->getRepository(User::class)->findBy(["usuario1" => $this->getUser()]));
-        array_push($chats, $this->getDoctrine()->getRepository(User::class)->findBy(["usuario2" => $this->getUser()]));
+        $chats = $this->getDoctrine()->getRepository(Chat::class)->findAll();
 
         return $this->render('lista_chats/index.html.twig', [
             'chats' => $chats
