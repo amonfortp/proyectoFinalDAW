@@ -34,7 +34,7 @@ final class ChatController extends AbstractController
         $publi = [];
         $this->service = $service;
         $respuesta = "";
-        $mensajes = null;
+        $mensajes = [];
         $user = $this->getUser();
         if (explode("_", $id)[1] != 0) {
             if (!$this->getDoctrine()->getRepository(Chat::class)->findOneBy([
@@ -60,7 +60,7 @@ final class ChatController extends AbstractController
 
 
         if ($chat != null) {
-            $mensajes = $this->getDoctrine()->getRepository(Messages::class)->findBy(["chat" => $chat]);;
+            $mensajes = $this->getDoctrine()->getRepository(Messages::class)->findBy(["chat" => $chat]);
             $publicacion = $this->getDoctrine()->getRepository(Publicacion::class)->findOneBy(["id" => explode("_", $id)[1]]);
 
             if ($publicacion != null) {

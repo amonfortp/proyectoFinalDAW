@@ -4,13 +4,13 @@
 <div id="body">
     <div class="container">
         <div id="mercure-content-receiver">
-        {% if mensajes is null %}
+        {% if mensajes %}
             {% for mensaje in mensajes %}
               {% if mensaje.usuario.id != app.user.id %}
                   <div class="message" align="right"> {{ mensaje.usuario.nickName }}: 
-                  {{ mensaje.mensaje }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+                  {{ mensaje.mensajes }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
               {% else %}
-                  <div class="message">{{ mensaje.usuario.nickName }}: {{ mensaje.mensaje }} 
+                  <div class="message">{{ mensaje.usuario.nickName }}: {{ mensaje.mensajes }} 
                   {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
               {% endif %}
             {% endfor %}
