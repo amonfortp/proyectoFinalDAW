@@ -7,11 +7,23 @@
         {% if mensajes %}
             {% for mensaje in mensajes %}
               {% if mensaje.usuario.id != app.user.id %}
-                  <div class="message" align="right"> {{ mensaje.usuario.nickName }}: 
-                  {{ mensaje.mensajes }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+                  {% if mensaje.publicacion is null %}
+                    <div class="message" align="right"> {{ mensaje.usuario.nickName }}: 
+                    {{ mensaje.mensajes }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+                  {% else %}
+                    <div class="message" align="right">{{ mensaje.usuario.nickName }}: Me interesa su publicacion - 
+                    <a href="{{ path("publicacion", {id:mensaje.publicacion.id}) }}">{{ mensaje.publicacion.titulo }}</a> 
+                    {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+                  {% endif %}
               {% else %}
-                  <div class="message">{{ mensaje.usuario.nickName }}: {{ mensaje.mensajes }} 
-                  {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+                  {% if mensaje.publicacion is null %}
+                    <div class="message"> {{ mensaje.usuario.nickName }}: 
+                    {{ mensaje.mensajes }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+                  {% else %}
+                    <div class="message">{{ mensaje.usuario.nickName }}: Me interesa su publicacion - 
+                    <a href="{{ path("publicacion", {id:mensaje.publicacion.id}) }}">{{ mensaje.publicacion.titulo }}</a> 
+                    {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
+                  {% endif %}
               {% endif %}
             {% endfor %}
         {% endif %}
@@ -70,9 +82,15 @@
         s = time.getMinutes();
       }
 
+      if(document.getElementById("numPubli").value != 0){
+        var idPubli = document.getElementById("publi1").value;
+      } else {
+        var idPubli = 0;
+      }
+
       fetch(_sendForm.action, {
         method: _sendForm.method,
-        body: 'message=' + message + '&usuario2id=' + document.getElementById("usu2").value + '&time='+time.getHours()+":"+s + '&numPubli='+document.getElementById("numPubli").value, 
+        body: 'message=' + message + '&usuario2id=' + document.getElementById("usu2").value + '&time='+time.getHours()+":"+s + '&numPubli='+document.getElementById("numPubli").value + "&idPubli="+idPubli, 
         headers: new Headers({
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         })
@@ -88,12 +106,12 @@
       return false;
     };
 
-    console.log(document.getElementById("numPubli").value);
     if(document.getElementById("numPubli").value != 0){
       var idPubli = document.getElementById("publi1").value;
       var tituloPubli = document.getElementById("publi2").value;
       var mensajePubli = `Me interesa su publicacion - <a href="/publicacion/`+ idPubli +`">`+ tituloPubli +`</a>`;
       sendMessage(mensajePubli);
+      document.getElementById("numPubli").value = 0;
     }
 
     const urlGenerico = new URL('{{ mercure_publish_url }}');

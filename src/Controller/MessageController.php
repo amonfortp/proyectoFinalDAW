@@ -37,7 +37,7 @@ final class MessageController extends AbstractController
         if ($numPubli == 0) {
             $publi = null;
         } else {
-            $publi = $this->getDoctrine()->getRepository(Publicacion::class)->findOneBy(["id" => $request->request->get("publi1")]);
+            $publi = $this->getDoctrine()->getRepository(Publicacion::class)->findOneBy(["id" => $request->request->get("idPubli")]);
         }
 
         $updateUsuario = new Update($topicUsuario, json_encode([

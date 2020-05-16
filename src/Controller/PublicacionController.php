@@ -199,7 +199,7 @@ class PublicacionController extends AbstractController
         $mensaje = null;
 
         if ($error == 1) {
-            $mensaje = "El titulo debe tener entre 3 y 50 caracteres";
+            $mensaje = "El titulo debe tener entre 3 y 18 caracteres";
         } else if ($error == 2) {
             $mensaje = "La descripción no puede superar los 255 caracteres";
         } else if ($error == 3) {
@@ -220,7 +220,7 @@ class PublicacionController extends AbstractController
         $files = $request->request->get("numImg");
 
 
-        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen($titulo) > 25) {
+        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen($titulo) > 18) {
             $error = 1;
         } else if (strlen(str_replace(' ', '', $desc)) > 255) {
             $error = 2;
@@ -251,7 +251,7 @@ class PublicacionController extends AbstractController
         $files = $request->request->get("numImg");
 
 
-        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen($titulo) > 25) {
+        if (strlen(str_replace(' ', '', $titulo)) < 3 || strlen($titulo) > 18) {
             $error = 1;
         } else if (strlen(str_replace(' ', '', $desc)) > 255) {
             $error = 2;
