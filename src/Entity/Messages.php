@@ -38,6 +38,16 @@ class Messages
      */
     private $chat;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Publicacion")
+     */
+    private $publicacion;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visto;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +97,30 @@ class Messages
     public function setChat(?Chat $chat): self
     {
         $this->chat = $chat;
+
+        return $this;
+    }
+
+    public function getPublicacion(): ?Publicacion
+    {
+        return $this->publicacion;
+    }
+
+    public function setPublicacion(?Publicacion $publicacion): self
+    {
+        $this->publicacion = $publicacion;
+
+        return $this;
+    }
+
+    public function getVisto(): ?bool
+    {
+        return $this->visto;
+    }
+
+    public function setVisto(bool $visto): self
+    {
+        $this->visto = $visto;
 
         return $this;
     }

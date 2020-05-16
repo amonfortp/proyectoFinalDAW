@@ -61,6 +61,9 @@ final class ChatController extends AbstractController
 
         if ($chat != null) {
             $mensajes = $this->getDoctrine()->getRepository(Messages::class)->findBy(["chat" => $chat]);
+
+            $this->actualizarEstadoMensajes($mensajes);
+
             $publicacion = $this->getDoctrine()->getRepository(Publicacion::class)->findOneBy(["id" => explode("_", $id)[1]]);
 
             if ($publicacion != null) {
@@ -73,7 +76,8 @@ final class ChatController extends AbstractController
                     "id" => $usu->getId(),
                     "email" => $usu->getEmail(),
                     "mensajes" => $mensajes,
-                    "publi" => $publi
+                    "publi" => $publi,
+                    "navRed" => $this->comprobarChats()
                 ]);
             }
 
@@ -102,5 +106,40 @@ final class ChatController extends AbstractController
 
 
         $entityManager->flush();
+    }
+
+    private function actualizarEstadoMensajes(array $mensajes)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        for ($i = 0; $i < count($mensajes); $i++) {
+            if ($mensajes[$i]->getUsuario() != $this->getUser()) {
+                $mensajes[$i]->setVisto(true);
+            }
+        }
+
+        $entityManager->flush();
+    }
+
+    private function comprobarChats()
+    {
+        $allChats = $this->getDoctrine()->getRepository(Chat::class)->findAll();
+
+        $aviso = 0;
+
+        for ($i = 0; $i < count($allChats); $i++) {
+            $mensaje = $this->getDoctrine()->getRepository(Messages::class)->findOneBy([
+                "chat" => $allChats[$i],
+                "visto" => false
+            ]);
+            if ($mensaje != null) {
+                if ($mensaje->getUsuario()->getId() != $this->getUser()->getId()) {
+                    $aviso = 1;
+                    break;
+                }
+            }
+        }
+
+        return $aviso;
     }
 }

@@ -25,7 +25,7 @@
             {% set i = 0 %}
             {% for dato in publi %}
               {% set i = i + 1 %}
-              <input type="text" id="{{"publi" ~ i}}" value="{{ dato }}" hidden/>
+              <input type="text" id="{{"publi" ~ i}}" name="{{"publi" ~ i}}" value="{{ dato }}" hidden/>
             {% endfor %}
             <input type="text" id="numPubli" value="{{ i }}" hidden/>
         </form>
@@ -37,6 +37,7 @@
 
     document.getElementById("mercure-message-input").focus();
     window.scrollTo(0,document.body.scrollHeight);
+    document.getElementById("controlChat").value = document.getElementById("usu2").value;
 
     
 
@@ -95,17 +96,16 @@
       sendMessage(mensajePubli);
     }
 
-    const url = new URL('{{ mercure_publish_url }}');
-    url.searchParams.append('topic', 'http://chat.monbarter/' + ordenarId());
-    const eventSource = new EventSource(url, { withCredentials: true });
+    const urlGenerico = new URL('{{ mercure_publish_url }}');
+    urlGenerico.searchParams.append('topic', 'http://chat.monbarter/' + ordenarId());
+    const eventSource = new EventSource(urlGenerico, { withCredentials: true });
     eventSource.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
       if (!data.message || !data.user) {
         return;
       }
 
-    
-      if(data.user != document.getElementById("usu1").value){
+      if(data.id != document.getElementById("usu1").value){
         _receiver.insertAdjacentHTML('beforeend', `
         <div class="message" align="right">${data.user}: ${data.message} ${data.time} | Mercure</div>`);
       } else {

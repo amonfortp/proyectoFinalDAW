@@ -4,17 +4,27 @@ namespace App\Controller;
 
 use App\Entity\Etiquetas;
 use App\Entity\Publicacion;
+use App\Entity\Chat;
+use App\Entity\Messages;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Filesystem\Filesystem;
+use App\Mercure\CookieGenerator;
 
 /**
  * @IsGranted("ROLE_USER")
  */
 class PublicacionController extends AbstractController
 {
+    private $cookie;
+
+    public function __construct(CookieGenerator $cookieGenerator)
+    {
+        $this->cookie = $cookieGenerator;
+    }
+
     /**
      * @Route("/publicaciones", name="publicaciones")
      */
@@ -22,10 +32,15 @@ class PublicacionController extends AbstractController
     {
         $publicaciones = $this->obtenerPublicaciones();
 
-        return $this->render('publicacion/publicaciones.html.twig', [
+        $response = $this->render('publicacion/publicaciones.html.twig', [
             'controller_name' => 'PublicacionController',
-            'publicaciones' => $publicaciones
+            'publicaciones' => $publicaciones,
+            'navRed' => $this->comprobarChats()
         ]);
+
+        $response->headers->setCookie($this->cookie->generate());
+
+        return $response;
     }
 
     /**
@@ -38,16 +53,22 @@ class PublicacionController extends AbstractController
         if ($id == 0) {
             $publicaciones = $this->obtenerPublicaciones();
 
-            return $this->render('publicacion/publicaciones.html.twig', [
+            $response = $this->render('publicacion/publicaciones.html.twig', [
                 'controller_name' => 'PublicacionController',
-                'publicaciones' => $publicaciones
+                'publicaciones' => $publicaciones,
+                'navRed' => $this->comprobarChats()
             ]);
         } else {
-            return $this->render('publicacion/publicacion.html.twig', [
+            $response = $this->render('publicacion/publicacion.html.twig', [
                 'controller_name' => 'PublicacionController',
-                'publicacion' => $publicacion
+                'publicacion' => $publicacion,
+                'navRed' => $this->comprobarChats()
             ]);
         }
+
+        $response->headers->setCookie($this->cookie->generate());
+
+        return $response;
     }
 
     /**
@@ -57,10 +78,15 @@ class PublicacionController extends AbstractController
     {
         $error = $this->mensajeErrorCreacion($errorNum);
 
-        return $this->render('publicacion/formPublicacion.html.twig', [
+        $response = $this->render('publicacion/formPublicacion.html.twig', [
             'controller_name' => 'PublicacionController',
-            'error' => $error
+            'error' => $error,
+            'navRed' => $this->comprobarChats()
         ]);
+
+        $response->headers->setCookie($this->cookie->generate());
+
+        return $response;
     }
 
     /**
@@ -88,11 +114,16 @@ class PublicacionController extends AbstractController
         $publicacion = $this->obtenerPublicacion($id);
         $error = $this->mensajeErrorCreacion($errorNum);
 
-        return $this->render('publicacion/modifPublicacion.html.twig', [
+        $response = $this->render('publicacion/modifPublicacion.html.twig', [
             'controller_name' => 'PublicacionController',
             'error' => $error,
-            'publicacion' => $publicacion
+            'publicacion' => $publicacion,
+            'navRed' => $this->comprobarChats()
         ]);
+
+        $response->headers->setCookie($this->cookie->generate());
+
+        return $response;
     }
 
     /**
@@ -380,5 +411,27 @@ class PublicacionController extends AbstractController
 
         $publi->setImagenes($arrayImages);
         return $entityManager->flush();
+    }
+
+    private function comprobarChats()
+    {
+        $allChats = $this->getDoctrine()->getRepository(Chat::class)->findAll();
+
+        $aviso = 0;
+
+        for ($i = 0; $i < count($allChats); $i++) {
+            $mensaje = $this->getDoctrine()->getRepository(Messages::class)->findOneBy([
+                "chat" => $allChats[$i],
+                "visto" => false
+            ]);
+            if ($mensaje != null) {
+                if ($mensaje->getUsuario()->getId() != $this->getUser()->getId()) {
+                    $aviso = 1;
+                    break;
+                }
+            }
+        }
+
+        return $aviso;
     }
 }

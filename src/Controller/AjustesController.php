@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Provincias;
+use App\Entity\Chat;
+use App\Entity\Messages;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Mercure\CookieGenerator;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -16,10 +19,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AjustesController extends AbstractController
 {
     private $passwordEncoder;
+    private $cookie;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, CookieGenerator $cookieGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->cookie = $cookieGenerator;
     }
 
     /**
@@ -30,11 +35,17 @@ class AjustesController extends AbstractController
         $provincias = $this->obtenerProvincias();
         $error = $this->mensajeErrorPerfil($errorNum);
 
-        return $this->render('ajustes/ajustes.html.twig', [
+
+        $response = $this->render('ajustes/ajustes.html.twig', [
             'controller_name' => 'AjustesController',
             'provincias' => $provincias,
-            'error' => $error
+            'error' => $error,
+            'navRed' => $this->comprobarChats()
         ]);
+
+        $response->headers->setCookie($this->cookie->generate());
+
+        return $response;
     }
 
     /**
@@ -138,5 +149,27 @@ class AjustesController extends AbstractController
         }
 
         return $entityManager->flush();
+    }
+
+    private function comprobarChats()
+    {
+        $allChats = $this->getDoctrine()->getRepository(Chat::class)->findAll();
+
+        $aviso = 0;
+
+        for ($i = 0; $i < count($allChats); $i++) {
+            $mensaje = $this->getDoctrine()->getRepository(Messages::class)->findOneBy([
+                "chat" => $allChats[$i],
+                "visto" => false
+            ]);
+            if ($mensaje != null) {
+                if ($mensaje->getUsuario()->getId() != $this->getUser()->getId()) {
+                    $aviso = 1;
+                    break;
+                }
+            }
+        }
+
+        return $aviso;
     }
 }
