@@ -17,7 +17,7 @@
                     {% if chat.usuario1.id == app.user.id %}
                         {% for noti in notificar %}
                             {% if noti.id == chat.id %}
-                                <div class="col mt-3">
+                                <div class="col-lg col-6 mt-3">
                                     <a class="btn btn-lg btn-block notificacion" href="{{ path('chat', {id: chat.usuario2.id ~ "_0"})}}">
                                         {{chat.usuario2.nickName ~ " / " ~ chat.usuario2.email}}
                                     </a>
@@ -26,7 +26,7 @@
                             {% endif %}
                         {% endfor %}
                         {% if not break %}
-                        <div class="col mt-3">
+                        <div class="col-lg col-6 mt-3">
                             <a class="btn btn-lg btn-block" href="{{ path('chat', {id: chat.usuario2.id ~ "_0"})}}">
                                 {{chat.usuario2.nickName ~ " / " ~ chat.usuario2.email}}
                             </a>
@@ -35,7 +35,7 @@
                     {% elseif chat.usuario2.id == app.user.id %}
                         {% for noti in notificar %}
                             {% if noti.id == chat.id %}
-                                <div class="col mt-3">
+                                <div class="col-lg col-6 mt-3">
                                     <a class="btn btn-lg btn-block notificacion" href="{{ path('chat', {id: chat.usuario1.id ~ "_0"})}}">
                                         {{chat.usuario1.nickName ~ " / " ~ chat.usuario1.email}}
                                     </a>
@@ -44,7 +44,7 @@
                             {% endif %}
                         {% endfor %}
                         {% if not break %}
-                        <div class="col mt-3">
+                        <div class="col-lg col-6 mt-3">
                             <a class="btn btn-lg btn-block" href="{{ path('chat', {id: chat.usuario1.id ~ "_0"})}}">
                                 {{chat.usuario1.nickName ~ " / " ~ chat.usuario1.email}}
                             </a>

@@ -76,7 +76,7 @@ class AppFixtures extends Fixture
                             $publicacion->getTitulo(), 0777);
                     }
                     rename('/home/dwes/Pictures/pelota1.jpg', '/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
-                        $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '.jpg');
+                        $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '1.jpg');
                     rename('/home/dwes/Pictures/pelota2.jpg', '/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg');
                 }
