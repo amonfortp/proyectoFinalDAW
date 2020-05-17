@@ -1,5 +1,8 @@
+document.getElementById("mercure-content-receiver").style.minHeight =
+  (document.getElementById("body").offsetHeight * 80) / 100 + "px";
+
 document.getElementById("mercure-message-input").focus();
-window.scrollTo(0, document.body.scrollHeight);
+window.scrollTo(0, document.getElementById("chat").scrollHeight);
 document.getElementById("controlChat").value = document.getElementById(
   "usu2"
 ).value;
@@ -33,11 +36,16 @@ const sendMessage = (message) => {
     s = time.getMinutes();
   }
 
-  if (document.getElementById("numPubli").value != 0) {
+  var numPubli = document.getElementById("numPubli").value;
+
+  if (numPubli != 0) {
     var idPubli = document.getElementById("publi1").value;
   } else {
     var idPubli = 0;
   }
+
+  document.getElementById("mercure-message-input").focus();
+  window.scrollTo(0, document.getElementById("chat").scrollHeight);
 
   fetch(_sendForm.action, {
     method: _sendForm.method,
@@ -51,7 +59,7 @@ const sendMessage = (message) => {
       ":" +
       s +
       "&numPubli=" +
-      document.getElementById("numPubli").value +
+      numPubli +
       "&idPubli=" +
       idPubli,
     headers: new Headers({
@@ -66,6 +74,7 @@ _sendForm.onsubmit = (evt) => {
   sendMessage(_messageInput.value);
 
   evt.preventDefault();
+
   return false;
 };
 
@@ -75,11 +84,10 @@ if (document.getElementById("numPubli").value != 0) {
   var mensajePubli =
     `Me interesa su publicación - <a href="/publicacion/` +
     idPubli +
-    `">` +
+    `" class="btn">` +
     tituloPubli +
     `</a>`;
   sendMessage(mensajePubli);
-  document.getElementById("numPubli").value = 0;
 }
 
 const urlGenerico = new URL("http://192.168.1.63:3000/.well-known/mercure");
@@ -94,20 +102,25 @@ eventSource.onmessage = (evt) => {
     return;
   }
 
+  if (document.getElementById("numPubli").value != 0) {
+    window.location.replace(
+      "http://192.168.1.63:8000/chat/" +
+        document.getElementById("usu2").value +
+        "_0"
+    );
+  }
+
   if (data.id != document.getElementById("usu1").value) {
     _receiver.insertAdjacentHTML(
       "beforeend",
       `
-    <div class="message" align="right">${data.user}: ${data.message} ${data.time} | Mercure</div>`
+    <div class="message m-2" align="right"><p class="usu2">${data.user}: ${data.message} ${data.time}</p></div>`
     );
   } else {
     _receiver.insertAdjacentHTML(
       "beforeend",
       `
-    <div class="message">${data.user}: ${data.message} ${data.time} | Mercure</div>`
+    <div class="message m-2"><p class="usu1">${data.user}: ${data.message} ${data.time}</p></div>`
     );
   }
-
-  document.getElementById("mercure-message-input").focus();
-  window.scrollTo(0, document.body.scrollHeight);
 };

@@ -8,7 +8,11 @@
   --fondoImage: linear-gradient(to top, #30cfd0 0%, #330867 100%);
 }
 
-div li > .notificacion {
+div > .notificacion {
+  background-color: #cc0000 !important;
+}
+
+li > .notificacion {
   background-color: #cc0000 !important;
 }
 
@@ -19,7 +23,7 @@ body {
 #body {
   font-family: sans-serif;
   width: 100%;
-  min-height: 100vh;
+  min-height: 95vh;
 }
 
 .btn {

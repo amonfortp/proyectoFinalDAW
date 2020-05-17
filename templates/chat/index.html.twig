@@ -4,48 +4,52 @@
     <link href="{{ asset('css/chats.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block body %}
-<div id="body">
-    <div class="container">
+  <div id="body">
+    <div class="container mt-3">
+      <div id="chat" class="p-2 m-3">
         <div id="mercure-content-receiver">
-        {% if mensajes %}
+          {% if mensajes %}
             {% for mensaje in mensajes %}
               {% if mensaje.usuario.id != app.user.id %}
-                  {% if mensaje.publicacion is null %}
-                    <div class="message" align="right"> {{ mensaje.usuario.nickName }}: 
-                    {{ mensaje.mensajes }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
-                  {% else %}
-                    <div class="message" align="right">{{ mensaje.usuario.nickName }}: Me interesa su publicacion - 
-                    <a href="{{ path("publicacion", {id:mensaje.publicacion.id}) }}">{{ mensaje.publicacion.titulo }}</a> 
-                    {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
-                  {% endif %}
+                {% if mensaje.publicacion is null %}
+                  <div class="message m-2" align="right"> <p class="usu2"> {{ mensaje.usuario.nickName }}: 
+                  {{ mensaje.mensajes }} | {{ mensaje.timeEnvio | date("H:i")}} | BD </p> </div>
+                {% else %}
+                  <div class="message m-2" align="right"> <p class="usu2"> {{ mensaje.usuario.nickName }}: Me interesa su publicacion
+                  <a href="{{ path("publicacion", {id:mensaje.publicacion.id}) }}" class="btn mb-1">{{ mensaje.publicacion.titulo }} </a> {{ mensaje.timeEnvio | date("H:i")}}</p></div>
+                {% endif %}
               {% else %}
-                  {% if mensaje.publicacion is null %}
-                    <div class="message"> {{ mensaje.usuario.nickName }}: 
-                    {{ mensaje.mensajes }} {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
-                  {% else %}
-                    <div class="message">{{ mensaje.usuario.nickName }}: Me interesa su publicacion - 
-                    <a href="{{ path("publicacion", {id:mensaje.publicacion.id}) }}">{{ mensaje.publicacion.titulo }}</a> 
-                    {{ mensaje.timeEnvio | date("H:i")}} | BD </div>
-                  {% endif %}
+                {% if mensaje.publicacion is null %}
+                  <div class="message m-2"> <p class="usu1"> {{ mensaje.usuario.nickName }}: 
+                  {{ mensaje.mensajes }} | {{ mensaje.timeEnvio | date("H:i")}}</p> </div>
+                {% else %}
+                  <div class="message m-2"> <p class="usu1"> {{ mensaje.usuario.nickName }}: Me interesa su publicacion 
+                  <a href="{{ path("publicacion", {id:mensaje.publicacion.id}) }}" class="btn mb-1">{{ mensaje.publicacion.titulo }}</a> 
+                  {{ mensaje.timeEnvio | date("H:i")}}</p> </div>
+                {% endif %}
               {% endif %}
             {% endfor %}
-        {% endif %}
+          {% endif %}
         </div>
+
         <form id="mercure-message-form" action="{{ path('sendMessage') }}" method="post">
-            <label for="mercure-message-input">Mensaje:</label>
-            <input type="text" id="mercure-message-input" name="message"/>
+        <hr>
+          <div class="form-group">
+            <input class="form-control" type="text" id="mercure-message-input" name="message" placeholder="Escribe tu mensaje"/>
+          </div>
             <input type="text" id="usu1" name="usuario1id" value="{{ app.user.id }}" hidden/>
             <input type="text" id="usu2" name="usuario2id" value="{{ id }}" hidden/>
-            <input type="submit" id="mercure-message-btn" value="Send"/>
-            {% set i = 0 %}
-            {% for dato in publi %}
-              {% set i = i + 1 %}
-              <input type="text" id="{{"publi" ~ i}}" name="{{"publi" ~ i}}" value="{{ dato }}" hidden/>
-            {% endfor %}
-            <input type="text" id="numPubli" value="{{ i }}" hidden/>
+            <button type="submit" id="mercure-message-btn" class="btn">Enviar</button>
+          {% set i = 0 %}
+          {% for dato in publi %}
+            {% set i = i + 1 %}
+            <input type="text" id="{{"publi" ~ i}}" name="{{"publi" ~ i}}" value="{{ dato }}" hidden/>
+          {% endfor %}
+          <input type="text" id="numPubli" value="{{ i }}" hidden/>
         </form>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}
 {% block javascript %}
   <script src="{{ asset("js/chats.js") }}" type="text/javascript"></script>

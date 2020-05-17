@@ -32,7 +32,7 @@ CREATE TABLE `chat` (
   KEY `IDX_659DF2AAD3B5047D` (`usuario2_id`),
   CONSTRAINT `FK_659DF2AAC100AB93` FOREIGN KEY (`usuario1_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_659DF2AAD3B5047D` FOREIGN KEY (`usuario2_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `messages` (
   CONSTRAINT `FK_DB021E961A9A7125` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
   CONSTRAINT `FK_DB021E969ACBB5E7` FOREIGN KEY (`publicacion_id`) REFERENCES `publicacion` (`id`),
   CONSTRAINT `FK_DB021E96DB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,6 +146,7 @@ CREATE TABLE `provincias` (
 
 LOCK TABLES `provincias` WRITE;
 /*!40000 ALTER TABLE `provincias` DISABLE KEYS */;
+INSERT INTO `provincias` VALUES (1,'Araba/Álava'),(2,'Albacete'),(3,'Alicante/Alacant'),(4,'Almería'),(5,'Ávila'),(6,'Badajoz'),(7,'Islas Baleares/Illes Balears'),(8,'Barcelona'),(9,'Burgos'),(10,'Cáceres'),(11,'Cádiz'),(12,'Castellón/Castelló'),(13,'Ciudad Real'),(14,'Córdoba'),(15,'La Coruña'),(16,'Cuenca'),(17,'Girona'),(18,'Granada'),(19,'Guadalajara'),(20,'Gipuzkoa'),(21,'Huelva'),(22,'Huesca'),(23,'Jaén'),(24,'León'),(25,'Lleida'),(26,'La Rioja'),(27,'Lugo'),(28,'Madrid'),(29,'Málaga'),(30,'Murcia'),(31,'Navarra'),(32,'Ourense'),(33,'Asturias'),(34,'Palencia'),(35,'Las Palmas'),(36,'Pontevedra'),(37,'Salamanca'),(38,'Santa Cruz de Tenerife'),(39,'Cantabria'),(40,'Segovia'),(41,'Sevilla'),(42,'Soria'),(43,'Tarragona'),(44,'Teruel'),(45,'Toledo'),(46,'Valencia/València'),(47,'Valladolid'),(48,'Bizkaia'),(49,'Zamora'),(50,'Zaragoza'),(51,'Ceuta'),(52,'Melilla');
 /*!40000 ALTER TABLE `provincias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,4 +254,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-17 12:52:11
+-- Dump completed on 2020-05-17 18:55:13

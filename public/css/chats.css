@@ -1,0 +1,61 @@
+#chat {
+  background-color: #0000006c;
+  color: var(--colorLetter1);
+}
+
+.message {
+  color: var(--colorLetter2);
+}
+
+.message > p {
+  border-radius: 10px;
+  margin-bottom: 0px;
+  padding: 5px;
+  max-width: 45%;
+}
+
+p.usu1 {
+  background-color: #30cfd0a6;
+  color: var(--colorLetter1);
+}
+
+p.usu2 {
+  background-color: #9932dda6;
+  color: var(--colorLetter1);
+}
+
+p > .btn {
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
+  margin-top: 10px;
+  width: 100%;
+}
+
+p > .btn:hover {
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
+}
+
+form {
+  text-align: center;
+}
+
+form > .btn {
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
+  width: 15%;
+}
+
+form > .btn:hover {
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
+}
+
+form > div {
+  width: 80%;
+  display: inline-block;
+}

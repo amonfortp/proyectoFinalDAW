@@ -19,6 +19,7 @@ use App\Service\ChatService;
 final class ChatController extends AbstractController
 {
     private $service;
+    private $inicioPubli = true;
 
     /**
      * @Route("/chat/{id}", name="chat")
