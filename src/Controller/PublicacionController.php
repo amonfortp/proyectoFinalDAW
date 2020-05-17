@@ -326,7 +326,7 @@ class PublicacionController extends AbstractController
 
                 $fichero = "/" . str_replace(' ', '', $publi->getTitulo()) . $i . ".jpg";
                 $ruta = $carpeta . $fichero;
-                move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+                move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinalDAW/public/" . $ruta);
 
                 array_push($arrayImages, $ruta);
             }
@@ -377,7 +377,7 @@ class PublicacionController extends AbstractController
             if ($request->request->get("delete" . $x) == "on") {
                 if ($numFiles == 0) {
                     $file = $publi->getImagenes()[$x];
-                    unlink("/home/dwes/proyectoFinal/public/" . $file);
+                    unlink("/home/dwes/proyectoFinalDAW/public/" . $file);
                     $publi->setImagenes(array_diff($publi->getImagenes(), array($file)));
                 } else {
                     for ($i = $aux; $i <= $numFiles; $i++) {
@@ -385,7 +385,7 @@ class PublicacionController extends AbstractController
                             $file = $_FILES["imgPubli" . $i];
 
                             $ruta = $publi->getImagenes()[$x];
-                            move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+                            move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinalDAW/public/" . $ruta);
 
                             $aux = $i + 1;
                             $i = $numFiles;
@@ -403,7 +403,7 @@ class PublicacionController extends AbstractController
 
                 $fichero = "/" . str_replace(' ', '', $publi->getTitulo()) . (count($publi->getImagenes()) + 1) . ".jpg";
                 $ruta = $carpeta . $fichero;
-                move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+                move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinalDAW/public/" . $ruta);
 
                 array_push($arrayImages, $ruta);
             }
