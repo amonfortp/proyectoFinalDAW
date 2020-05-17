@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('css/listaChats.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
 {% block body %}
 <div id="body">
     <div class="container">
         <div class="row d-flex">
             {% if chats is empty %}
-                <div class="col-12">
+                <div class="col-12 mt-3 info">
                     <h3>NO TIENES NINGÚN CHAT ACTIVO</h3>
                     <p>Si quieres abrir un chat tienes que usar el boton "Me Interesa" de una publicación</p>
                 </div>
@@ -14,7 +17,7 @@
                     {% if chat.usuario1.id == app.user.id %}
                         {% for noti in notificar %}
                             {% if noti.id == chat.id %}
-                                <div class="col-lg-3 col-6">
+                                <div class="col mt-3">
                                     <a class="btn btn-lg btn-block notificacion" href="{{ path('chat', {id: chat.usuario2.id ~ "_0"})}}">
                                         {{chat.usuario2.nickName ~ " / " ~ chat.usuario2.email}}
                                     </a>
@@ -23,7 +26,7 @@
                             {% endif %}
                         {% endfor %}
                         {% if not break %}
-                        <div class="col-lg-3 col-6">
+                        <div class="col mt-3">
                             <a class="btn btn-lg btn-block" href="{{ path('chat', {id: chat.usuario2.id ~ "_0"})}}">
                                 {{chat.usuario2.nickName ~ " / " ~ chat.usuario2.email}}
                             </a>
@@ -32,7 +35,7 @@
                     {% elseif chat.usuario2.id == app.user.id %}
                         {% for noti in notificar %}
                             {% if noti.id == chat.id %}
-                                <div class="col-lg-3 col-6">
+                                <div class="col mt-3">
                                     <a class="btn btn-lg btn-block notificacion" href="{{ path('chat', {id: chat.usuario1.id ~ "_0"})}}">
                                         {{chat.usuario1.nickName ~ " / " ~ chat.usuario1.email}}
                                     </a>
@@ -41,7 +44,7 @@
                             {% endif %}
                         {% endfor %}
                         {% if not break %}
-                        <div class="col-lg-3 col-6">
+                        <div class="col mt-3">
                             <a class="btn btn-lg btn-block" href="{{ path('chat', {id: chat.usuario1.id ~ "_0"})}}">
                                 {{chat.usuario1.nickName ~ " / " ~ chat.usuario1.email}}
                             </a>

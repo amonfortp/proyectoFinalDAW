@@ -8,7 +8,7 @@
   --fondoImage: linear-gradient(to top, #30cfd0 0%, #330867 100%);
 }
 
-.notificacion {
+div > .notificacion {
   background-color: #cc0000 !important;
 }
 

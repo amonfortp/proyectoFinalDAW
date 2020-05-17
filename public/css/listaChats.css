@@ -1,0 +1,18 @@
+div > .btn {
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
+  margin-top: 10px;
+  width: 100%;
+}
+
+div > .btn:hover {
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
+}
+
+.info {
+  background-color: #0000006c;
+  color: var(--colorLetter1);
+}
