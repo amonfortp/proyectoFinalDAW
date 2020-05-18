@@ -75,6 +75,11 @@ class User implements UserInterface
      */
     private $mensajes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Filtros", mappedBy="usuarioProp", orphanRemoval=true)
+     */
+    private $filtros;
+
 
     public function __construct()
     {
@@ -84,6 +89,7 @@ class User implements UserInterface
         $this->reputacion = 0;
         $this->mensajes = new ArrayCollection();
         $this->chats = new ArrayCollection();
+        $this->filtros = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,6 +298,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($mensaje->getUsuario() === $this) {
                 $mensaje->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Filtros[]
+     */
+    public function getFiltros(): Collection
+    {
+        return $this->filtros;
+    }
+
+    public function addFiltro(Filtros $filtro): self
+    {
+        if (!$this->filtros->contains($filtro)) {
+            $this->filtros[] = $filtro;
+            $filtro->setUsuarioProp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFiltro(Filtros $filtro): self
+    {
+        if ($this->filtros->contains($filtro)) {
+            $this->filtros->removeElement($filtro);
+            // set the owning side to null (unless already changed)
+            if ($filtro->getUsuarioProp() === $this) {
+                $filtro->setUsuarioProp(null);
             }
         }
 

@@ -26,11 +26,11 @@ class PublicacionController extends AbstractController
     }
 
     /**
-     * @Route("/publicaciones", name="publicaciones")
+     * @Route("/publicaciones/{id}", name="publicaciones")
      */
-    public function index()
+    public function index(int $id = 0)
     {
-        $publicaciones = $this->obtenerPublicaciones();
+        $publicaciones = $this->aplicarFiltro($id);
 
         $response = $this->render('publicacion/publicaciones.html.twig', [
             'controller_name' => 'PublicacionController',
@@ -178,10 +178,10 @@ class PublicacionController extends AbstractController
         rmdir($dirPath);
     }
 
-    private function obtenerPublicaciones()
+    private function obtenerPublicaciones(String $orden = 'DESC')
     {
         $repository = $this->getDoctrine()->getRepository(Publicacion::class);
-        $publicaciones = $repository->findBy(['activo' => true], ['fechaPublicacion' => 'DESC']);
+        $publicaciones = $repository->findBy(['activo' => true], ['fechaPublicacion' => $orden]);
 
         return $publicaciones;
     }
@@ -433,5 +433,25 @@ class PublicacionController extends AbstractController
         }
 
         return $aviso;
+    }
+
+    private function aplicarFiltro(int $id)
+    {
+        $filtro = $this->getUser()->getFiltros()[$id];
+        $auxPubli = $this->obtenerPublicaciones($filtro->getOrdenFecha());
+        $publicaciones = [];
+
+        for ($i = 0; $i < count($auxPubli); $i++) {
+            if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
+                if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
+                    if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
+                        if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
+                        }
+                    }
+                }
+            }
+        }
+        $publicaciones[] = $auxPubli[$i];
+        return $publicaciones;
     }
 }
