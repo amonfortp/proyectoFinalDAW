@@ -3,6 +3,12 @@
   border: none !important;
 }
 
+form {
+  background-color: #0000006c !important;
+  color: var(--colorLetter1);
+  padding: 5px;
+}
+
 div > .card-body {
   background-color: var(--fondoSecundario);
   color: var(--colorLetter1);
@@ -25,6 +31,18 @@ img.principal-carousel {
   height: 350px;
   display: block;
   margin: auto;
+}
+
+h5 > .btn {
+  background-color: var(--button2);
+  border-color: var(--button2);
+  color: var(--colorLetter1);
+}
+
+h5 > .btn:hover {
+  background-color: var(--button1);
+  border-color: var(--button1);
+  color: var(--colorLetter2);
 }
 
 div > .btn {

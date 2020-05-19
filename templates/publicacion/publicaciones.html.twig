@@ -5,6 +5,123 @@
 {% block body %}
 <div id="body">
     <div class="container">
+        <div class="accordion mt-3" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-secondary btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Filtros
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <form id="formFiltros" class="form-row py-3 mx-auto" action="{{ path('filtros') }}" method="post">
+                        <div class="col-12 mb-3 text-center">
+                            <div class="col-12 mb-3">
+                                <select class="form-control" name="filtros" id="filtros">
+                                    {% if idFiltro == 0 %}
+                                        <option value="0" selected>Nuevo filtro</option>
+                                    {% else %}
+                                        <option value="0">Nuevo filtro</option>
+                                    {% endif %}
+                                    {% set i = 1 %}
+                                    {% for filtro in filtros %}
+                                        {% if idFiltro == filtro.id %}
+                                            <option value="{{ i }}" selected> {{ filtro.titulo }}</option>
+                                        {% else %}
+                                            <option value="{{ i }}"> {{ filtro.titulo }}</option>
+                                        {% endif %}
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <button id="aplicar" class="btn btn-block" type="submit">Aplicar</button>
+                            </div>
+                            <hr>
+                        </div>
+                        
+                        <div class="col-12 col-lg-6 mb-3 text-center">
+                            <label for="tituloFiltro">Titulo </label>
+                            {% if idFiltro == 0 %}
+                                <input type="text" class="form-control" id="tituloFiltro" name="tituloFiltro" placeholder="titulo del filtro">
+                            {% else %}
+                                <input type="text" class="form-control" id="tituloFiltro" name="tituloFiltro" placeholder="titulo del filtro" value="{{ filtros[idFiltro].titulo }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3 text-center">
+                            <label for="etiquetaFiltro">Etiqueta </label>
+                            {% if idFiltro == 0 or filtros[idFiltro].etiqueta is null %}
+                                <input type="text" class="form-control" id="etiquetaFiltro" name="etiquetaFiltro" placeholder="etiqueta por la que quieres filtrar">
+                            {% else %}
+                                <input type="text" class="form-control" id="etiquetaFiltro" name="etiquetaFiltro" placeholder="etiqueta por la que quieres filtrar" value="{{ filtros[idFiltro].etiqueta.etiqueta }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-lg-6  mb-3 text-center">
+                            <label for="ordenFiltro">Orden </label>
+                            <select class="form-control" name="ordenFiltro" id="ordenFiltro">
+                                {% if idFiltro == 0 or filtros[idFiltro].ordenFecha == "ASC" %}
+                                    <option value="ASC" selected>Ascendente</option>
+                                    <option value="DESC">Descendente</option>
+                                {% else %}
+                                    <option value="ASC">Ascendente</option>
+                                    <option value="DESC" selected>Descendente</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3 text-center">
+                            <label for="tipoFiltro">Tipo </label>
+                            <select class="form-control" name="tipoFiltro" id="tipoFiltro">
+                                {% if idFiltro == 0 or filtros[idFiltro].tipo is null %}
+                                <option value="0" selected>Sin especificar</option>
+                                <option value="Producto">Producto</option>
+                                <option value="Servicio">Servicio</option>
+                                {% else %}
+                                    {% if filtros[idFiltro].tipo == "Producto" %}
+                                        <option value="Producto" selected>Producto</option>
+                                        <option value="Servicio">Servicio</option>
+                                    {% else %}
+                                        <option value="Producto">Producto</option>
+                                        <option value="Servicio" selected>Servicio</option>
+                                    {% endif %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-12 col-lg-6 mb-3 text-center">
+                            <label for="provinciaFiltro">Escoge una provincia</label>
+                            <select class="form-control" name="provinciaFiltro" id="provinciaFiltro">
+                                {% if idFiltro == 0 or filtros[idFiltro].provincia is null %}
+                                    <option value="0" selected>Sin especificar</option>
+                                    {% for provincia in provincias %}
+                                        <option value="{{ provincia.id }}"> {{ provincia.provincia }} </option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="0">Sin especificar</option>
+                                    {% for provincia in provincias %}
+                                        {% if filtros[idFiltro].provincia.id == provincia.id %}
+                                            <option value="{{ provincia.id }}" selected> {{ provincia.provincia }} </option>
+                                        {% else %}
+                                            <option value="{{ provincia.id }}"> {{ provincia.provincia }} </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        {% if error %}
+                            <div class="col-12">
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="col-12 mx-auto">
+                            <button id="guardar" class="btn btn-ajustado" type="submit">Guardar</button>
+                            <button id="eliminar" class="btn btn-ajustado mx-0" type="submit">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="row d-flex">
             {% if publicaciones is defined %}
                 {% for publicacion in publicaciones %}
@@ -39,4 +156,7 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block javascript %}
+    <script src="{{ asset("js/filtro.js") }}" type="text/javascript"></script>
 {% endblock %}

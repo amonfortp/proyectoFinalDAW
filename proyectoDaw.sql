@@ -32,7 +32,7 @@ CREATE TABLE `chat` (
   KEY `IDX_659DF2AAD3B5047D` (`usuario2_id`),
   CONSTRAINT `FK_659DF2AAC100AB93` FOREIGN KEY (`usuario1_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_659DF2AAD3B5047D` FOREIGN KEY (`usuario2_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +69,40 @@ INSERT INTO `etiquetas` VALUES (79,'Deporte'),(80,'Telefonía'),(81,'Tecnología
 UNLOCK TABLES;
 
 --
+-- Table structure for table `filtros`
+--
+
+DROP TABLE IF EXISTS `filtros`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `filtros` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `provincia_id` int(11) DEFAULT NULL,
+  `usuario_prop_id` int(11) NOT NULL,
+  `orden_fecha` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `etiqueta_id` int(11) DEFAULT NULL,
+  `tipo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `titulo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_9E72BE644E7121AF` (`provincia_id`),
+  KEY `IDX_9E72BE64A79555FA` (`usuario_prop_id`),
+  KEY `IDX_9E72BE64D53DA3AB` (`etiqueta_id`),
+  CONSTRAINT `FK_9E72BE644E7121AF` FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`id`),
+  CONSTRAINT `FK_9E72BE64A79555FA` FOREIGN KEY (`usuario_prop_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FK_9E72BE64D53DA3AB` FOREIGN KEY (`etiqueta_id`) REFERENCES `etiquetas` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `filtros`
+--
+
+LOCK TABLES `filtros` WRITE;
+/*!40000 ALTER TABLE `filtros` DISABLE KEYS */;
+/*!40000 ALTER TABLE `filtros` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `messages`
 --
 
@@ -90,7 +124,7 @@ CREATE TABLE `messages` (
   CONSTRAINT `FK_DB021E961A9A7125` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
   CONSTRAINT `FK_DB021E969ACBB5E7` FOREIGN KEY (`publicacion_id`) REFERENCES `publicacion` (`id`),
   CONSTRAINT `FK_DB021E96DB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +156,7 @@ CREATE TABLE `migration_versions` (
 
 LOCK TABLES `migration_versions` WRITE;
 /*!40000 ALTER TABLE `migration_versions` DISABLE KEYS */;
-INSERT INTO `migration_versions` VALUES ('20200410174717','2020-04-10 17:47:57'),('20200413203840','2020-04-13 20:38:51'),('20200419105110','2020-04-19 10:51:23'),('20200419114148','2020-04-19 11:41:53'),('20200420161045','2020-04-20 16:11:41'),('20200420175658','2020-04-20 17:57:42'),('20200422162426','2020-04-22 16:24:33'),('20200422173245','2020-04-22 17:35:36'),('20200423171025','2020-04-23 17:10:39'),('20200423172557','2020-04-23 17:26:27'),('20200428203819','2020-04-28 20:38:38'),('20200430181744','2020-04-30 18:17:56'),('20200502182129','2020-05-02 18:21:42'),('20200502184511','2020-05-02 18:45:38'),('20200502185303','2020-05-02 18:53:10'),('20200503181854','2020-05-03 18:19:40'),('20200515152628','2020-05-15 15:26:43'),('20200516111517','2020-05-16 11:15:28');
+INSERT INTO `migration_versions` VALUES ('20200410174717','2020-04-10 17:47:57'),('20200413203840','2020-04-13 20:38:51'),('20200419105110','2020-04-19 10:51:23'),('20200419114148','2020-04-19 11:41:53'),('20200420161045','2020-04-20 16:11:41'),('20200420175658','2020-04-20 17:57:42'),('20200422162426','2020-04-22 16:24:33'),('20200422173245','2020-04-22 17:35:36'),('20200423171025','2020-04-23 17:10:39'),('20200423172557','2020-04-23 17:26:27'),('20200428203819','2020-04-28 20:38:38'),('20200430181744','2020-04-30 18:17:56'),('20200502182129','2020-05-02 18:21:42'),('20200502184511','2020-05-02 18:45:38'),('20200502185303','2020-05-02 18:53:10'),('20200503181854','2020-05-03 18:19:40'),('20200515152628','2020-05-15 15:26:43'),('20200516111517','2020-05-16 11:15:28'),('20200518195132','2020-05-18 19:51:45'),('20200519081918','2020-05-19 08:19:34'),('20200519082247','2020-05-19 08:23:01'),('20200519082354','2020-05-19 08:24:00'),('20200519094659','2020-05-19 09:47:04');
 /*!40000 ALTER TABLE `migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +275,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (102,'user1@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$Z1j5bopQzhC5+mKttK7Bng$bgVhnXkTXpye38OTij3T60QygrPL+biZIxPFQLYmKpc','user1','2020-05-17',NULL,NULL,'img/comun/circulo.png',0),(103,'user2@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$sXQcW98t1apzLAk+su6u4w$zaKWk8JV06vj3COxbAX1GQ1NEYyLuToMrhYWK9uywnY','user2','2020-05-17',NULL,NULL,'img/comun/circulo.png',0),(104,'user3@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$79FqSOMV31dUZp90E+jIfQ$VmhjjTyGtiCu0R/G2dFes+311hhaofvvjQjgPvwULfU','user3','2020-05-17',NULL,NULL,'img/comun/circulo.png',0);
+INSERT INTO `user` VALUES (102,'user1@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$Z1j5bopQzhC5+mKttK7Bng$bgVhnXkTXpye38OTij3T60QygrPL+biZIxPFQLYmKpc','user1','2020-05-19',NULL,NULL,'img/comun/circulo.png',0),(103,'user2@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$sXQcW98t1apzLAk+su6u4w$zaKWk8JV06vj3COxbAX1GQ1NEYyLuToMrhYWK9uywnY','user2','2020-05-17',NULL,NULL,'img/comun/circulo.png',0),(104,'user3@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$79FqSOMV31dUZp90E+jIfQ$VmhjjTyGtiCu0R/G2dFes+311hhaofvvjQjgPvwULfU','user3','2020-05-17',NULL,NULL,'img/comun/circulo.png',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -254,4 +288,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-17 18:55:13
+-- Dump completed on 2020-05-19 17:57:41

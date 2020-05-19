@@ -22,16 +22,6 @@ class Filtros
     private $ordenFecha;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $tipo;
-
-    /**
-     * @ORM\Column(type="string", length=25)
-     */
-    private $etiqueta;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Provincias")
      */
     private $provincia;
@@ -41,6 +31,21 @@ class Filtros
      * @ORM\JoinColumn(nullable=false)
      */
     private $usuarioProp;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Etiquetas")
+     */
+    private $etiqueta;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tipo;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $titulo;
 
     public function getId(): ?int
     {
@@ -55,30 +60,6 @@ class Filtros
     public function setOrdenFecha(string $ordenFecha): self
     {
         $this->ordenFecha = $ordenFecha;
-
-        return $this;
-    }
-
-    public function getTipo(): ?string
-    {
-        return $this->tipo;
-    }
-
-    public function setTipo(string $tipo): self
-    {
-        $this->tipo = $tipo;
-
-        return $this;
-    }
-
-    public function getEtiqueta(): ?string
-    {
-        return $this->etiqueta;
-    }
-
-    public function setEtiqueta(string $etiqueta): self
-    {
-        $this->etiqueta = $etiqueta;
 
         return $this;
     }
@@ -103,6 +84,42 @@ class Filtros
     public function setUsuarioProp(?User $usuarioProp): self
     {
         $this->usuarioProp = $usuarioProp;
+
+        return $this;
+    }
+
+    public function getEtiqueta(): ?Etiquetas
+    {
+        return $this->etiqueta;
+    }
+
+    public function setEtiqueta(?Etiquetas $etiqueta): self
+    {
+        $this->etiqueta = $etiqueta;
+
+        return $this;
+    }
+
+    public function getTipo(): ?string
+    {
+        return $this->tipo;
+    }
+
+    public function setTipo(?string $tipo): self
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    public function getTitulo(): ?string
+    {
+        return $this->titulo;
+    }
+
+    public function setTitulo(string $titulo): self
+    {
+        $this->titulo = $titulo;
 
         return $this;
     }

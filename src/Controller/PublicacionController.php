@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Etiquetas;
 use App\Entity\Publicacion;
+use App\Entity\Provincias;
 use App\Entity\Chat;
+use App\Entity\Filtros;
 use App\Entity\Messages;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,12 +32,25 @@ class PublicacionController extends AbstractController
      */
     public function index(int $id = 0)
     {
-        $publicaciones = $this->aplicarFiltro($id);
+        if ($id < 0) {
+            $id = 0;
+            $error = 'El titulo no puede superar los 25 caracteres';
+        } else {
+            $error = null;
+        }
+        $filtros = $this->getUser()->getFiltros();
+
+        $publicaciones = $this->aplicarFiltro($id, $filtros[$id]);
+
 
         $response = $this->render('publicacion/publicaciones.html.twig', [
             'controller_name' => 'PublicacionController',
             'publicaciones' => $publicaciones,
-            'navRed' => $this->comprobarChats()
+            'navRed' => $this->comprobarChats(),
+            'error' => $error,
+            'provincias' => $this->obtenerProvincias(),
+            'idFiltro' => $id,
+            'filtros' => $filtros
         ]);
 
         $response->headers->setCookie($this->cookie->generate());
@@ -51,22 +66,18 @@ class PublicacionController extends AbstractController
         $publicacion = $this->obtenerPublicacion($id);
 
         if ($id == 0) {
-            $publicaciones = $this->obtenerPublicaciones();
-
-            $response = $this->render('publicacion/publicaciones.html.twig', [
-                'controller_name' => 'PublicacionController',
-                'publicaciones' => $publicaciones,
-                'navRed' => $this->comprobarChats()
-            ]);
+            $response = $this->redirectToRoute('publicaciones', ['id' => 0]);
         } else {
             $response = $this->render('publicacion/publicacion.html.twig', [
                 'controller_name' => 'PublicacionController',
                 'publicacion' => $publicacion,
                 'navRed' => $this->comprobarChats()
             ]);
+
+            $response->headers->setCookie($this->cookie->generate());
         }
 
-        $response->headers->setCookie($this->cookie->generate());
+
 
         return $response;
     }
@@ -435,23 +446,41 @@ class PublicacionController extends AbstractController
         return $aviso;
     }
 
-    private function aplicarFiltro(int $id)
+    private function aplicarFiltro(int $id, Filtros $filtro = null)
     {
-        $filtro = $this->getUser()->getFiltros()[$id];
-        $auxPubli = $this->obtenerPublicaciones($filtro->getOrdenFecha());
+
+
         $publicaciones = [];
 
-        for ($i = 0; $i < count($auxPubli); $i++) {
-            if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
-                if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
-                    if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
-                        if ($filtro->getTipo() == $auxPubli[$i]->getTipo()) {
+        if ($id == 0) {
+            $publicaciones = $this->obtenerPublicaciones("DESC");
+        } else {
+            $auxPubli = $this->obtenerPublicaciones($filtro->getOrdenFecha());
+            for ($i = 0; $i < count($auxPubli); $i++) {
+                if ($filtro->getProvincia() == $auxPubli[$i]->getUsuario()->getPropivincia() || $filtro->getProvincia() == null) {
+                    if ($filtro->getTipo() == $auxPubli[$i]->getTipo() || $filtro->getTipo() == null) {
+                        if ($filtro->getEtiqueta() != null) {
+                            for ($x = 0; $x < count($auxPubli[$i]->getEtiqueta()); $x++) {
+                                if ($filtro->getEtiqueta() == $auxPubli[$i]->getEtiqueta()[$x]) {
+                                    $publicaciones[] = $auxPubli[$i];
+                                }
+                            }
+                        } else {
+                            $publicaciones[] = $auxPubli[$i];
                         }
                     }
                 }
             }
         }
-        $publicaciones[] = $auxPubli[$i];
+
+
         return $publicaciones;
+    }
+
+    private function obtenerProvincias()
+    {
+        $repository = $this->getDoctrine()->getRepository(Provincias::class);
+
+        return $repository->findAll();
     }
 }
