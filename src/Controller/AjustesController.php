@@ -34,13 +34,28 @@ class AjustesController extends AbstractController
     {
         $provincias = $this->obtenerProvincias();
         $error = $this->mensajeErrorPerfil($errorNum);
+        $filtros = $this->getUser()->getFiltros();
+        $idFiltro = -1;
+        if ($errorNum == 8) {
+            $errorFiltro = 'El titulo no puede superar los 25 caracteres';
+        } else {
+            $errorFiltro = null;
+        }
 
+        for ($i = 0; $i < count($filtros); $i++) {
+            if ($filtros[$i]->getActivo() == true) {
+                $idFiltro = $i;
+            }
+        }
 
         $response = $this->render('ajustes/ajustes.html.twig', [
             'controller_name' => 'AjustesController',
             'provincias' => $provincias,
             'error' => $error,
-            'navRed' => $this->comprobarChats()
+            'navRed' => $this->comprobarChats(),
+            'errorFiltro' => $errorFiltro,
+            'idFiltro' => $idFiltro,
+            'filtros' => $filtros
         ]);
 
         $response->headers->setCookie($this->cookie->generate());

@@ -1,18 +1,19 @@
-$(".collapse").collapse();
-
 const _sendForm = document.getElementById("formFiltros");
 
 var accion = 0;
 
 document.getElementById("aplicar").onclick = function () {
   accion = 0;
+  sendMessage();
 };
 
 document.getElementById("guardar").onclick = function () {
   accion = 1;
+  sendMessage();
 };
 document.getElementById("eliminar").onclick = function () {
   accion = 2;
+  sendMessage();
 };
 
 const sendMessage = () => {
@@ -21,6 +22,7 @@ const sendMessage = () => {
   provincia = document.getElementById("provinciaFiltro").value;
   etiqueta = document.getElementById("etiquetaFiltro").value;
   titulo = document.getElementById("tituloFiltro").value;
+  idFiltro = document.getElementById("filtros").value;
 
   fetch(_sendForm.action, {
     method: _sendForm.method,
@@ -34,7 +36,11 @@ const sendMessage = () => {
       "&etiqueta=" +
       etiqueta +
       "&titulo=" +
-      titulo,
+      titulo +
+      "&tipo=" +
+      tipo +
+      "&idFiltro=" +
+      idFiltro,
     headers: new Headers({
       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
     }),

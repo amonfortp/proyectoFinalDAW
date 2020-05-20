@@ -30,24 +30,22 @@ class PublicacionController extends AbstractController
     /**
      * @Route("/publicaciones/{id}", name="publicaciones")
      */
-    public function index(int $id = 0)
+    public function index(int $id = -1)
     {
-        if ($id < 0) {
-            $id = 0;
-            $error = 'El titulo no puede superar los 25 caracteres';
-        } else {
-            $error = null;
-        }
         $filtros = $this->getUser()->getFiltros();
 
-        $publicaciones = $this->aplicarFiltro($id, $filtros[$id]);
+        if ($id < 0) {
+            $publicaciones = $this->aplicarFiltro($id);
+        } else {
+            $publicaciones = $this->aplicarFiltro($id, $filtros[$id]);
+        }
+
 
 
         $response = $this->render('publicacion/publicaciones.html.twig', [
             'controller_name' => 'PublicacionController',
             'publicaciones' => $publicaciones,
             'navRed' => $this->comprobarChats(),
-            'error' => $error,
             'provincias' => $this->obtenerProvincias(),
             'idFiltro' => $id,
             'filtros' => $filtros
@@ -448,16 +446,14 @@ class PublicacionController extends AbstractController
 
     private function aplicarFiltro(int $id, Filtros $filtro = null)
     {
-
-
         $publicaciones = [];
 
-        if ($id == 0) {
+        if ($id < 0) {
             $publicaciones = $this->obtenerPublicaciones("DESC");
         } else {
             $auxPubli = $this->obtenerPublicaciones($filtro->getOrdenFecha());
             for ($i = 0; $i < count($auxPubli); $i++) {
-                if ($filtro->getProvincia() == $auxPubli[$i]->getUsuario()->getPropivincia() || $filtro->getProvincia() == null) {
+                if ($filtro->getProvincia() == $auxPubli[$i]->getUsuario()->getProvincia() || $filtro->getProvincia() == null) {
                     if ($filtro->getTipo() == $auxPubli[$i]->getTipo() || $filtro->getTipo() == null) {
                         if ($filtro->getEtiqueta() != null) {
                             for ($x = 0; $x < count($auxPubli[$i]->getEtiqueta()); $x++) {

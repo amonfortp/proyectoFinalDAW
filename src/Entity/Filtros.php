@@ -47,6 +47,11 @@ class Filtros
      */
     private $titulo;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activo;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +125,18 @@ class Filtros
     public function setTitulo(string $titulo): self
     {
         $this->titulo = $titulo;
+
+        return $this;
+    }
+
+    public function getActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(bool $activo): self
+    {
+        $this->activo = $activo;
 
         return $this;
     }
