@@ -13,7 +13,7 @@
               {% if mensaje.usuario.id != app.user.id %}
                 {% if mensaje.publicacion is null %}
                   <div class="message m-2" align="right"> <p class="usu2"> {{ mensaje.usuario.nickName }}: 
-                  {{ mensaje.mensajes }} | {{ mensaje.timeEnvio | date("H:i")}} | BD </p> </div>
+                  {{ mensaje.mensajes }} | {{ mensaje.timeEnvio | date("H:i")}} </p> </div>
                 {% else %}
                   <div class="message m-2" align="right"> <p class="usu2"> {{ mensaje.usuario.nickName }}: Me interesa su publicacion
                   <a href="{{ path("publicacion", {id:mensaje.publicacion.id}) }}" class="btn mb-1">{{ mensaje.publicacion.titulo }} </a> {{ mensaje.timeEnvio | date("H:i")}}</p></div>

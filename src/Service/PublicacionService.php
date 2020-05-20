@@ -277,7 +277,7 @@ class PublicacionService extends AbstractController
                 "visto" => false
             ]);
             if ($mensaje != null) {
-                if ($mensaje->getUsuario()->getId() != $this->getUser()->getId()) {
+                if ($mensaje->getUsuario()->getId() != $this->getUser()->getId() && ($allChats[$i]->getUsuario1()->getId() == $this->getUser()->getId() || $allChats[$i]->getUsuario2()->getId() == $this->getUser()->getId())) {
                     $aviso = 1;
                     break;
                 }

@@ -32,7 +32,7 @@ final class MessageController extends AbstractController
         $time = $request->request->get('time');
         $numPubli = $request->request->get('numPubli');
         $topicUsuario = 'http://monbarter/' .  $request->request->get('usuario2id');
-        $topic = 'http://chat.monbarter/'  .  $this->service->ordenarId($this->getUser()->getId(), $request->request->get('usuario2id'));
+        $topic = 'http://chat.monbarter/'  .  $this->serviceC->ordenarId($this->getUser()->getId(), $request->request->get('usuario2id'));
 
         if ($numPubli == 0) {
             $publi = null;

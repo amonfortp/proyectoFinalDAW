@@ -95,8 +95,8 @@ urlGenerico.searchParams.append(
   "topic",
   "http://chat.monbarter/" + ordenarId()
 );
-const eventSource = new EventSource(urlGenerico, { withCredentials: true });
-eventSource.onmessage = (evt) => {
+const eventSourceChat = new EventSource(urlGenerico, { withCredentials: true });
+eventSourceChat.onmessage = (evt) => {
   const data = JSON.parse(evt.data);
   if (!data.message || !data.user) {
     return;
