@@ -2,18 +2,30 @@ const _sendForm = document.getElementById("formFiltros");
 
 var accion = 0;
 
-document.getElementById("aplicar").onclick = function () {
+document.getElementById("aplicar").onclick = (evt) => {
   accion = 0;
   sendMessage();
+
+  evt.preventDefault();
+
+  return false;
 };
 
-document.getElementById("guardar").onclick = function () {
+document.getElementById("guardar").onclick = (evt) => {
   accion = 1;
   sendMessage();
+
+  evt.preventDefault();
+
+  return false;
 };
-document.getElementById("eliminar").onclick = function () {
+document.getElementById("eliminar").onclick = (evt) => {
   accion = 2;
   sendMessage();
+
+  evt.preventDefault();
+
+  return false;
 };
 
 const sendMessage = () => {
@@ -47,6 +59,7 @@ const sendMessage = () => {
   });
 };
 
+/** 
 _sendForm.onsubmit = (evt) => {
   sendMessage();
 
@@ -54,3 +67,4 @@ _sendForm.onsubmit = (evt) => {
 
   return false;
 };
+*/

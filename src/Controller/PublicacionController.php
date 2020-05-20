@@ -40,8 +40,6 @@ class PublicacionController extends AbstractController
             $publicaciones = $this->aplicarFiltro($id, $filtros[$id]);
         }
 
-
-
         $response = $this->render('publicacion/publicaciones.html.twig', [
             'controller_name' => 'PublicacionController',
             'publicaciones' => $publicaciones,

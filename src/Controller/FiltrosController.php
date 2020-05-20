@@ -34,7 +34,7 @@ class FiltrosController extends AbstractController
                 return $this->redirectToRoute('publicaciones', ['id' => count($filtros) - 1]);
             }
         } else {
-            $this->activarFiltro($request);
+            $this->activarFiltro($id);
             return $this->redirectToRoute('publicaciones', ['id' => $id]);
         }
     }
@@ -82,7 +82,7 @@ class FiltrosController extends AbstractController
         $entityManager->flush();
     }
 
-    private function activarFiltro(Request $request)
+    private function activarFiltro($id)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $filtros = $this->getUser()->getFiltros();
@@ -92,8 +92,8 @@ class FiltrosController extends AbstractController
             $filtroActivo->setActivo(false);
         }
 
-        if ((int) $request->request->get("idFiltro") >= 0) {
-            $filtros[$request->request->get("idFiltro")]->setActivo(true);
+        if ((int) $id >= 0) {
+            $filtros[$id]->setActivo(true);
         }
 
         $entityManager->flush();
