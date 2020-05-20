@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Mercure\CookieGenerator;
-use Symfony\Component\Mime\Message;
 
 /** 
  * @IsGranted("ROLE_USER") 

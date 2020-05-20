@@ -19,7 +19,6 @@ use App\Service\ChatService;
 final class ChatController extends AbstractController
 {
     private $service;
-    private $inicioPubli = true;
 
     /**
      * @Route("/chat/{id}", name="chat")
@@ -45,7 +44,7 @@ final class ChatController extends AbstractController
                 "usuario2" => (int) explode("_", $id)[0],
                 "usuario1" => $user->getId()
             ])) {
-                $respuesta = $this->guardarChat([
+                $respuesta = $service->guardarChat([
                     "usu1" => $user->getId(),
                     "usu2" => (int) explode("_", $id)[0],
                     "topic" => 'http://chat.monbarter/' .  $this->service->ordenarId($user->getId(), (int) explode("_", $id)[0])
@@ -63,7 +62,7 @@ final class ChatController extends AbstractController
         if ($chat != null) {
             $mensajes = $this->getDoctrine()->getRepository(Messages::class)->findBy(["chat" => $chat]);
 
-            $this->actualizarEstadoMensajes($mensajes);
+            $service->actualizarEstadoMensajes($mensajes);
 
             $publicacion = $this->getDoctrine()->getRepository(Publicacion::class)->findOneBy(["id" => explode("_", $id)[1]]);
 
@@ -78,7 +77,7 @@ final class ChatController extends AbstractController
                     "email" => $usu->getEmail(),
                     "mensajes" => $mensajes,
                     "publi" => $publi,
-                    "navRed" => $this->comprobarChats()
+                    "navRed" => $service->comprobarChats()
                 ]);
             }
 
@@ -90,57 +89,5 @@ final class ChatController extends AbstractController
         }
 
         return $response;
-    }
-
-    private function guardarChat(array $params)
-    {
-        $chat = new Chat();
-        $chat->setUsuario1($this->getDoctrine()->getRepository(User::class)->findOneBy(["id" => $params["usu1"]]));
-
-        $chat->setUsuario2($this->getDoctrine()->getRepository(User::class)->findOneBy(["id" => $params["usu2"]]));
-
-        $chat->setTopic($params["topic"]);
-
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $entityManager->persist($chat);
-
-
-        $entityManager->flush();
-    }
-
-    private function actualizarEstadoMensajes(array $mensajes)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        for ($i = 0; $i < count($mensajes); $i++) {
-            if ($mensajes[$i]->getUsuario() != $this->getUser()) {
-                $mensajes[$i]->setVisto(true);
-            }
-        }
-
-        $entityManager->flush();
-    }
-
-    private function comprobarChats()
-    {
-        $allChats = $this->getDoctrine()->getRepository(Chat::class)->findAll();
-
-        $aviso = 0;
-
-        for ($i = 0; $i < count($allChats); $i++) {
-            $mensaje = $this->getDoctrine()->getRepository(Messages::class)->findOneBy([
-                "chat" => $allChats[$i],
-                "visto" => false
-            ]);
-            if ($mensaje != null) {
-                if ($mensaje->getUsuario()->getId() != $this->getUser()->getId()) {
-                    $aviso = 1;
-                    break;
-                }
-            }
-        }
-
-        return $aviso;
     }
 }

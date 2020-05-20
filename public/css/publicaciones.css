@@ -3,10 +3,10 @@
   border: none !important;
 }
 
-form {
-  background-color: #0000006c !important;
+div.card-filtro {
+  background-color: var(--fondoSecundario) !important;
   color: var(--colorLetter1);
-  padding: 5px;
+  border-radius: 10px;
 }
 
 div > .card-body {
@@ -117,5 +117,9 @@ form {
 
   a.correo {
     font-size: 18px;
+  }
+
+  label {
+    font-size: 175%;
   }
 }

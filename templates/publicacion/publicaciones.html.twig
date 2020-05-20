@@ -5,6 +5,32 @@
 {% block body %}
 <div id="body">
     <div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-12 my-3 p-3 mx-auto card-filtro text-center">
+            <div class="col-12 mb-3">
+                <label for="filtros">Filtros</label>
+                <select class="form-control" name="filtros" id="filtros">
+                    {% if idFiltro < 0 %}
+                        <option value="-1" selected>Predeterminado</option>
+                    {% else %}
+                        <option value="-1">Predeterminado</option>
+                    {% endif %}
+                    {% set i = 0 %}
+                    {% for filtro in filtros %}
+                        {% if idFiltro == i %}
+                            <option value="{{ i }}" selected> {{ filtro.titulo }}</option>
+                        {% else %}
+                            <option value="{{ i }}"> {{ filtro.titulo }}</option>
+                        {% endif %}
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12">
+                <button id="aplicar" class="btn btn-block">Aplicar</button>
+            </div>
+        </div>
+    </div>
         <div class="row d-flex">
             {% if publicaciones is defined %}
                 {% for publicacion in publicaciones %}
@@ -39,4 +65,7 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block javascript %}
+    <script src="{{ asset("js/filtro.js") }}" type="text/javascript"></script>
 {% endblock %}

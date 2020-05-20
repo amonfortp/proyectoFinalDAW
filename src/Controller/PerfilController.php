@@ -9,6 +9,7 @@ use App\Entity\Chat;
 use App\Entity\Messages;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Mercure\CookieGenerator;
+use App\Service\PerfilService;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -16,10 +17,12 @@ use App\Mercure\CookieGenerator;
 class PerfilController extends AbstractController
 {
     private $cookie;
+    private $service;
 
-    public function __construct(CookieGenerator $cookieGenerator)
+    public function __construct(CookieGenerator $cookieGenerator, PerfilService $service)
     {
         $this->cookie = $cookieGenerator;
+        $this->service = $service;
     }
 
     /**
@@ -27,48 +30,18 @@ class PerfilController extends AbstractController
      */
     public function index(int $id)
     {
-        $usuario = $this->obtenerUsuario($id);
+        $usuario = $this->service->obtenerUsuario($id);
         $publicaciones = $usuario->getPublicaciones();
 
         $response = $this->render('perfil/perfil.html.twig', [
             'controller_name' => 'PerfilController',
             'usuario' => $usuario,
             'publicaciones' => $publicaciones,
-            'navRed' => $this->comprobarChats()
+            'navRed' => $this->service->comprobarChats()
         ]);
 
         $response->headers->setCookie($this->cookie->generate());
 
         return $response;
-    }
-
-    private function obtenerUsuario(int $id)
-    {
-        $repository = $this->getDoctrine()->getRepository(User::class);
-        $usuario = $repository->findOneBy(['id' => $id]);
-
-        return $usuario;
-    }
-
-    private function comprobarChats()
-    {
-        $allChats = $this->getDoctrine()->getRepository(Chat::class)->findAll();
-
-        $aviso = 0;
-
-        for ($i = 0; $i < count($allChats); $i++) {
-            $mensaje = $this->getDoctrine()->getRepository(Messages::class)->findOneBy([
-                "chat" => $allChats[$i],
-                "visto" => false
-            ]);
-            if ($mensaje != null) {
-                if ($mensaje->getUsuario()->getId() != $this->getUser()->getId()) {
-                    $aviso = 1;
-                    break;
-                }
-            }
-        }
-
-        return $aviso;
     }
 }
