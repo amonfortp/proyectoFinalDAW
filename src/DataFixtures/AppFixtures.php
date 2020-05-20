@@ -41,8 +41,8 @@ class AppFixtures extends Fixture
             $user->setNickName("user" . $i);
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getNickName()));
 
-            if (!$filesystem->exists('/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com')) {
-                $filesystem->mkdir('/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com', 0777);
+            if (!$filesystem->exists(__DIR__ . '/../../public/img/user' . $i . '@gmail.com')) {
+                $filesystem->mkdir(__DIR__ . '/../../public/img/user' . $i . '@gmail.com', 0777);
             }
             $manager->persist($user);
 
@@ -58,26 +58,26 @@ class AppFixtures extends Fixture
                     $publicacion->setTitulo("Telefono");
                     $publicacion->addEtiquetum($etiqueta2);
                     $publicacion->addEtiquetum($etiqueta3);
-                    if (!$filesystem->exists('/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                    if (!$filesystem->exists(__DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo())) {
-                        $filesystem->mkdir('/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                        $filesystem->mkdir(__DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                             $publicacion->getTitulo(), 0777);
                     }
-                    rename('/home/dwes/Pictures/telefono1.jpg', '/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                    rename('/home/dwes/Pictures/telefono1.jpg', __DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '1.jpg');
-                    rename('/home/dwes/Pictures/telefono2.jpg', '/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                    rename('/home/dwes/Pictures/telefono2.jpg', __DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg');
                 } else {
                     $publicacion->setTitulo("Pelota");
                     $publicacion->addEtiquetum($etiqueta1);
-                    if (!$filesystem->exists('/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                    if (!$filesystem->exists(__DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo())) {
-                        $filesystem->mkdir('/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                        $filesystem->mkdir(__DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                             $publicacion->getTitulo(), 0777);
                     }
-                    rename('/home/dwes/Pictures/pelota1.jpg', '/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                    rename('/home/dwes/Pictures/pelota1.jpg', __DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '1.jpg');
-                    rename('/home/dwes/Pictures/pelota2.jpg', '/home/dwes/proyectoFinalDAW/public/img/user' . $i . '@gmail.com/' .
+                    rename('/home/dwes/Pictures/pelota2.jpg', __DIR__ . '/../../public/img/user' . $i . '@gmail.com/' .
                         $publicacion->getTitulo() . '/' . $publicacion->getTitulo() . '2.jpg');
                 }
 

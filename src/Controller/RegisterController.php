@@ -45,10 +45,16 @@ class RegisterController extends AbstractController
             return $this->redirectToRoute('register', ['errorNum' => $error]);
         } else {
             $this->registrar($request);
+            /*
             if (!$filesystem->exists('/home/dwes/proyectoFinalDAW/public/img/' . $request->request->get("email"))) {
                 $filesystem->mkdir('/home/dwes/proyectoFinalDAW/public/img/' . $request->request->get("email"), 0777);
                 $filesystem->mkdir('/home/dwes/proyectoFinalDAW/public/img/' . $request->request->get("email") . '/perfil', 0777);
+            }*/
+            if (!$filesystem->exists(__DIR__ . '/../../public/img/' . $request->request->get("email"))) {
+                $filesystem->mkdir(__DIR__ . '/../../public/img/' . $request->request->get("email"), 0777);
+                $filesystem->mkdir(__DIR__ . '/../../public/img/' . $request->request->get("email") . '/perfil', 0777);
             }
+
             return $this->redirectToRoute('app_login', ['exito' => '*']);
         }
     }

@@ -160,7 +160,7 @@ class PublicacionController extends AbstractController
         $publicacion = $repository->findOneBy(['id' => $id]);
         $etiquetas = $publicacion->getEtiqueta();
 
-        $this->deleteDir("/home/dwes/proyectoFinal/public/img/" . $publicacion->getUsuario()->getEmail() . "/" . explode("/", $publicacion->getImagenes()[0])[2]);
+        $this->deleteDir(__DIR__ . "/../../public/img/" . $publicacion->getUsuario()->getEmail() . "/" . explode("/", $publicacion->getImagenes()[0])[2]);
 
         $entityManager->remove($publicacion);
         for ($i = 0; $i < count($etiquetas); $i++) {
@@ -321,7 +321,7 @@ class PublicacionController extends AbstractController
         $carpeta = "img/" . $this->getUser()->getEmail() . "/" . str_replace(' ', '', $publi->getTitulo());
         $numPubli = 0;
         $auxCarpeta = $carpeta;
-        while ($filesystem->exists($carpeta)) {
+        while ($filesystem->exists($auxCarpeta)) {
             $numPubli++;
             $auxCarpeta = $carpeta . $numPubli;
         }
@@ -335,8 +335,8 @@ class PublicacionController extends AbstractController
 
                 $fichero = "/" . str_replace(' ', '', $publi->getTitulo()) . $i . ".jpg";
                 $ruta = $carpeta . $fichero;
-                move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinalDAW/public/" . $ruta);
-
+                //move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinalDAW/public/" . $ruta);
+                move_uploaded_file($file["tmp_name"], __DIR__ . '/../../public/' . $ruta);
                 array_push($arrayImages, $ruta);
             }
         }
@@ -386,7 +386,7 @@ class PublicacionController extends AbstractController
             if ($request->request->get("delete" . $x) == "on") {
                 if ($numFiles == 0) {
                     $file = $publi->getImagenes()[$x];
-                    unlink("/home/dwes/proyectoFinalDAW/public/" . $file);
+                    unlink(__DIR__ . '/../../public/' . $file);
                     $publi->setImagenes(array_diff($publi->getImagenes(), array($file)));
                 } else {
                     for ($i = $aux; $i <= $numFiles; $i++) {
@@ -394,7 +394,7 @@ class PublicacionController extends AbstractController
                             $file = $_FILES["imgPubli" . $i];
 
                             $ruta = $publi->getImagenes()[$x];
-                            move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinalDAW/public/" . $ruta);
+                            move_uploaded_file($file["tmp_name"], __DIR__ . '/../../public/' . $ruta);
 
                             $aux = $i + 1;
                             $i = $numFiles;
@@ -412,7 +412,7 @@ class PublicacionController extends AbstractController
 
                 $fichero = "/" . str_replace(' ', '', $publi->getTitulo()) . (count($publi->getImagenes()) + 1) . ".jpg";
                 $ruta = $carpeta . $fichero;
-                move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinalDAW/public/" . $ruta);
+                move_uploaded_file($file["tmp_name"], __DIR__ . '/../../public/' . $ruta);
 
                 array_push($arrayImages, $ruta);
             }

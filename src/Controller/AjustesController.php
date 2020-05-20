@@ -159,7 +159,8 @@ class AjustesController extends AbstractController
 
         if ($file['size'] > 0) {
             $ruta = "img/" . $user->getEmail() . "/perfil/fotoPerfil.jpg";
-            move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+            //move_uploaded_file($file["tmp_name"], "/home/dwes/proyectoFinal/public/" . $ruta);
+            move_uploaded_file($file["tmp_name"], __DIR__ . '/../../public/' . $ruta);
             $user->setImagenPerfil($ruta);
         }
 
