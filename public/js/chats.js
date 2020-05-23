@@ -114,13 +114,13 @@ eventSourceChat.onmessage = (evt) => {
     _receiver.insertAdjacentHTML(
       "beforeend",
       `
-    <div class="message m-2" align="right"><p class="usu2">${data.user}: ${data.message} ${data.time}</p></div>`
+    <div class="message m-2" align="right"><p class="usu2">${data.user}: ${data.message} | ${data.time}</p></div>`
     );
   } else {
     _receiver.insertAdjacentHTML(
       "beforeend",
       `
-    <div class="message m-2"><p class="usu1">${data.user}: ${data.message} ${data.time}</p></div>`
+    <div class="message m-2"><p class="usu1">${data.user}: ${data.message} | ${data.time}</p></div>`
     );
   }
 };

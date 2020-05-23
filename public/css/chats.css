@@ -12,6 +12,7 @@
   margin-bottom: 0px;
   padding: 5px;
   max-width: 45%;
+  word-wrap: break-word;
 }
 
 p.usu1 {
